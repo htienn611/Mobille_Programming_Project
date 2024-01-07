@@ -1,4 +1,7 @@
 
+import 'package:ecommerce_app/views/Oder/itemOrder.dart';
+import 'package:ecommerce_app/views/Oder/listOrder.dart';
+import 'package:ecommerce_app/views/Oder/orderDetail.dart';
 import 'package:ecommerce_app/views/listProduct.dart';
 import 'package:ecommerce_app/views/oneProduct.dart';
 import 'package:ecommerce_app/views/productDetail.dart';
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductDetail(),
+      home: listOrder(),
 
     );
   }

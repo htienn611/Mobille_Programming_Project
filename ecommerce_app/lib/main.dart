@@ -1,3 +1,19 @@
+<<<<<<< Updated upstream
+=======
+
+import 'package:ecommerce_app/views/cart/infoshopping.dart';
+import 'package:ecommerce_app/views/cart/payshopping.dart';
+import 'package:ecommerce_app/views/cart/shoppingcart.dart';
+import 'package:ecommerce_app/views/listProduct.dart';
+import 'package:ecommerce_app/views/oneProduct.dart';
+import 'package:ecommerce_app/views/productDetail.dart';
+import 'package:ecommerce_app/views/productManagement.dart';
+import 'package:ecommerce_app/views/login.dart';
+import 'package:ecommerce_app/views/notification.dart';
+import 'package:ecommerce_app/views/profile.dart';
+import 'package:ecommerce_app/views/register.dart';
+
+>>>>>>> Stashed changes
 import 'package:flutter/material.dart';
 
 void main() {
@@ -24,6 +40,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+<<<<<<< Updated upstream
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -110,6 +127,9 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+=======
+      home: ShoppingCartScreen(),
+>>>>>>> Stashed changes
     );
   }
 }

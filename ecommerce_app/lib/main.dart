@@ -1,4 +1,6 @@
-
+import 'package:ecommerce_app/views/cart/infoshopping.dart';
+import 'package:ecommerce_app/views/cart/payshopping.dart';
+import 'package:ecommerce_app/views/cart/shoppingcart.dart';
 import 'package:ecommerce_app/views/Oder/itemOrder.dart';
 import 'package:ecommerce_app/views/Oder/listOrder.dart';
 import 'package:ecommerce_app/views/Oder/orderDetail.dart';
@@ -10,7 +12,6 @@ import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/notification.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: listOrder(),
+      home: ShoppingCartScreen(),
 
     );
   }

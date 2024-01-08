@@ -72,7 +72,7 @@ class ShoppingCartScreen extends StatelessWidget {
                     margin: EdgeInsets.only(left: 10.0),
                     width: 130.0,
                     height: 140.0,
-                  child: Image.asset('assets/laptop/laptop.jpg')
+                  child: Image.asset('assets/img/laptop/laptop.jpg')
                   ),
                   Column(
                     

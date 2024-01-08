@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/views/listProduct.dart';
+import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
 
 class ProductManagement extends StatefulWidget {

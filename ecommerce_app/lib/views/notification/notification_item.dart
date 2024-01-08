@@ -1,6 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Notification_Item extends StatefulWidget {
   const Notification_Item({super.key});
@@ -15,7 +13,7 @@ class _Notification_ItemState extends State<Notification_Item> {
     return Container(
               child: Row(
                 children: [
-                  Image(image: AssetImage("assets/anh.jpg"), width: 60,height: 60,),
+                  Image(image: AssetImage("assets/img/anh.jpg"), width: 60,height: 60,),
                   Text("Đơn hàng của bạn đang trong quá trình vận chuyển")
                 ],
               ),

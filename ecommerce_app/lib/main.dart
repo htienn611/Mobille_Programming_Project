@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/views/chat/chat.dart';
+import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/cart/infoshopping.dart';
 import 'package:ecommerce_app/views/cart/payshopping.dart';
 import 'package:ecommerce_app/views/cart/shoppingcart.dart';
@@ -30,7 +32,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: ShoppingCartScreen(),
-
     );
   }
 }

@@ -1,4 +1,5 @@
-
+import 'package:ecommerce_app/views/chat/chat.dart';
+import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/listProduct.dart';
 import 'package:ecommerce_app/views/oneProduct.dart';
 import 'package:ecommerce_app/views/productDetail.dart';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ProductDetail(),
+      home: HomePage(),
 
     );
   }

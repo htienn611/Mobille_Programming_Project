@@ -21,7 +21,7 @@ class _AppbarItemState extends State<AppbarItem> {
           const Padding(
             padding: EdgeInsets.only(left: 5, right: 5),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/img/logo.jpg'),
+              backgroundImage: AssetImage('assets/img/logo/logo.jpg'),
             ),
           ),
           Expanded(

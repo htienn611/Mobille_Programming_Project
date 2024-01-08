@@ -24,7 +24,7 @@ class _ProfileState extends State<Profile> {
         child: Column(
           children: [
             SizedBox(height:80),
-            Center(child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image(fit: BoxFit.cover,image: AssetImage('assets/anh.jpg'),width: 200, height: 200,)), ),
+            Center(child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image(fit: BoxFit.cover,image: AssetImage('assets/img/anh.jpg'),width: 200, height: 200,)), ),
             SizedBox(height: 50,),
             Padding(
               padding: const EdgeInsets.all(8.0),

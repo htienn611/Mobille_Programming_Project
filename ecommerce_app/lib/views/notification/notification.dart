@@ -1,7 +1,5 @@
-import 'package:ecommerce_app/views/notification_item.dart';
+import 'package:ecommerce_app/views/notification/notification_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});

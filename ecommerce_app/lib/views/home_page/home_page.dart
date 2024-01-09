@@ -1,24 +1,23 @@
-import 'package:ecommerce_app/views/home_page/appbarItems.dart';
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/categories_bar.dart';
 import 'package:ecommerce_app/views/home_page/drawer_home_page.dart';
+import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
 import 'package:ecommerce_app/views/home_page/product_label.dart';
 import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePageScreen extends StatefulWidget {
+  const HomePageScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
-class _HomePageState extends State<HomePage>
+class _HomePageScreenState extends State<HomePageScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -26,13 +25,14 @@ class _HomePageState extends State<HomePage>
     )..repeat(reverse: true);
   }
 
+  @override
   Widget build(BuildContext context) {
-    var sW = MediaQuery.of(context).size.width;
+    // var sW = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: const Color.fromARGB(255, 224, 84, 75),
-          actions: const [AppbarItem()],
+          actions: const [HomePageAppbarItem()],
         ),
         drawer: const DrawerHomePage(),
         body: SingleChildScrollView(

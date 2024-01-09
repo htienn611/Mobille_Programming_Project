@@ -23,7 +23,7 @@ class _BottomNavState extends State<BottomNav> {
                   icon: Icon(Icons.notifications_none_outlined),
                   label: "Thông báo"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.headphones_outlined), label: "Liên hệ"),
+                  icon: Icon(Icons.content_paste), label: "Đơn hàng"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.account_circle_outlined),
                   label: "Tài khoản"),

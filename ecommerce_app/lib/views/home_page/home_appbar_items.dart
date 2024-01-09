@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AppbarItem extends StatefulWidget {
-  const AppbarItem({super.key});
+class HomePageAppbarItem extends StatefulWidget {
+  const HomePageAppbarItem({super.key});
 
   @override
-  State<AppbarItem> createState() => _AppbarItemState();
+  State<HomePageAppbarItem> createState() => _HomePageAppbarItemState();
 }
 
-class _AppbarItemState extends State<AppbarItem> {
+class _HomePageAppbarItemState extends State<HomePageAppbarItem> {
   @override
   Widget build(BuildContext context) {
     var sW = MediaQuery.of(context).size.width;

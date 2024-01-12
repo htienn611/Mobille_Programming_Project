@@ -33,6 +33,10 @@ dependencies:
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   dashed_line: ^0.1.0+3
+  moor: ^4.6.1+1
+  postgres: ^2.6.2
+  moor_flutter: ^4.1.0
+  sqflite: ^2.2.8+4
 
 dev_dependencies:
   flutter_test:

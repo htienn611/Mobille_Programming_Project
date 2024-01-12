@@ -17,13 +17,13 @@ class _itemOrderDetailState extends State<itemOrderDetail> {
         decoration: const BoxDecoration(
             border: Border.symmetric(
                 vertical: BorderSide.none,
-                horizontal: BorderSide(color: Colors.grey))),
+                horizontal:  BorderSide(color: Color.fromARGB(255, 243, 243, 243)))),
         child: Row(
           children: [
             Expanded(
               flex: 1,
               child: Image.asset(
-                'assets/anh.jpg',
+                'assets/img/laptop1.png',
                 fit: BoxFit.cover,
                 width: 20,
                 height: 100,

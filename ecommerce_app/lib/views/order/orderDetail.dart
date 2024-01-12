@@ -32,7 +32,7 @@ class _orderDetailState extends State<orderDetail> {
             padding: EdgeInsets.fromLTRB(15, 10, 15, 10),
             margin: EdgeInsets.only(top: 15, left: 5, right: 5, bottom: 10),
             decoration: BoxDecoration(
-                border: Border.all(color: (Color.fromARGB(255, 255, 94, 83)))),
+                border: Border.all(color: (Color.fromARGB(255, 246, 212, 210)))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,6 +66,9 @@ class _orderDetailState extends State<orderDetail> {
          
           itemOrderDetail(),
           itemOrderDetail(),
+        
+
+
           Container(
             padding: EdgeInsets.all(20),
             child: Column(
@@ -104,7 +107,7 @@ class _orderDetailState extends State<orderDetail> {
           Container(
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
-              border: Border.symmetric(horizontal: BorderSide(color: Colors.grey),vertical: BorderSide.none)
+              border: Border.symmetric(horizontal: BorderSide(color: Color.fromARGB(255, 243, 243, 243)),vertical: BorderSide.none)
             ),
             child: Row(
               children: [
@@ -125,9 +128,9 @@ class _orderDetailState extends State<orderDetail> {
           ),
           Container(
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border.symmetric(horizontal: BorderSide(color: Colors.grey),vertical: BorderSide.none)
-            ),
+            // decoration: BoxDecoration(
+            //   border: Border.symmetric(horizontal: BorderSide(color: Colors.grey),vertical: BorderSide.none)
+            // ),
             child: Column(children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

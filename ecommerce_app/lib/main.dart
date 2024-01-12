@@ -8,6 +8,7 @@ import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/order/orderDetail.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:ecommerce_app/views/product/oneProduct.dart';
+import 'package:ecommerce_app/views/product/productDetail.dart';
 import 'package:ecommerce_app/views/product/productManagement.dart';
 import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/notification/notification.dart';
@@ -43,7 +44,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ChatScreen(),
+
+
+      home:ProductManagement(),
     );
   }
 }

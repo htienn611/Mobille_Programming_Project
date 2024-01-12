@@ -17,19 +17,7 @@ import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
-void main() async {
-  final conn = PostgreSQLConnection(
-    'localhost',
-    5432,
-    'tech_computer',
-    username: 'postgres',
-    password: '0949866367T!en',
-  );
-  await conn.open();
-  print('success');
-  // query
-  await conn.close();
-  print('connection close');
+void main()  {
   runApp(const MyApp());
 }
 

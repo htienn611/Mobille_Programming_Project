@@ -14,8 +14,21 @@ import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
+import 'package:postgres/postgres.dart';
 
-void main() {
+void main() async {
+  final conn = PostgreSQLConnection(
+    'localhost',
+    5432,
+    'tech_computer',
+    username: 'postgres',
+    password: '0949866367T!en',
+  );
+  await conn.open();
+  print('success');
+  // query
+  await conn.close();
+  print('connection close');
   runApp(const MyApp());
 }
 
@@ -30,7 +43,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:const HomePageScreen(),
+      home: const ChatScreen(),
     );
   }
 }

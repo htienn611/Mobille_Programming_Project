@@ -38,6 +38,8 @@ dependencies:
   moor_flutter: ^4.1.0
   sqflite: ^2.2.8+4
   http: ^0.13.6
+  image_picker: ^1.0.7
+  get: ^4.6.6
 
 dev_dependencies:
   flutter_test:

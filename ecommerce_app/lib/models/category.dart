@@ -8,10 +8,10 @@ class Category {
   Category({required this.id, required this.nameCate});
 
   Category.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+      : id = json['_id'],
         nameCate = json['nameCate'];
 
-  Future<List<Category>> getCateLst() async {
+  static Future<List<Category>> getCateLst() async {
     List<Category> rsLst =
         List.filled(0, Category(id: 0, nameCate: ""), growable: true);
 
@@ -25,7 +25,7 @@ class Category {
       // Xử lý lỗi ở đây nếu cần thiết
       print('Error fetching data: $error');
     }
-
+    print(rsLst);
     return rsLst;
   }
 }

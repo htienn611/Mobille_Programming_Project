@@ -1,5 +1,11 @@
+import 'dart:io';
+
+import 'package:ecommerce_app/models/brand.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce_app/models/category.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:convert';
 
 class ProductManagement extends StatefulWidget {
   const ProductManagement({super.key});
@@ -10,6 +16,44 @@ class ProductManagement extends StatefulWidget {
 
 class _ProductManagementState extends State<ProductManagement> {
   String dropDownValue = "Laptop";
+  String dropDownValueBrand = "Del";
+  late ImagePicker _picker;
+  late XFile _image;
+  List<Category> danhSachDanhMuc = [];
+  void loadData() async {
+    List<Category> danhMuc = await Category.getCateLst();
+    setState(() {
+      danhSachDanhMuc = danhMuc;
+    });
+  }
+
+  List<Brand> danhSachNhanHang = [];
+  void loadDataBrand() async {
+    List<Brand> nhanHang = await Brand.getBrandLst();
+    setState(() {
+      danhSachNhanHang = nhanHang;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+    loadDataBrand();
+    _picker = ImagePicker();
+    _image = XFile("");
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
+  }
 
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
@@ -19,36 +63,46 @@ class _ProductManagementState extends State<ProductManagement> {
           return Container(
             height: MediaQuery.of(context).size.height - 200,
             child: Column(children: [
-Stack(
-                  children: [
-                    SizedBox(
-                      width: 120,
-                      height: 120,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(75),
-                        child: Image(
-                          image: AssetImage('assets/img/laptop/laptop.jpg'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+              Stack(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(75),
+                      child: _image != null
+                          ? Image.file(
+                              File(_image.path),
+                              fit: BoxFit.cover,
+                            )
+                          : Image(
+                              image: AssetImage('assets/img/laptop/laptop.jpg'),
+                              fit: BoxFit.cover,
+                            ),
                     ),
-                    Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: Container(
-                          width: 35,
-                          height: 35,
-                          child: Icon(
+                  ),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: Container(
+                        width: 35,
+                        height: 35,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[400],
+                            borderRadius: BorderRadius.circular(50)),
+                        child: IconButton(
+                          icon: const Icon(
                             Icons.camera_alt_rounded,
-                            color: Colors.black,
-                            size: 20,
+                            color: Colors.grey,
                           ),
-                          decoration: BoxDecoration(
-                              color: Colors.grey[400],
-                              borderRadius: BorderRadius.circular(50)),
-                        ))
-                  ],
-                ),
+                          onPressed: () {
+                            _image = 'assets/img/laptop/laptop.jpg' as XFile;
+                            _pickImage();
+                          },
+                        ),
+                      ))
+                ],
+              ),
               TextField(
                 decoration: InputDecoration(hintText: "Tên sản phẩm"),
               ),
@@ -64,24 +118,38 @@ Stack(
               TextField(
                 decoration: InputDecoration(hintText: "Mô tả"),
               ),
-              DropdownButton<String>(
-                value: dropDownValue,
-                icon: const Icon(Icons.arrow_drop_down_outlined),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    dropDownValue = newValue!;
-                    print(dropDownValue);
-                  });
-                },
-                items: const [
-                  DropdownMenuItem<String>(
-                      value: 'Laptop', child: Text("Laptop")),
-                  DropdownMenuItem<String>(value: 'Ram', child: Text("Ram")),
-                  DropdownMenuItem<String>(value: 'Cpu', child: Text("Cpu")),
-                  DropdownMenuItem<String>(
-                      value: 'Screen', child: Text("Screen")),
-                ],
-              ),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+                DropdownButton<String>(
+                  value: dropDownValue,
+                  icon: const Icon(Icons.arrow_drop_down_outlined),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropDownValue = newValue!;
+                      print(dropDownValue);
+                    });
+                  },
+                  items: danhSachDanhMuc.map((motDanhMuc) {
+                    return DropdownMenuItem<String>(
+                        value: motDanhMuc.nameCate.toString(),
+                        child: Text(motDanhMuc.nameCate.toString()));
+                  }).toList(),
+                ),
+                DropdownButton<String>(
+                  value: dropDownValueBrand,
+                  icon: const Icon(Icons.arrow_drop_down_outlined),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      dropDownValueBrand = newValue!;
+                      print(dropDownValueBrand);
+                    });
+                  },
+                  items: danhSachNhanHang.map((motNhanHang) {
+                    return DropdownMenuItem<String>(
+                        value: motNhanHang.name.toString(),
+                        child: Text(motNhanHang.name.toString()));
+                  }).toList(),
+                )
+              ]),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -96,7 +164,7 @@ Stack(
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 16,
+        length: 2,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -151,24 +219,6 @@ Stack(
                     },
                     child: Text("Một"),
                   ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: Text("Hai"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: Text("Ba"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: Text("Bốn"),
-                  )
                 ]),
           ),
           body: const TabBarView(
@@ -177,15 +227,6 @@ Stack(
               ListProduct(),
               Center(
                 child: Text('Laptop'),
-              ),
-              Center(
-                child: Text('RAM'),
-              ),
-              Center(
-                child: Text('Mainboard'),
-              ),
-              Center(
-                child: Text('Cpu'),
               ),
             ],
           ),

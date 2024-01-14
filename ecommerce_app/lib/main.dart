@@ -7,7 +7,6 @@ import 'package:ecommerce_app/views/order/itemOrder.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/order/orderDetail.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
-import 'package:ecommerce_app/views/product/oneProduct.dart';
 import 'package:ecommerce_app/views/product/productDetail.dart';
 import 'package:ecommerce_app/views/product/productManagement.dart';
 import 'package:ecommerce_app/views/login.dart';
@@ -17,7 +16,7 @@ import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
-void main()  {
+void main() {
   runApp(const MyApp());
 }
 
@@ -32,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePageScreen(),
+      home: ProductManagement(),
     );
   }
 }

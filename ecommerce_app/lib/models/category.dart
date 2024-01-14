@@ -25,7 +25,7 @@ class Category {
       // Xử lý lỗi ở đây nếu cần thiết
       print('Error fetching data: $error');
     }
-    print(rsLst);
+    //print(rsLst);
     return rsLst;
   }
 }

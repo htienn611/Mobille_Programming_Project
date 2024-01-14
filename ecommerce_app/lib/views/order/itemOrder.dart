@@ -16,13 +16,13 @@ class _itemOrderState extends State<itemOrder> {
       padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 237, 236, 236),
+        color: Color.fromARGB(255, 255, 255, 255),
  
 
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(
-             color: Color.fromARGB(255, 249, 224, 215),
+             color: Color.fromARGB(255, 238, 199, 184),
              blurRadius: 5,
              spreadRadius: 2,
              offset: Offset(0, 3),

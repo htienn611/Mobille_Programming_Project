@@ -17,7 +17,8 @@ import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
-void main() async {
+
+void main()  {
   runApp(const MyApp());
 }
 
@@ -32,9 +33,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
-
-    
       home: const HomePageScreen(),
     );
   }

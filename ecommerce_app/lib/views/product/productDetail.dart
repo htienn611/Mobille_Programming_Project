@@ -25,11 +25,12 @@ class _ProductDetailState extends State<ProductDetail> {
       body: SingleChildScrollView(
           child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.8,
-            color: Colors.grey,
-          ),
+                      Image.asset(
+              'assets/img/laptop/laptop.jpg',
+              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width-100,
+            ),
           Text(
               "Laptop Acer Aspire 5 Gaming A515 58GM 51LB i5 13420H/16GB/512GB/4GB RTX2050/Win11",
               softWrap: true,
@@ -37,8 +38,9 @@ class _ProductDetailState extends State<ProductDetail> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
           Text(
             "32.000.000 vnđ",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color:Colors.red ),
           ),
+            Text("Số lượng: 20"),
           SizedBox(height: 20),
           Padding(
             padding: const EdgeInsets.all(8.0),

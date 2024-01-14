@@ -1,6 +1,5 @@
-import 'dart:convert';
 
-import 'package:ecommerce_app/data_source/api/get_table.dart';
+import 'package:ecommerce_app/models/procces/get_table.dart';
 
 class Product {
   final int id;

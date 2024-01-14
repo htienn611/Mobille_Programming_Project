@@ -17,7 +17,7 @@ import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
 
-void main() async {
+void main()  {
   runApp(const MyApp());
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 14, 2024 lúc 07:34 AM
+-- Thời gian đã tạo: Th1 14, 2024 lúc 05:53 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -33,6 +33,13 @@ CREATE TABLE `account` (
   `admin` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `account`
+--
+
+INSERT INTO `account` (`phoneNumber`, `password`, `admin`, `status`) VALUES
+('0395060907', '123', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -133,6 +140,13 @@ CREATE TABLE `order` (
   `transportFee` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`) VALUES
+(1, 0, 1, '0395060907', '2024-01-08', 10);
+
 -- --------------------------------------------------------
 
 --
@@ -145,6 +159,13 @@ CREATE TABLE `order_details` (
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `order_details`
+--
+
+INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
+(2, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -156,6 +177,13 @@ CREATE TABLE `payments` (
   `name` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`id`, `name`, `status`) VALUES
+(1, 'Thanh toán tiền mặt', 1);
 
 -- --------------------------------------------------------
 
@@ -175,6 +203,13 @@ CREATE TABLE `product` (
   `idCate` int(11) DEFAULT NULL,
   `idBrand` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product`
+--
+
+INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDiscount`, `status`, `idCate`, `idBrand`) VALUES
+(1, NULL, 'Laptop abc', 10, 2000, NULL, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -206,6 +241,13 @@ CREATE TABLE `user` (
   `address` varchar(255) DEFAULT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `status`) VALUES
+('0395060907', 'Nhu Y', NULL, NULL, NULL, 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -340,19 +382,19 @@ ALTER TABLE `messages`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`

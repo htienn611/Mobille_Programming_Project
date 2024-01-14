@@ -14,10 +14,10 @@ import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
-import 'package:flutter/material.dart';
 import 'package:postgres/postgres.dart';
+import 'package:flutter/material.dart';
 
-void main()  {
+void main() {
   runApp(const MyApp());
 }
 

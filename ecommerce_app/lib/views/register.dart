@@ -21,7 +21,7 @@ class _RegisterState extends State<Register> {
         child: Column(
           children: [
             SizedBox(height:40),
-            Center(child: Image(image: AssetImage('assets/logo.jpg'),width: 200, height: 200,), ),
+            Center(child: Image(image: AssetImage('assets/img/logo/logo.jpg'),width: 200, height: 200,), ),
             SizedBox(height: 40,),
             Padding(
               padding: const EdgeInsets.all(8.0),

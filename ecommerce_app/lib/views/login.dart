@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
         child: Column(
           children: [
             SizedBox(height:80),
-            Center(child: Image(image: AssetImage('assets/logo.jpg'),width: 250, height: 250,), ),
+            Center(child: Image(image: AssetImage('assets/img/logo/logo.jpg'),width: 250, height: 250,), ),
             SizedBox(height: 50,),
             TextField(
               decoration: InputDecoration(labelText: "Số điện thoại", 

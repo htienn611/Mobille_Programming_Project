@@ -101,7 +101,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset('assets/logo/MoMo_Logo.png', width: 40.0, height: 40.0,),
+                    Image.asset('assets/img/logo/MoMo_Logo.png', width: 40.0, height: 40.0,),
                     //SizedBox(width: 5.0,),
                     Text('Momo\nWallet', style: TextStyle(fontSize: 15.0),),
                 ]),
@@ -120,7 +120,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Image.asset('assets/logo/money.jpg', width: 40.0, height: 40.0,),
+                    Image.asset('assets/img/logo/money.jpg', width: 40.0, height: 40.0,),
                     SizedBox(width: 5.0,),
                     Text('Tiền mặt', style: TextStyle(fontSize: 15.0),),
                 ]),

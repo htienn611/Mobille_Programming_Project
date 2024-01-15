@@ -1,15 +1,18 @@
+import 'package:ecommerce_app/models/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
-class itemOrder extends StatefulWidget {
-  const itemOrder({super.key});
+class ItemOrder extends StatefulWidget {
+  const ItemOrder({super.key,required this.order});
+  final Order order;
+
 
   @override
-  State<itemOrder> createState() => _itemOrderState();
+  State<ItemOrder> createState() => _ItemOrderState();
 }
 
-class _itemOrderState extends State<itemOrder> {
+class _ItemOrderState extends State<ItemOrder> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,10 +39,10 @@ class _itemOrderState extends State<itemOrder> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text("Chờ xác nhận",style: TextStyle(fontSize: 13,color: Colors.black),),
+              Text('${widget.order.Status}',style: TextStyle(fontSize: 13,color: Colors.black),),
             ],
           ),
-          Text("Laptop ABC",style: TextStyle(fontSize: 15,color: Colors.black),),
+          Text('${widget.order.id}',style: TextStyle(fontSize: 15,color: Colors.black),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

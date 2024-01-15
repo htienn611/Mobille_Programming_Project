@@ -1,5 +1,4 @@
-
-import 'package:ecommerce_app/models/procces/get_table.dart';
+import 'package:ecommerce_app/data_source/repository/get_table.dart';
 
 class Product {
   final int id;
@@ -26,9 +25,9 @@ class Product {
       required this.idBrand});
 
   Product.fromJson(Map<String, dynamic> json)
-      : id = json['_id'],
+      : id = json['id'],
         image = json['image'],
-        name = json['_name'],
+        name = json['name'],
         quantity = json['quantity'],
         price = json['price'],
         des = json['des'],

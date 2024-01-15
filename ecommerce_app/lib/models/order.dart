@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/models/procces/get_table.dart';
 
 class Order {
   int id;

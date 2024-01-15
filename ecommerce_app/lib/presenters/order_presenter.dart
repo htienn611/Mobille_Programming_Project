@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/models/order.dart';
-import 'package:ecommerce_app/models/procces/get_table.dart';
+
+import '../data_source/repository/get_table.dart';
 
 class OrderPresenter{
    Future<List<Order>> getlstOrder() async {

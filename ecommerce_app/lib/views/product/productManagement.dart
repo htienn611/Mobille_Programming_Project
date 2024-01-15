@@ -4,7 +4,7 @@ import 'package:ecommerce_app/models/brand.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/models/category.dart';
-//import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:convert';
 
 class ProductManagement extends StatefulWidget {
@@ -17,8 +17,8 @@ class ProductManagement extends StatefulWidget {
 class _ProductManagementState extends State<ProductManagement> {
   String dropDownValue = "Laptop";
   String dropDownValueBrand = "Del";
-  //late ImagePicker _picker;
-  // late XFile _image;
+  late ImagePicker _picker;
+  late XFile _image;
   List<Category> danhSachDanhMuc = [];
   void loadData() async {
     List<Category> danhMuc = await Category.getCateLst();
@@ -40,20 +40,20 @@ class _ProductManagementState extends State<ProductManagement> {
     super.initState();
     loadData();
     loadDataBrand();
-    //  _picker = ImagePicker();
-    //_image = XFile("");
+    _picker = ImagePicker();
+    _image = XFile("assets/img/laptop/laptop.jpg");
   }
 
-  // Future<void> _pickImage() async {
-  //   final XFile? pickedImage =
-  //       await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _pickImage() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
-  //   if (pickedImage != null) {
-  //     setState(() {
-  //       _image = pickedImage;
-  //     });
-  //   }
-  // }
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
+  }
 
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
@@ -70,10 +70,15 @@ class _ProductManagementState extends State<ProductManagement> {
                     height: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),
-                      child: Image(
-                        image: AssetImage('assets/img/laptop/laptop.jpg'),
-                        fit: BoxFit.cover,
-                      ),
+                      child: _image != null
+                          ? Image.file(
+                              File(_image.path),
+                              fit: BoxFit.cover,
+                            )
+                          : Image(
+                              image: AssetImage('assets/img/laptop/laptop.jpg'),
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                   Positioned(
@@ -91,8 +96,7 @@ class _ProductManagementState extends State<ProductManagement> {
                             color: Colors.grey,
                           ),
                           onPressed: () {
-                            // _image = 'assets/img/laptop/laptop.jpg' as XFile;
-                            // _pickImage();
+                            _pickImage();
                           },
                         ),
                       ))

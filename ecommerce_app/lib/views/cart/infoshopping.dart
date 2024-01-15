@@ -11,25 +11,25 @@ class InfoCartScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 70.0,
         backgroundColor: Colors.red,
-        leading: Icon(Icons.arrow_back_rounded),
-        title: Text('Giỏ hàng'),
+        leading: const Icon(Icons.arrow_back_rounded),
+        title: const Text('Giỏ hàng'),
         centerTitle: true,
         actions: [
-          Icon(Icons.chat_bubble_outline_outlined),
+          const Icon(Icons.chat_bubble_outline_outlined),
         ],
       ),
-      body: Stack(
-        children: [
+      body: SingleChildScrollView(
+        child: 
           Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-            margin: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+            margin: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
             height: 100.0,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2.0,
-                color: Color.fromARGB(96, 123, 118, 118),
+                color: const Color.fromARGB(96, 123, 118, 118),
               ),
               borderRadius: BorderRadius.circular(15.0),
               ),
@@ -38,30 +38,30 @@ class InfoCartScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
-                  children: [
-                    Icon(Icons.shopping_cart_rounded, color: Colors.black, size: 45.0,),
-                    Text('Chọn sản phẩm', style: TextStyle(color: Colors.black, fontSize: 15.0),)
+                  children:const [
+                     Icon(Icons.shopping_cart_rounded, color: Colors.black, size: 45.0,),
+                     Text('Chọn sản phẩm', style: TextStyle(color: Colors.black, fontSize: 15.0),)
                   ],
                 ),
-                Icon(Icons.arrow_right_alt_rounded, color: Colors.black,),
+                const Icon(Icons.arrow_right_alt_rounded, color: Colors.black,),
                 Column(
                   children: [
-                    Icon(Icons.medical_information_outlined, color: Colors.red, size: 45.0,),
-                    Text('Thông tin', style: TextStyle(color: Colors.red, fontSize: 15.0),)
+                    const Icon(Icons.medical_information_outlined, color: Colors.red, size: 45.0,),
+                    const Text('Thông tin', style: TextStyle(color: Colors.red, fontSize: 15.0),)
                   ],
                 ),
-                Icon(Icons.arrow_right_alt_rounded, color: Colors.red,),
+                const Icon(Icons.arrow_right_alt_rounded, color: Colors.red,),
                 Column(
                   children: [
-                    Icon(Icons.payment_rounded, color: Colors.black, size: 45.0,),
-                    Text('Thanh toán', style: TextStyle(color: Colors.black, fontSize: 15.0),)
+                    const Icon(Icons.payment_rounded, color: Colors.black, size: 45.0,),
+                    const Text('Thanh toán', style: TextStyle(color: Colors.black, fontSize: 15.0),)
                   ],
                 ),
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             height: 460.0,
             decoration: BoxDecoration(
               border: Border.all(
@@ -71,18 +71,18 @@ class InfoCartScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.0),
             ),
             child: Container(
-              margin: EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
               child: Column(
               children: [
-                Text('Thông tin khách hàng', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
-                SizedBox(height: 10.0,),
+                const Text('Thông tin khách hàng', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+                const SizedBox(height: 10.0,),
                 TextField(
               decoration: InputDecoration(labelText: "Họ và tên (Bắt buộc)", 
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(40.0)
               )),
             ),
-            SizedBox(height: 15.0,),
+            const SizedBox(height: 15.0,),
             TextField(
               decoration: InputDecoration(labelText: "Số điện thoại (Bắt buộc)", 
               border: OutlineInputBorder(
@@ -90,8 +90,8 @@ class InfoCartScreen extends StatelessWidget {
               )),
               
             ),
-            SizedBox(height: 10.0,),
-            Text('Cách thức giao hàng', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 10.0,),
+            const Text('Cách thức giao hàng', style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
             
             Container( child: Row(children: [
             Checkbox(
@@ -99,13 +99,13 @@ class InfoCartScreen extends StatelessWidget {
             onChanged: (bool? value) {
             },
           ),
-          Text('Giao tận nơi'),
+          const Text('Giao tận nơi'),
           Checkbox(
             value: false,
             onChanged: (bool? value) {
             },
           ),
-          Text('Nhận tại cửa hàng'),
+          const Text('Nhận tại cửa hàng'),
             ],
             ),
             ),
@@ -136,7 +136,7 @@ class InfoCartScreen extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 5.0,),
+            const SizedBox(height: 5.0,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -164,7 +164,7 @@ class InfoCartScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 5.0,),
+            const SizedBox(height: 5.0,),
             Container(
                   height: 100.0,
                   child: TextField(
@@ -179,17 +179,11 @@ class InfoCartScreen extends StatelessWidget {
             ),
             )
           ),
-        ]
-    ),
-    Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
+          Container(
                 height: 150.0,
                 decoration: BoxDecoration(
                 border: Border.all(width: 2.0, color: Colors.black),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
                 ),
                 child: Center(
                   child: Column(
@@ -197,29 +191,28 @@ class InfoCartScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text('Số tiền thanh toán: '),
-                          Text('120.000đ', style: TextStyle(color: Colors.red),),
+                          const Text('Số tiền thanh toán: '),
+                          const Text('120.000đ', style: TextStyle(color: Colors.red),),
                         ],
                       ),
                 Container(
-                  margin: EdgeInsets.only(top: 5.0),
+                  margin: const EdgeInsets.only(top: 5.0),
                   width: 300.0,
                   height: 50.0,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0), color: Colors.red),
-                  child: TextButton(child: Text('Tiếp tục', style: TextStyle(color: Colors.white, fontSize: 20.0),), onPressed: (){
+                  child: TextButton(child: const Text('Tiếp tục', style: TextStyle(color: Colors.white, fontSize: 20.0),), onPressed: (){
                     Navigator.push(
   context,
-  MaterialPageRoute(builder: (context) => PayShoppingScreen()),
+  MaterialPageRoute(builder: (context) => const PayShoppingScreen()),
 );
                   }, ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 5.0),
+                  margin: const EdgeInsets.only(top: 5.0),
                   width: 300.0,
                   height: 50.0,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0), color: Colors.white, border: Border.all(width: 0.6, color: Colors.black)),
-                  child: TextButton(child: Text('Mua sản phẩm khác', style: TextStyle(color: Colors.black, fontSize: 20.0),), onPressed: (){
-                    // Điều hướng đến một trang mới
+                  child: TextButton(child: const Text('Mua sản phẩm khác', style: TextStyle(color: Colors.black, fontSize: 20.0),), onPressed: (){
 
                   }, ),
                 )
@@ -227,8 +220,9 @@ class InfoCartScreen extends StatelessWidget {
                 ),
                 )
               ),
-          ),
-      ]
+        ]
+    ),
+    
     )
     );
   }

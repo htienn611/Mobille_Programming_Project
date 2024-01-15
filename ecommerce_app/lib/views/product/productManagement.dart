@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/presenters/category_presenter.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/models/category.dart';
@@ -17,11 +18,12 @@ class ProductManagement extends StatefulWidget {
 class _ProductManagementState extends State<ProductManagement> {
   String dropDownValue = "Laptop";
   String dropDownValueBrand = "Del";
-  late ImagePicker _picker;
-  late XFile _image;
+  CategoryPresenter catePre = CategoryPresenter();
+  //late ImagePicker _picker;
+  // late XFile _image;
   List<Category> danhSachDanhMuc = [];
   void loadData() async {
-    List<Category> danhMuc = await Category.getCateLst();
+    List<Category> danhMuc = await catePre.getCateLst();
     setState(() {
       danhSachDanhMuc = danhMuc;
     });

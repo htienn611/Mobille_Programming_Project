@@ -4,7 +4,6 @@ import 'package:ecommerce_app/views/home_page/content_section/content_section.da
 import 'package:ecommerce_app/views/home_page/drawer_home_page.dart';
 import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
 import 'package:ecommerce_app/views/home_page/footer/home_footer.dart';
-import 'package:ecommerce_app/views/home_page/content_section/product_label.dart';
 import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
 import 'package:flutter/material.dart';
 
@@ -37,7 +36,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 color: Colors.grey[300],
                 child: Column(children: const [
                   PromotionBanner(),
-                  ContenSection(isBestSeller: true,),
+                  ContenSection(
+                    isBestSeller: true,
+                  ),
                   ContenSection(),
                   HomeFooter()
                 ]),

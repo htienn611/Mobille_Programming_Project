@@ -6,12 +6,12 @@ class PromotionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var sW = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(
-        image: AssetImage('assets/img/banner/banner_bg.jpg'),
-        fit: BoxFit.cover
-      )),
+              image: AssetImage('assets/img/banner/banner_bg.jpg'),
+              fit: BoxFit.cover)),
       child: CarouselSlider(
           items: const [
             Image(image: AssetImage('assets/img/banner/banner1.png')),
@@ -40,6 +40,7 @@ class PromotionBanner extends StatelessWidget {
               //print('Page changed to index $index, reason: $reason');
             },
             scrollDirection: Axis.horizontal, // Hướng cuộn
+            viewportFraction: 1
           )),
     );
   }

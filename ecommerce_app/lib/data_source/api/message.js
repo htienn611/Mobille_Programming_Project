@@ -2,20 +2,17 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 
-// PUT để cập nhật category
 router.put('/:id', (req, res) => {
 });
 
-// DELETE để xóa category
 router.delete('/:id', (req, res) => {
 });
 
-// POST để thêm mới category
 router.post('/', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-  connection.query('SELECT * FROM category', (error, results) => {
+  connection.query('SELECT * FROM message where status !=0', (error, results) => {
     if (error) {
      return res.status(500).json({ error: 'Internal Server Error' });
     } else {
@@ -25,18 +22,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-  const categoryId = req.params.id;
-  if (!categoryId) {
-    return res.status(400).json({ error: 'Category ID is required' });
+  const messId = req.params.id;
+
+  if (!messId) {
+    return res.status(400).json({ error: 'mess ID is required' });
   }
 
-  const query = 'SELECT * FROM category WHERE id = ?';
-  connection.query(query, [categoryId], (error, results) => {
+  const query = 'SELECT * FROM category WHERE id = ? and status!=0';
+  connection.query(query, [messId], (error, results) => {
     if (error) {
       return res.status(500).json({ error: 'Internal Server Error' });
     } else {
         return res.json(results);
-    }
+      }
   });
 });
 

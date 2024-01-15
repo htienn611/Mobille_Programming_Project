@@ -6,6 +6,7 @@ class Order {
   String phoneNumber;
   DateTime date;
   int transportFee;
+  
   Order( this.id, this.Status, this.paymentMethods, this.phoneNumber, this.date,
       this.transportFee);
 

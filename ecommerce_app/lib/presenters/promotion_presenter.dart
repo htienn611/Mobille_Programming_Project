@@ -1,0 +1,26 @@
+import 'package:ecommerce_app/models/promotion.dart';
+
+import '../data_source/repository/get_table.dart';
+
+class PromotionPresenter{
+  Future<List<Promotion>> getCateLst() async {
+    List<Promotion> rsLst = List.filled(
+        0,
+        Promotion(id: 0, title: "title", des: "des", startDate: DateTime.now(), endDate: DateTime.now(), quantityForEach: 0, status: 0),
+        growable: true);
+
+    try {
+      List<dynamic> value = await getTable("promotion");
+
+      if (value.isNotEmpty) {
+        rsLst.clear();
+        rsLst = value.map((json) => Promotion.fromJson(json)).toList();
+      }
+    } catch (error) {
+      // Xử lý lỗi ở đây nếu cần thiết
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rsLst;
+  }
+}

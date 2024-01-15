@@ -1,4 +1,4 @@
-import '../data_source/repository/get_table.dart';
+import '../data_source/repository/get_data.dart';
 import '../models/category.dart';
 
 class CategoryPresenter {

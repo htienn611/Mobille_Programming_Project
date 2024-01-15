@@ -2,8 +2,6 @@ import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/views/order/itemOrder.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ListOrder extends StatefulWidget {
   const ListOrder({super.key});
@@ -13,11 +11,11 @@ class ListOrder extends StatefulWidget {
 
 class _ListOrderState extends State<ListOrder> {
   final OrderPresenter _orderPresenter=OrderPresenter();
-  List<Order>_order=List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0),growable: true);
+  List<Order>_orders=List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0),growable: true);
   
    void _loadData() async
   {
-    _order=await _orderPresenter.getlstOrder();
+    _orders=await _orderPresenter.getlstOrder();
     setState(() {
       
     });
@@ -58,8 +56,8 @@ class _ListOrderState extends State<ListOrder> {
       ),
     ),
     body: TabBarView(children: [
-      ListView.builder(itemCount: _order.length,itemBuilder: (context, index) {
-        return ItemOrder(order: _order[index]);
+      ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
+        return ItemOrder(order: _orders[index]);
       },),
       Center(
         child: Text("Các đơn hàng chờ xác nhận"),

@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/models/order_detail.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/cart/infoshopping.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
 
-      home: ProductManagement(),
+      home: orderDetail(),
     );
   }
 }

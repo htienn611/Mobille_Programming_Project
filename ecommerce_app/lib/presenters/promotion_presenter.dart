@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/models/promotion.dart';
 
-import '../data_source/repository/get_table.dart';
+import '../data_source/repository/get_data.dart';
 
 class PromotionPresenter{
   Future<List<Promotion>> getCateLst() async {

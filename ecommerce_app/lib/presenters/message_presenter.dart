@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/models/messages.dart';
-import '../data_source/repository/get_table.dart';
+import '../data_source/repository/get_data.dart';
 
 class MessagePresenter {
   Future<List<Message>> getCateLst() async {

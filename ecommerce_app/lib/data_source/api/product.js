@@ -15,19 +15,17 @@ router.get('/', (req, res) => {
 });
 
 //lấy sản phẩm theo mã sản phẩm
-router.get('/:id',(req,res) => {
+router.get('/:id', (req, res) => {
     var query = 'SELECT * FROM `product` WHERE status!=0 AND id=?';
-    connection.query(query,[req.params.id],(error,results)=>
-    {
-      if(error)
-      {
-        return res.status(500).json({error: 'Internal Server Error'})
-      }
-      else {
-        return res.json(results);
-    }
+    connection.query(query, [req.params.id], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' })
+        }
+        else {
+            return res.json(results);
+        }
     }
     );
-  });  
+});
 
 module.exports = router;

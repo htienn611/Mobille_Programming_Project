@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/data_source/repository/get_table.dart';
+import 'package:ecommerce_app/data_source/repository/get_data.dart';
 
 class Product {
   final int id;
@@ -26,15 +26,15 @@ class Product {
 
   Product.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        image = json['image'],
-        name = json['name'],
-        quantity = json['quantity'],
-        price = json['price'],
-        des = json['des'],
-        idDiscount = json['idDiscount'],
-        status = json['status'],
-        idCate = json['idCate'],
-        idBrand = json['idBrand'];
+        image = json['image']??"",
+        name = json['name']??"",
+        quantity = json['quantity']??0,
+        price = json['price']??0,
+        des = json['des']??"",
+        idDiscount = json['idDiscount']??0,
+        status = json['status']??0,
+        idCate = json['idCate']??0,
+        idBrand = json['idBrand']??0;
 
   static Future<List<Product>> getProductLst() async {
     List<Product> rsLst = List.filled(

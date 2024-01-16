@@ -3,8 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 16, 2024 lúc 11:28 AM
-
+-- Thời gian đã tạo: Th1 16, 2024 lúc 12:14 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -144,7 +143,7 @@ INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `t
 (1, 0, 1, '0395060907', '2024-01-08', 10, ''),
 (2, 1, 1, '0395060907', '2024-01-08', 10, '');
 
--------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `order_details`
@@ -155,7 +154,7 @@ CREATE TABLE `order_details` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
--- --------------------------------------------------------
+
 --
 -- Đang đổ dữ liệu cho bảng `order_details`
 --
@@ -235,6 +234,13 @@ CREATE TABLE `user` (
   `admin` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `user`
+--
+
+INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `password`, `admin`, `status`) VALUES
+('0395060907', 'Nhu Y', NULL, NULL, NULL, 'abc123', 1, 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -378,7 +384,6 @@ ALTER TABLE `notification`
 ALTER TABLE `order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
-
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
@@ -390,7 +395,6 @@ ALTER TABLE `payments`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
@@ -442,26 +446,11 @@ ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
--- Các ràng buộc cho bảng `order`
---
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`),
-  ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`paymentMethods`) REFERENCES `payments` (`id`);
-
---
 -- Các ràng buộc cho bảng `order_details`
 --
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `order` (`id`),
   ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`idProduct`) REFERENCES `product` (`id`);
-
---
--- Các ràng buộc cho bảng `product`
---
-ALTER TABLE `product`
-  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`idBrand`) REFERENCES `brand` (`id`),
-  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`),
-  ADD CONSTRAINT `product_ibfk_3` FOREIGN KEY (`idDiscount`) REFERENCES `promotion` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

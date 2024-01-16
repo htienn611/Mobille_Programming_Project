@@ -3,7 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 15, 2024 lúc 09:40 PM
+-- Thời gian đã tạo: Th1 16, 2024 lúc 11:28 AM
+
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -131,10 +132,19 @@ CREATE TABLE `order` (
   `paymentMethods` int(11) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   `date` date NOT NULL,
-  `transportFee` int(11) NOT NULL
+  `transportFee` int(11) NOT NULL,
+  `Adress` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
+--
+-- Đang đổ dữ liệu cho bảng `order`
+--
+
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `Adress`) VALUES
+(1, 0, 1, '0395060907', '2024-01-08', 10, ''),
+(2, 1, 1, '0395060907', '2024-01-08', 10, '');
+
+-------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `order_details`
@@ -145,6 +155,14 @@ CREATE TABLE `order_details` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- --------------------------------------------------------
+--
+-- Đang đổ dữ liệu cho bảng `order_details`
+--
+
+INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
+(2, 1, 1),
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -176,6 +194,14 @@ CREATE TABLE `product` (
   `idCate` int(11) DEFAULT NULL,
   `idBrand` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `product`
+--
+
+INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDiscount`, `status`, `idCate`, `idBrand`) VALUES
+(1, NULL, 'Laptop abc', 10, 2000, NULL, NULL, 1, NULL, NULL),
+(2, NULL, 'LAPTOP2', 2, 222, NULL, NULL, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -350,7 +376,8 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
@@ -362,7 +389,8 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`

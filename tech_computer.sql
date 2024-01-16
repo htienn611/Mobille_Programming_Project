@@ -4,6 +4,7 @@
 --
 -- Máy chủ: 127.0.0.1
 -- Thời gian đã tạo: Th1 16, 2024 lúc 11:28 AM
+
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -20,26 +21,6 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `tech_computer`
 --
-
--- --------------------------------------------------------
-
---
--- Cấu trúc bảng cho bảng `account`
---
-
-CREATE TABLE `account` (
-  `phoneNumber` varchar(15) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0,
-  `status` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `account`
---
-
-INSERT INTO `account` (`phoneNumber`, `password`, `admin`, `status`) VALUES
-('0395060907', '123', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -128,6 +109,20 @@ CREATE TABLE `messages` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `notification`
+--
+
+CREATE TABLE `notification` (
+  `id` int(11) NOT NULL,
+  `phoneNumber` varchar(15) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `timestamp` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `order`
 --
 
@@ -149,7 +144,7 @@ INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `t
 (1, 0, 1, '0395060907', '2024-01-08', 10, ''),
 (2, 1, 1, '0395060907', '2024-01-08', 10, '');
 
--- --------------------------------------------------------
+-------------------------------------------------
 
 --
 -- Cấu trúc bảng cho bảng `order_details`
@@ -180,13 +175,6 @@ CREATE TABLE `payments` (
   `name` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `payments`
---
-
-INSERT INTO `payments` (`id`, `name`, `status`) VALUES
-(1, 'Thanh toán tiền mặt', 1);
 
 -- --------------------------------------------------------
 
@@ -243,25 +231,14 @@ CREATE TABLE `user` (
   `sex` tinyint(1) DEFAULT NULL,
   `birthday` date DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `user`
---
-
-INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `status`) VALUES
-('0395060907', 'Nhu Y', NULL, NULL, NULL, 1);
-
---
 -- Chỉ mục cho các bảng đã đổ
 --
-
---
--- Chỉ mục cho bảng `account`
---
-ALTER TABLE `account`
-  ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Chỉ mục cho bảng `brand`
@@ -305,6 +282,13 @@ ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `conversationID` (`conversationID`),
   ADD KEY `senderID` (`senderID`);
+
+--
+-- Chỉ mục cho bảng `notification`
+--
+ALTER TABLE `notification`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Chỉ mục cho bảng `order`
@@ -383,22 +367,30 @@ ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT cho bảng `notification`
+--
+ALTER TABLE `notification`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+
 --
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
@@ -409,12 +401,6 @@ ALTER TABLE `promotion`
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
-
---
--- Các ràng buộc cho bảng `account`
---
-ALTER TABLE `account`
-  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
 -- Các ràng buộc cho bảng `brand`
@@ -448,6 +434,12 @@ ALTER TABLE `conversations`
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversationID`) REFERENCES `conversations` (`id`),
   ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`senderID`) REFERENCES `user` (`phoneNumber`);
+
+--
+-- Các ràng buộc cho bảng `notification`
+--
+ALTER TABLE `notification`
+  ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
 -- Các ràng buộc cho bảng `order`

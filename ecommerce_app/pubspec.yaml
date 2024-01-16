@@ -37,8 +37,10 @@ dependencies:
   postgres: ^2.6.2
   moor_flutter: ^4.1.0
   sqflite: ^2.2.8+4
-  http: ^0.13.6
+  http: ^1.1.2
   image_picker: ^1.0.4
+  datetime_picker_formfield_new: ^2.1.0
+  google_fonts: ^6.1.0
 
 
 dev_dependencies:
@@ -82,12 +84,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-      - family: sfpro
-        fonts:
-          - asset: assets/fonts/sf_pro/SFPRODISPLAYMEDIUM.OTF
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+    - family: RobotoBlack
+      fonts:
+        - asset: assets/fonts/Roboto-Black.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

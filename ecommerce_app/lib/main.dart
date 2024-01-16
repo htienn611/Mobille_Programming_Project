@@ -31,9 +31,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        
       ),
+      locale: const Locale('vi', 'VN'),
 
-      home: ProductManagement(),
+      home: InfoCartScreen(),
     );
   }
 }

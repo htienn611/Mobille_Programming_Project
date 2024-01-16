@@ -155,7 +155,7 @@ CREATE TABLE `order_details` (
   `idOrder` int(11) NOT NULL,
   `idProduct` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
+-- --------------------------------------------------------
 --
 -- Đang đổ dữ liệu cho bảng `order_details`
 --

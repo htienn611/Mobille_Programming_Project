@@ -1,8 +1,10 @@
 const express = require('express');
+const ngrok = require('ngrok');
 const cors = require('cors');
 const ngrok = require('ngrok');
 
 const categoryRoutes = require('./api/category');
+const userRoutes = require('./api/user');
 const brandRoutes = require('./api/brand');
 const productRoutes = require('./api/product');
 const orderRoutes=require('./api/order');
@@ -16,12 +18,8 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 //khai báo sử dụng category.js
-app.use('/category', categoryRoutes)
 
-app.use('/brand', brandRoutes)
-app.use('/product', productRoutes)
-app.use('/order',orderRoutes);
-app.use('/order_details',order_detailsRoutes);
+
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);

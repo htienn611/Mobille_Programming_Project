@@ -1,5 +1,3 @@
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
-
 class Category {
   final int id;
   final String nameCate;

@@ -2,13 +2,12 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 
-// POST để thêm mới category
+// POST để thêm mới product
 router.post('/', (req, res) => {
-    const { image, name, quantity, price, des, idDiscount, status, idCate, idBrand } = req.body;
 
     const query = 'INSERT INTO product (image, name, quantity, price, des, idDiscount, status, idCate, idBrand) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    const values = [image, name, quantity, price, des, idDiscount, status, idCate, idBrand];
-    connection.query(query,values, (error, results) => {
+    connection.query(query,[req.params.image,req.params.name,req.params.quantity,req.params.price,req.params.des,req.params.idDiscount,req.params.image,req.params.status
+    ,req.params.idCate,req.params.idBrand], (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Internal server error' });
         }

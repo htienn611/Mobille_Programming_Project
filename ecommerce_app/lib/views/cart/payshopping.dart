@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:flutter/material.dart';
 
 class PayShoppingScreen extends StatefulWidget {
@@ -36,15 +37,18 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
       appBar: AppBar(
         toolbarHeight: 70.0,
         backgroundColor: Colors.red,
-        leading: Icon(Icons.arrow_back_rounded),
-        title: Text('Thanh toán'),
+        leading: IconButton(icon: const Icon(Icons.arrow_back_rounded), onPressed: (){Navigator.pop(context);},),
+        title: const Text('Thanh toán'),
         centerTitle: true,
         actions: [
-          Icon(Icons.chat_bubble_outline_outlined),
+          IconButton(icon: Icon(Icons.chat_bubble_outline_outlined), onPressed: (){
+            Navigator.push(context,
+  MaterialPageRoute(builder: (context) => const ChatScreen()),);
+          },),
         ],
       ),
-      body: Stack(
-        children: [
+      body: SingleChildScrollView(
+        child:
       Column(
         children: [
           Container(
@@ -138,7 +142,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
           ),
           Container(
             margin: EdgeInsets.all(10.0),
-            height: 370.0,
+            height: 400.0,
             decoration: BoxDecoration(
               border: Border.all(width: 1.0, color: Colors.black),
               borderRadius: BorderRadius.circular(10.0)
@@ -250,14 +254,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                   ),
                 ),
             ]),
-          )
-        ]
-    ),
-    Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
+          ),
+          Container(
                 height: 100.0,
                 decoration: BoxDecoration(
                 border: Border.all(width: 2.0, color: Colors.black),
@@ -284,9 +282,10 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 ),
                 )
               ),
-          ),
-      ]
+        ]
+    ),
+    
       )
-    );;
+    );
   }
 }

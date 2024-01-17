@@ -1,6 +1,8 @@
 const express = require('express');
 const ngrok = require('ngrok');
 const cors = require('cors');
+const ngrok = require('ngrok');
+
 const categoryRoutes = require('./api/category');
 const userRoutes = require('./api/user');
 const brandRoutes = require('./api/brand');
@@ -19,18 +21,21 @@ app.use(express.json());
 
 
 
-
-
 app.listen(PORT, async () => {
-  
   console.log(`Server is running on port ${PORT}`);
-  const ngrokUrl= await ngrok.connect(PORT);
-  console.log(`Ngrok tunnel at: ${ngrokUrl}`)
-  app.use('/category', categoryRoutes)
-
-app.use('/user', userRoutes)
-app.use('/brand', brandRoutes)
-app.use('/product', productRoutes)
-app.use('/order',orderRoutes);
-app.use('/order_details',order_detailsRoutes);
+  const url = await ngrok.connect(PORT);
+  console.log(`Ngrok URL: ${url}`);
 });
+
+// // Kết nối ngrok và log URL public
+// (async () => {
+  
+// })();
+
+// // Đóng kết nối ngrok khi server đóng
+// process.on('SIGTERM', () => {
+//   server.close(() => {
+//     ngrok.disconnect();
+//     process.exit(0);
+//   });
+// });

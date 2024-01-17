@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
+import 'package:ecommerce_app/data_source/repository/data.dart';
 import 'package:ecommerce_app/models/order_detail.dart';
 
 class OrderDetailPresenter {

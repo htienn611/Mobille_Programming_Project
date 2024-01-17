@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
+import 'package:ecommerce_app/data_source/repository/data.dart';
 import 'package:ecommerce_app/models/product.dart';
 
 class ProductPresenter {
@@ -31,6 +31,7 @@ class ProductPresenter {
     // print(rsLst);
     return rsLst;
   }
+
   Future<Product> addProductPre(Product p) async {
     List<Product> rsLst = List.filled(
         0,
@@ -48,7 +49,7 @@ class ProductPresenter {
         growable: true);
 
     try {
-      dynamic value = await addProduct(p,"product");
+      dynamic value = await addProduct(p, "product");
 
       if (value.isNotEmpty) {
         rsLst.clear();

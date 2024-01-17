@@ -13,7 +13,7 @@ class _CategoriesBarState extends State<CategoriesBar> {
   CategoryPresenter catePre = CategoryPresenter();
   List<Category> cateLst =
       List.filled(0, Category(id: 0, nameCate: ""), growable: true);
-  List<Widget> items = List.filled(0, Text(""), growable: true);
+  List<Widget> items = List.filled(0, const Text(""), growable: true);
   void loadData() async {
     cateLst = await catePre.getCateLst();
     for (var item in cateLst) {
@@ -26,9 +26,7 @@ class _CategoriesBarState extends State<CategoriesBar> {
               style: const TextStyle(fontSize: 18, color: Colors.white),
             )),
       ));
-      print(item.nameCate);
     }
-    print(cateLst);
     setState(() {});
   }
 

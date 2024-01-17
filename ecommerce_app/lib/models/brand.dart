@@ -1,6 +1,6 @@
 
 
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
 
 class Brand {
   final int id;

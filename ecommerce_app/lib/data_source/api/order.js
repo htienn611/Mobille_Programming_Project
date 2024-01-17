@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
   });
 
 //Lấy dữ liệu bảng order theo id 
-router.get('/:id',(req,res) => {
+router.get('/id:id',(req,res) => {
   var query = 'SELECT * FROM `order` WHERE id=?';
   connection.query(query,[req.params.id],(error,results)=>
   {

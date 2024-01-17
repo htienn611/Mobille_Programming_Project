@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
 var host='http://172.20.10.2:3000';
@@ -19,3 +20,28 @@ Future<List<dynamic>> getItemByID(String tableName,int id) async {
     throw Exception('Failed to load data');
   }
 }
+Future<dynamic> addProduct(Product product,String tableName) async {
+    final Uri url = Uri.parse(('$host/$tableName'));
+
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'image': product.image,
+          'name': product.name,
+          'quantity': product.quantity,
+          'price': product.price,
+          'des': product.des,
+          'idDiscount': product.idDiscount,
+          'status': product.status,
+          'idCate': product.idCate,
+          'idBrand': product.idBrand,
+        }),
+      );
+    } catch (error) {
+      // xử lý lỗi
+    }
+  }

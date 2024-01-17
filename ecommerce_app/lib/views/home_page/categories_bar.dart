@@ -1,6 +1,6 @@
+import 'package:ecommerce_app/models/category.dart';
+import 'package:ecommerce_app/presenters/category_presenter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class CategoriesBar extends StatefulWidget {
   const CategoriesBar({super.key});
@@ -10,65 +10,43 @@ class CategoriesBar extends StatefulWidget {
 }
 
 class _CategoriesBarState extends State<CategoriesBar> {
+  CategoryPresenter catePre = CategoryPresenter();
+  List<Category> cateLst =
+      List.filled(0, Category(id: 0, nameCate: ""), growable: true);
+  List<Widget> items = List.filled(0, Text(""), growable: true);
+  void loadData() async {
+    cateLst = await catePre.getCateLst();
+    for (var item in cateLst) {
+      items.add(GestureDetector(
+        onTap: () {},
+        child: Container(
+            padding: const EdgeInsets.all(5),
+            child: Text(
+              item.nameCate,
+              style: const TextStyle(fontSize: 18, color: Colors.white),
+            )),
+      ));
+      print(item.nameCate);
+    }
+    print(cateLst);
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Container(
-                color: const Color.fromARGB(255, 224, 84, 75),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                      Container(
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            'Danh mục',
-                            style: TextStyle(fontSize: 18, color: Colors.white),
-                          )),
-                    ],
-                  ),
-                ),
-              );
+    return Container(
+      color: const Color.fromARGB(255, 224, 84, 75),
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(mainAxisAlignment: MainAxisAlignment.start, children: items),
+      ),
+    );
   }
 }

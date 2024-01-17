@@ -32,15 +32,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
             children: [
               const CategoriesBar(),
               Container(
-                margin: EdgeInsets.only(bottom: 6),
+                margin: const EdgeInsets.only(bottom: 6),
                 color: Colors.grey[300],
-                child: Column(children: const [
-                  PromotionBanner(),
+                child: Column(children: [
+                 const PromotionBanner(),
                   ContenSection(
-                    isBestSeller: true,
+                    isBestSelling: true,
                   ),
                   ContenSection(),
-                  HomeFooter()
+               const   HomeFooter()
                 ]),
               ),
             ],

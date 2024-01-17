@@ -121,7 +121,7 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
               ),
               borderRadius: BorderRadius.circular(15.0),
               ),
-            child: const Row(
+            child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -388,7 +388,7 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                 child: Center(
                   child: Column(
                     children: [
-                      const Row(
+                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text('Số tiền thanh toán: '),

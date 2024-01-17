@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/data_source/repository/get_data.dart';
 
 class Category {
   final int id;
@@ -8,5 +9,5 @@ class Category {
       : id = json['id'],
         nameCate = json['nameCate'];
 
-  }
-
+  
+}

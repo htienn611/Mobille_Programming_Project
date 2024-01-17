@@ -46,20 +46,20 @@ class _ProductManagementState extends State<ProductManagement> {
     super.initState();
     loadData();
     loadDataBrand();
-    _picker = ImagePicker();
-    _image = XFile("assets/img/laptop/laptop.jpg");
+   // _picker = ImagePicker();
+    //_image = XFile("assets/img/laptop/laptop.jpg");
   }
 
-  Future<void> _pickImage() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
+  // Future<void> _pickImage() async {
+  //   final XFile? pickedImage =
+  //       await _picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-      });
-    }
-  }
+  //   if (pickedImage != null) {
+  //     setState(() {
+  //       _image = pickedImage;
+  //     });
+  //   }
+  // }
 
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
@@ -76,12 +76,14 @@ class _ProductManagementState extends State<ProductManagement> {
                     height: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),
-                      child: _image != null
-                          ? Image.file(
-                              File(_image.path),
-                              fit: BoxFit.cover,
-                            )
-                          : Image(
+                      child: 
+                      // _image != null
+                      //     ? Image.file(
+                      //         File(_image.path),
+                      //         fit: BoxFit.cover,
+                      //       )
+                      //     : 
+                          Image(
                               image: AssetImage('assets/img/laptop/laptop.jpg'),
                               fit: BoxFit.cover,
                             ),
@@ -102,7 +104,7 @@ class _ProductManagementState extends State<ProductManagement> {
                             color: Colors.grey,
                           ),
                           onPressed: () {
-                            _pickImage();
+                           // _pickImage();
                           },
                         ),
                       ))

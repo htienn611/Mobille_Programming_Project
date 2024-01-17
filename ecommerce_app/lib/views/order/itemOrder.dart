@@ -4,8 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 
 class ItemOrder extends StatefulWidget {
-  const ItemOrder({super.key,required this.order});
-  final Order order;
+   ItemOrder({super.key,required this.order});
+   Order order;
 
 
   @override
@@ -20,8 +20,6 @@ class _ItemOrderState extends State<ItemOrder> {
       margin: EdgeInsets.all(5),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
- 
-
         borderRadius: BorderRadius.circular(5),
         boxShadow: [
           BoxShadow(

@@ -1,23 +1,54 @@
+import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:flutter/material.dart';
 
-class PayShoppingScreen extends StatelessWidget {
+class PayShoppingScreen extends StatefulWidget {
   const PayShoppingScreen({super.key});
 
   @override
+  State<PayShoppingScreen> createState() => _PayShoppingScreenState();
+}
+
+class _PayShoppingScreenState extends State<PayShoppingScreen> {
+  Color colormomo = Colors.blue;
+  Color colorpay = Colors.black;
+  double wmomo = 4.0;
+  double wpay = 2.0;
+  @override
   Widget build(BuildContext context) {
+
+  void _colormomoclick(){
+    setState(() {
+    colormomo = Colors.blue;
+    colorpay = Colors.black;
+    wmomo = 4.0;
+    wpay = 2.0;
+    });
+  }
+  void _colorpayclick(){
+
+    setState(() {
+    colormomo = Colors.black;
+    colorpay = Colors.blue;
+    wpay = 4.0;
+    wmomo = 2.0;
+    });
+  }
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 70.0,
         backgroundColor: Colors.red,
-        leading: Icon(Icons.arrow_back_rounded),
-        title: Text('Thanh toán'),
+        leading: IconButton(icon: const Icon(Icons.arrow_back_rounded), onPressed: (){Navigator.pop(context);},),
+        title: const Text('Thanh toán'),
         centerTitle: true,
         actions: [
-          Icon(Icons.chat_bubble_outline_outlined),
+          IconButton(icon: Icon(Icons.chat_bubble_outline_outlined), onPressed: (){
+            Navigator.push(context,
+  MaterialPageRoute(builder: (context) => const ChatScreen()),);
+          },),
         ],
       ),
-      body: Stack(
-        children: [
+      body: SingleChildScrollView(
+        child:
       Column(
         children: [
           Container(
@@ -61,12 +92,14 @@ class PayShoppingScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
+              GestureDetector(
+                onTap: _colormomoclick,
+              child: Container(
                 margin: EdgeInsets.only( top: 10.0),
                 width: 150.0,
                 height: 70.0,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 2.0, color: Colors.deepPurpleAccent),
+                  border: Border.all(width: wmomo, color: colormomo),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Row(
@@ -77,12 +110,15 @@ class PayShoppingScreen extends StatelessWidget {
                     Text('Momo\nWallet', style: TextStyle(fontSize: 15.0),),
                 ]),
               ),
-              Container(
+              ),
+              GestureDetector( 
+                onTap: _colorpayclick,
+                child: Container(
                 margin: EdgeInsets.only(top: 10.0),
                 width: 150.0,
                 height: 70.0,
                 decoration: BoxDecoration(
-                  border: Border.all(width: 2.0, color: Colors.deepPurpleAccent),
+                  border: Border.all(width: wpay, color: colorpay),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Row(
@@ -92,7 +128,8 @@ class PayShoppingScreen extends StatelessWidget {
                     SizedBox(width: 5.0,),
                     Text('Tiền mặt', style: TextStyle(fontSize: 15.0),),
                 ]),
-              )
+              ),
+              ),
             ],
           ),
           Row(
@@ -105,7 +142,7 @@ class PayShoppingScreen extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.all(10.0),
-            height: 370.0,
+            height: 400.0,
             decoration: BoxDecoration(
               border: Border.all(width: 1.0, color: Colors.black),
               borderRadius: BorderRadius.circular(10.0)
@@ -177,6 +214,24 @@ class PayShoppingScreen extends StatelessWidget {
                   Text('120.000đ', style: TextStyle(fontSize: 20.0),),
                 ],)
                 ),
+                GestureDetector( 
+                  onTap: () {
+                    showDialog(context: context, builder: (BuildContext context){
+                      return Dialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                        child: SingleChildScrollView(
+                          child: Container(
+                            height: 300.0,
+                            child: TextButton(onPressed: (){
+                              
+                            }, child: Text('Mã giảm 1'),),
+                          ),
+                        )
+                      );
+                      
+                    });
+                  },
+                  child:
                 Container(
                   margin: EdgeInsets.all(20.0),
                   height: 60.0,
@@ -197,15 +252,10 @@ class PayShoppingScreen extends StatelessWidget {
                     ],
                   ),)
                   ),
+                ),
             ]),
-          )
-        ]
-    ),
-    Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
+          ),
+          Container(
                 height: 100.0,
                 decoration: BoxDecoration(
                 border: Border.all(width: 2.0, color: Colors.black),
@@ -232,8 +282,9 @@ class PayShoppingScreen extends StatelessWidget {
                 ),
                 )
               ),
-          ),
-      ]
+        ]
+    ),
+    
       )
     );
   }

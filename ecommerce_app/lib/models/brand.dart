@@ -1,5 +1,6 @@
-import 'package:ecommerce_app/models/procces/get_table.dart';
 
+
+import '../data_source/repository/get_data.dart';
 
 class Brand {
   final int id;

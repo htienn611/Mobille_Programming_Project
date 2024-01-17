@@ -1,5 +1,6 @@
- import 'package:ecommerce_app/models/category.dart';
-import 'package:ecommerce_app/models/procces/get_table.dart';
+import '../data_source/repository/get_data.dart';
+import '../models/category.dart';
+
 class CategoryPresenter {
   Future<List<Category>> getCateLst() async {
     List<Category> rsLst =
@@ -13,9 +14,9 @@ class CategoryPresenter {
       }
     } catch (error) {
       // Xử lý lỗi ở đây nếu cần thiết
-      print('Error fetching data: $error (CATEGORY)');
+      print('Error fetching data: $error');
     }
-    //print(rsLst);
+    // print(rsLst);
     return rsLst;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/models/procces/get_table.dart';
 
 class Order {
   int id;
@@ -7,6 +6,7 @@ class Order {
   String phoneNumber;
   DateTime date;
   int transportFee;
+  
   Order( this.id, this.Status, this.paymentMethods, this.phoneNumber, this.date,
       this.transportFee);
 

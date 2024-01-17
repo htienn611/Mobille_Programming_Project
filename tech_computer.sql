@@ -152,8 +152,8 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`) VALUES
-(1, 0, 1, '0395060907', '2024-01-08', 10);
-(2, 1, 1, '0395060907', '2024-01-08', 10, '');
+(1, 0, 1, '0395060907', '2024-01-08', 10),
+(2, 1, 1, '0395060907', '2024-01-08', 10);
 
 -- --------------------------------------------------------
 
@@ -172,8 +172,8 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
-(2, 1, 1);
-(1, 1, 2);
+(2, 1, 1),
+(1, 1, 7);
 -- --------------------------------------------------------
 
 --
@@ -258,7 +258,7 @@ CREATE TABLE `user` (
   `address` varchar(255) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
  `password` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -271,12 +271,6 @@ INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `status
 --
 -- Chỉ mục cho các bảng đã đổ
 --
-
---
--- Chỉ mục cho bảng `account`
---
-ALTER TABLE `account`
-  ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Chỉ mục cho bảng `brand`

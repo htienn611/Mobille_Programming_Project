@@ -10,7 +10,9 @@ class CategoryPresenter {
       List<dynamic> value = await getTable("category");
 
       if (value.isNotEmpty) {
+        rsLst.clear();
         rsLst = value.map((json) => Category.fromJson(json)).toList();
+        print(rsLst);
       }
     } catch (error) {
       // Xử lý lỗi ở đây nếu cần thiết

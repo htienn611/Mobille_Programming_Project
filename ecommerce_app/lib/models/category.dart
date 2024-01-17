@@ -6,7 +6,7 @@ class Category {
   Category({required this.id, required this.nameCate});
 
   Category.fromJson(Map<String, dynamic> json)
-      : id = json['_id'],
+      : id = json['id'],
         nameCate = json['nameCate'];
 
   

@@ -1,4 +1,5 @@
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:flutter/material.dart';
 
 class ListProduct extends StatefulWidget {
@@ -10,11 +11,11 @@ class ListProduct extends StatefulWidget {
 
 class _ListProductState extends State<ListProduct> {
   List<Product> danhSachSanPham = [];
+  ProductPresenter proPresenter = ProductPresenter();
   String dropDownValue = "Laptop";
   void loadData() async {
-    List<Product> sanPhamList = await Product.getProductLst();
+    danhSachSanPham = await proPresenter.getProductLst();
     setState(() {
-      danhSachSanPham = sanPhamList;
     });
   }
 
@@ -23,32 +24,34 @@ class _ListProductState extends State<ListProduct> {
     super.initState();
     loadData();
   }
-void _showDeleteConfirmation(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Xác nhận Xóa'),
-        content: Text('Bạn có chắc chắn muốn xóa không?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Đóng thông báo
-            },
-            child: Text('Hủy'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Thực hiện xóa dữ liệu
-              Navigator.pop(context); // Đóng thông báo sau khi xử lý xóa
-            },
-            child: Text('Xóa'),
-          ),
-        ],
-      );
-    },
-  );
-}
+
+  void _showDeleteConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận Xóa'),
+          content: Text('Bạn có chắc chắn muốn xóa không?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Đóng thông báo
+              },
+              child: Text('Hủy'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Thực hiện xóa dữ liệu
+                Navigator.pop(context); // Đóng thông báo sau khi xử lý xóa
+              },
+              child: Text('Xóa'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _editProduct(BuildContext context) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -139,58 +142,63 @@ void _showDeleteConfirmation(BuildContext context) {
         itemBuilder: (context, index) {
           Product sanPham = danhSachSanPham[index];
           return Container(
-      decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 255, 243, 247),
-          boxShadow: [
-            BoxShadow(
-              color: const Color.fromARGB(227, 252, 228, 236),
-              spreadRadius: 4,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            )
-          ]),
-      width: MediaQuery.of(context).size.width,
-      height: 150,
-      padding: EdgeInsets.all(10),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Column(
-          children: [
-            Image.asset(
-              'assets/img/laptop/laptop.jpg',
-              fit: BoxFit.cover,
-              width: 120,
-              height: 120,
-            ),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(sanPham.name.toString(),
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),softWrap: true,),
-            Text("${sanPham.price} vnđ"),
-            //Text("256GB"),
-            Text("Số lượng: ${sanPham.quantity.toString()}")
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-                onPressed: () {
-                  _editProduct(context);
-                },
-                icon: Icon(Icons.edit)),
-            IconButton(
-                onPressed: () {
-                  _showDeleteConfirmation(context);
-                },
-                icon: Icon(Icons.delete))
-          ],
-        )
-      ]),
-    );
-  })
-;
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 255, 243, 247),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color.fromARGB(227, 252, 228, 236),
+                    spreadRadius: 4,
+                    blurRadius: 5,
+                    offset: Offset(0, 1),
+                  )
+                ]),
+            width: MediaQuery.of(context).size.width,
+            height: 150,
+            padding: EdgeInsets.all(10),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Image.asset(
+                        'assets/img/laptop/laptop.jpg',
+                        fit: BoxFit.cover,
+                        width: 120,
+                        height: 120,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        sanPham.name.toString(),
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.bold),
+                        softWrap: true,
+                      ),
+                      Text("${sanPham.price} vnđ"),
+                      //Text("256GB"),
+                      Text("Số lượng: ${sanPham.quantity.toString()}")
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      IconButton(
+                          onPressed: () {
+                            _editProduct(context);
+                          },
+                          icon: Icon(Icons.edit)),
+                      IconButton(
+                          onPressed: () {
+                            _showDeleteConfirmation(context);
+                          },
+                          icon: Icon(Icons.delete))
+                    ],
+                  )
+                ]),
+          );
+        });
   }
 }

@@ -14,7 +14,7 @@ class _ListProductState extends State<ListProduct> {
   ProductPresenter proPresenter = ProductPresenter();
   String dropDownValue = "Laptop";
   void loadData() async {
-    danhSachSanPham = await proPresenter.getProductLst();
+    danhSachSanPham = await proPresenter.getlstProduct();
     setState(() {
     });
   }

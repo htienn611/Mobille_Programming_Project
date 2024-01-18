@@ -1,7 +1,7 @@
 class Promotion {
   final int id;
-  final String title;
-  final String des;
+  String title;
+  String des;
   final DateTime startDate;
   final DateTime endDate;
   final int status;
@@ -9,8 +9,8 @@ class Promotion {
 
   Promotion(
       {required this.id,
-      required this.title,
-      required this.des,
+      this.title="",
+      this.des="",
       required this.startDate,
       required this.endDate,
       required this.quantityForEach,
@@ -18,8 +18,8 @@ class Promotion {
 
   Promotion.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        title = json['title'],
-        des = json['description'],
+        title = json['title']??"",
+        des = json['description']??"",
         startDate = DateTime.parse(json['startDate']),
         endDate = DateTime.parse(json['endDate']),
         quantityForEach = json['quantityForEach'],

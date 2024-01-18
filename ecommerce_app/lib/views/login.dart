@@ -1,6 +1,12 @@
+import 'package:ecommerce_app/views/home_page/home_page.dart';
+import 'package:ecommerce_app/views/profile.dart';
+import 'package:ecommerce_app/views/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+
+import '../presenters/user_presenter.dart';
+
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -9,7 +15,9 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginState extends State<Login> implements UserView{
+  late TextEditingController phoneNumberController=TextEditingController();
+  late TextEditingController passwordController=TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,24 +28,82 @@ class _LoginState extends State<Login> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height:80),
-            Center(child: Image(image: AssetImage('assets/img/logo/logo.jpg'),width: 250, height: 250,), ),
+            SizedBox(height:50),
+            Center(child: Image(image: AssetImage('assets/img/logo/logo.jpg'),width: 200, height: 200,), ),
             SizedBox(height: 50,),
-            TextField(
-              decoration: InputDecoration(labelText: "Số điện thoại", 
-              border: OutlineInputBorder()),
+            Container(
+              padding: EdgeInsets.all(12),
+              child: TextField(
+                 controller: phoneNumberController,
+                decoration: InputDecoration(labelText: "Số điện thoại", 
+                border: OutlineInputBorder()),
+              ),
             ),
-            SizedBox(height: 50,),
-             TextField(
-              decoration: InputDecoration(labelText: "Mật khẩu", 
-              border: OutlineInputBorder()),
-            ), SizedBox(height: 50),
-            ElevatedButton(onPressed: (){}, child: Text("Đăng nhập", style: TextStyle(fontSize: 20),), style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.redAccent), padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20,10,20,10))),)
-      
+
+             Container(
+              padding: EdgeInsets.all(12),
+               child: TextField(
+                 controller: passwordController,
+              obscureText: true,
+                decoration: InputDecoration(labelText: "Mật khẩu", 
+                border: OutlineInputBorder()),
+                         ),
+             ), SizedBox(height: 20),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(right: 12,left: 12),
+
+              child: ElevatedButton(onPressed: () async{
+                  UserPresenter userPresenter = UserPresenter(this);
+                await userPresenter.Login(
+                  password: passwordController.text,
+                  phoneNumber: phoneNumberController.text,
+                );
+                if (userPresenter.loginSuccessful==true) {
+            Navigator.pushReplacement(
+              context,
+             // MaterialPageRoute(builder: (context) => HomePageScreen(phone: phoneNumberController.text,)),
+              MaterialPageRoute(builder: (context) => Profile(phoneNumber: phoneNumberController.text))
+            );
+          }
+              }, child: Text("Đăng nhập", style: TextStyle(fontSize: 20),), style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.redAccent), padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20,10,20,10))),),
+            ),
+            SizedBox(height: 8),
+             Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.only(right: 12,left: 12),
+               child: ElevatedButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
+                         }, child: Text("Đăng ký", style: TextStyle(fontSize: 20),), style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(Colors.redAccent), padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20,10,20,10))),),
+             ),            
           ],
         ),
       ),
 
     );
   }
+   @override
+  void displayMessage(String message) {
+    // Hiển thị thông báo đăng ký
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Thông báo"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+
+              },
+              child: Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
+ 

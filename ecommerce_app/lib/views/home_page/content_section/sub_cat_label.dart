@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class CatLabel extends StatelessWidget {
-  const CatLabel({super.key});
-
+class SubCatLabel extends StatelessWidget {
+ const SubCatLabel({super.key, this.isBestSelling=false});
+  final bool isBestSelling;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,7 +10,7 @@ class CatLabel extends StatelessWidget {
       margin: const EdgeInsets.only(left: 5, right: 5),
       decoration: BoxDecoration(
           border: Border.all(), borderRadius: BorderRadius.circular(5)),
-      child: const Text('Danh mục', style: TextStyle(fontSize: 18)),
+      child:  Text(isBestSelling?'Danh mục':'nhãn hiệu', style: const TextStyle(fontSize: 18)),
     );
   }
 }

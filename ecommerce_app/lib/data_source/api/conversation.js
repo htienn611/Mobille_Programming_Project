@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:idUs1', (req, res) => {
+router.get('/id:idUs1', (req, res) => {
     const idUs1 = req.params.idUs1;
 
     if (!idUs1) {

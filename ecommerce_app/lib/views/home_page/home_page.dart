@@ -7,8 +7,9 @@ import 'package:ecommerce_app/views/home_page/footer/home_footer.dart';
 import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
 import 'package:flutter/material.dart';
 
-class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
+class HomePageScreen extends StatefulWidget { 
+   final String phone;
+  const HomePageScreen({required this.phone,super.key});
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
@@ -32,15 +33,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
             children: [
               const CategoriesBar(),
               Container(
-                margin: EdgeInsets.only(bottom: 6),
+                margin: const EdgeInsets.only(bottom: 6),
                 color: Colors.grey[300],
-                child: Column(children: const [
-                  PromotionBanner(),
+                child: Column(children: [
+                 const PromotionBanner(),
                   ContenSection(
-                    isBestSeller: true,
+                    isBestSelling: true,
                   ),
                   ContenSection(),
-                  HomeFooter()
+               const   HomeFooter()
                 ]),
               ),
             ],

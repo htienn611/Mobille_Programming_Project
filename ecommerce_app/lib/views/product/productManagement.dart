@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/presenters/brand_presenter.dart';
 import 'package:ecommerce_app/presenters/category_presenter.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
@@ -16,25 +17,28 @@ class ProductManagement extends StatefulWidget {
 }
 
 class _ProductManagementState extends State<ProductManagement> {
+  //Khai báo biến
+  late ImagePicker _picker;
+  late XFile _image;
   String dropDownValue = "Laptop";
   String dropDownValueBrand = "Del";
-  CategoryPresenter catePre = CategoryPresenter();
-  //late ImagePicker _picker;
-  // late XFile _image;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController disCountController = TextEditingController();
+  TextEditingController desController = TextEditingController();
   List<Category> danhSachDanhMuc = [];
-  void loadData() async {
-    List<Category> danhMuc = await catePre.getCateLst();
-    setState(() {
-      danhSachDanhMuc = danhMuc;
-    });
-  }
-
+  CategoryPresenter catePre = CategoryPresenter();
   List<Brand> danhSachNhanHang = [];
+  BrandPresenter brandPre = BrandPresenter();
+
+  void loadData() async {
+    danhSachDanhMuc = await catePre.getCateLst();
+    setState(() {});
+  }
   void loadDataBrand() async {
-    List<Brand> nhanHang = await Brand.getBrandLst();
-    setState(() {
-      danhSachNhanHang = nhanHang;
-    });
+    danhSachNhanHang = await brandPre.getBrandLst();
+    setState(() {});
   }
 
   @override
@@ -42,20 +46,20 @@ class _ProductManagementState extends State<ProductManagement> {
     super.initState();
     loadData();
     loadDataBrand();
-   // _picker = ImagePicker();
-    //_image = XFile("assets/img/laptop/laptop.jpg");
+   _picker = ImagePicker();
+    _image = XFile("assets/img/laptop/laptop.jpg");
   }
 
-  // Future<void> _pickImage() async {
-  //   final XFile? pickedImage =
-  //       await _picker.pickImage(source: ImageSource.gallery);
+  Future<void> _pickImage() async {
+    final XFile? pickedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
 
-  //   if (pickedImage != null) {
-  //     setState(() {
-  //       _image = pickedImage;
-  //     });
-  //   }
-  // }
+    if (pickedImage != null) {
+      setState(() {
+        _image = pickedImage;
+      });
+    }
+  }
 
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
@@ -73,12 +77,12 @@ class _ProductManagementState extends State<ProductManagement> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),
                       child: 
-                      // _image != null
-                      //     ? Image.file(
-                      //         File(_image.path),
-                      //         fit: BoxFit.cover,
-                      //       )
-                      //     : 
+                      _image != null
+                          ? Image.file(
+                              File(_image.path),
+                              fit: BoxFit.cover,
+                            )
+                          : 
                           Image(
                               image: AssetImage('assets/img/laptop/laptop.jpg'),
                               fit: BoxFit.cover,
@@ -107,18 +111,28 @@ class _ProductManagementState extends State<ProductManagement> {
                 ],
               ),
               TextField(
+                controller: nameController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(hintText: "Tên sản phẩm"),
               ),
               TextField(
+                controller: priceController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(hintText: "Giá"),
               ),
               TextField(
+                controller: disCountController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(hintText: "Giảm giá"),
               ),
               TextField(
+                controller: quantityController,
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(hintText: "Số lượng"),
               ),
               TextField(
+                controller: disCountController,
+                keyboardType: TextInputType.text,
                 decoration: InputDecoration(hintText: "Mô tả"),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
@@ -155,6 +169,7 @@ class _ProductManagementState extends State<ProductManagement> {
               ]),
               ElevatedButton(
                 onPressed: () {
+                  
                   Navigator.pop(context);
                 },
                 child: Text("Lưu"),

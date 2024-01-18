@@ -2,11 +2,18 @@ const express = require('express');
 const cors = require('cors');
 //const ngrok = require('ngrok');
 
+
 const categoryRoutes = require('./api/category');
+const userRoutes = require('./api/user');
 const brandRoutes = require('./api/brand');
 const productRoutes = require('./api/product');
 const orderRoutes=require('./api/order');
 const order_detailsRoutes=require('./api/orderDetail');
+const conversationRoutes=require('./api/conversation');
+const messageRoutes=require('./api/message');
+const promotionRoutes=require('./api/promotion');
+
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -16,12 +23,17 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 //khai báo sử dụng category.js
-app.use('/category', categoryRoutes)
-
+app.use('/user', userRoutes)
 app.use('/brand', brandRoutes)
 app.use('/product', productRoutes)
 app.use('/order',orderRoutes);
 app.use('/order_details',order_detailsRoutes);
+app.use('/category',categoryRoutes);
+app.use('/conversation',conversationRoutes);
+app.use('/message',messageRoutes);
+app.use('/promotion',promotionRoutes);
+
+
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
@@ -34,7 +46,7 @@ app.listen(PORT, async () => {
   
 // })();
 
-// // Đóng kết nối ngrok khi server đóng
+// Đóng kết nối ngrok khi server đóng
 // process.on('SIGTERM', () => {
 //   server.close(() => {
 //     ngrok.disconnect();

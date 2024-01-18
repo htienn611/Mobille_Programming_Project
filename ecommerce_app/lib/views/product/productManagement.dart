@@ -1,13 +1,13 @@
-import 'dart:io';
-
 import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/models/promotion.dart';
 import 'package:ecommerce_app/presenters/brand_presenter.dart';
 import 'package:ecommerce_app/presenters/category_presenter.dart';
+import 'package:ecommerce_app/presenters/product_presenter.dart';
+import 'package:ecommerce_app/presenters/promotion_presenter.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/models/category.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 
 class ProductManagement extends StatefulWidget {
   const ProductManagement({super.key});
@@ -18,26 +18,26 @@ class ProductManagement extends StatefulWidget {
 
 class _ProductManagementState extends State<ProductManagement> {
   //Khai báo biến
-  late ImagePicker _picker;
-  late XFile _image;
-  String dropDownValue = "Laptop";
-  String dropDownValueBrand = "Del";
+  int dropDownValueCate = 1;
+  int dropDownValuePromotion = 1;
+  int dropDownValueBrand = 5;
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
-  TextEditingController disCountController = TextEditingController();
   TextEditingController desController = TextEditingController();
   List<Category> danhSachDanhMuc = [];
   CategoryPresenter catePre = CategoryPresenter();
   List<Brand> danhSachNhanHang = [];
   BrandPresenter brandPre = BrandPresenter();
+  ProductPresenter proPre = ProductPresenter();
+  bool checkAddProduct = false;
+  List<Promotion> danhSachGiamGia = [];
+  PromotionPresenter promotionPre = PromotionPresenter();
 
   void loadData() async {
     danhSachDanhMuc = await catePre.getCateLst();
-    setState(() {});
-  }
-  void loadDataBrand() async {
     danhSachNhanHang = await brandPre.getBrandLst();
+    danhSachGiamGia = await promotionPre.getPromotionLst();
     setState(() {});
   }
 
@@ -45,20 +45,15 @@ class _ProductManagementState extends State<ProductManagement> {
   void initState() {
     super.initState();
     loadData();
-    loadDataBrand();
-   _picker = ImagePicker();
-    _image = XFile("assets/img/laptop/laptop.jpg");
   }
 
-  Future<void> _pickImage() async {
-    final XFile? pickedImage =
-        await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      setState(() {
-        _image = pickedImage;
-      });
-    }
+  void showMessSnackBar(String mess) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mess),
+        duration: Duration(seconds: 2), // Đặt thời gian hiển thị
+      ),
+    );
   }
 
   void _addProduct(BuildContext context) {
@@ -76,17 +71,10 @@ class _ProductManagementState extends State<ProductManagement> {
                     height: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),
-                      child: 
-                      _image != null
-                          ? Image.file(
-                              File(_image.path),
-                              fit: BoxFit.cover,
-                            )
-                          : 
-                          Image(
-                              image: AssetImage('assets/img/laptop/laptop.jpg'),
-                              fit: BoxFit.cover,
-                            ),
+                      child: const Image(
+                        image: AssetImage('assets/img/laptop/laptop.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -103,9 +91,7 @@ class _ProductManagementState extends State<ProductManagement> {
                             Icons.camera_alt_rounded,
                             color: Colors.grey,
                           ),
-                          onPressed: () {
-                           // _pickImage();
-                          },
+                          onPressed: () {},
                         ),
                       ))
                 ],
@@ -121,56 +107,89 @@ class _ProductManagementState extends State<ProductManagement> {
                 decoration: InputDecoration(hintText: "Giá"),
               ),
               TextField(
-                controller: disCountController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(hintText: "Giảm giá"),
-              ),
-              TextField(
                 controller: quantityController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(hintText: "Số lượng"),
               ),
               TextField(
-                controller: disCountController,
+                controller: desController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(hintText: "Mô tả"),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                DropdownButton<String>(
-                  value: dropDownValue,
+                DropdownButton<int>(
+                  value: dropDownValueCate,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (String? newValue) {
+                  onChanged: (int? newValue) {
                     setState(() {
-                      dropDownValue = newValue!;
-                      print(dropDownValue);
+                      dropDownValueCate = newValue!;
+                      print(dropDownValueCate);
                     });
                   },
                   items: danhSachDanhMuc.map((motDanhMuc) {
-                    return DropdownMenuItem<String>(
-                        value: motDanhMuc.nameCate.toString(),
+                    return DropdownMenuItem<int>(
+                        value: motDanhMuc.id,
                         child: Text(motDanhMuc.nameCate.toString()));
                   }).toList(),
                 ),
-                DropdownButton<String>(
+                DropdownButton<int>(
                   value: dropDownValueBrand,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (String? newValue) {
+                  onChanged: (int? newValue) {
                     setState(() {
                       dropDownValueBrand = newValue!;
                       print(dropDownValueBrand);
                     });
                   },
                   items: danhSachNhanHang.map((motNhanHang) {
-                    return DropdownMenuItem<String>(
-                        value: motNhanHang.name.toString(),
+                    return DropdownMenuItem<int>(
+                        value: motNhanHang.id,
                         child: Text(motNhanHang.name.toString()));
+                  }).toList(),
+                ),
+                DropdownButton<int>(
+                  value: dropDownValuePromotion,
+                  icon: const Icon(Icons.arrow_drop_down_outlined),
+                  onChanged: (int? newValue) {
+                    setState(() {
+                      dropDownValuePromotion = newValue!;
+                      print(dropDownValuePromotion);
+                    });
+                  },
+                  items: danhSachGiamGia.map((motGiamGia) {
+                    return DropdownMenuItem<int>(
+                        value: motGiamGia.id,
+                        child: Text(motGiamGia.title.toString()));
                   }).toList(),
                 )
               ]),
               ElevatedButton(
-                onPressed: () {
-                  
-                  Navigator.pop(context);
+                onPressed: () async {
+                  if (nameController.text.isEmpty ||
+                      quantityController.text.isEmpty ||
+                      priceController.text.isEmpty ||
+                      desController.text.isEmpty) {
+                    showMessSnackBar(
+                        "Xin hãy nhập thông tin đầy đủ trước khi thêm");
+                  } else {
+                    Product product = Product.AddProduct(
+                        image: "image",
+                        name: nameController.text,
+                        quantity: int.parse(quantityController.text),
+                        price: int.parse(priceController.text),
+                        des: desController.text,
+                        idDiscount: dropDownValuePromotion,
+                        status: 1,
+                        idCate: dropDownValueCate,
+                        idBrand: dropDownValueBrand);
+
+                    checkAddProduct = await proPre.addProductPresenter(product);
+                    Navigator.pop(context);
+                    if (checkAddProduct)
+                      showMessSnackBar('Thêm sản phẩm thành công');
+                    else
+                      showMessSnackBar('Thêm sản phẩm thất bại');
+                  }
                 },
                 child: Text("Lưu"),
               )

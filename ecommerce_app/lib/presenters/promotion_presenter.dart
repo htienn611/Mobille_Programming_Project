@@ -3,7 +3,7 @@ import 'package:ecommerce_app/models/promotion.dart';
 import '../data_source/repository/get_data.dart';
 
 class PromotionPresenter{
-  Future<List<Promotion>> getCateLst() async {
+  Future<List<Promotion>> getPromotionLst() async {
     List<Promotion> rsLst = List.filled(
         0,
         Promotion(id: 0, title: "title", des: "des", startDate: DateTime.now(), endDate: DateTime.now(), quantityForEach: 0, status: 0),
@@ -18,7 +18,7 @@ class PromotionPresenter{
       }
     } catch (error) {
       // Xử lý lỗi ở đây nếu cần thiết
-      print('Error fetching data: $error');
+      print('Error fetching data: $error (PROMOTION)');
     }
     // print(rsLst);
     return rsLst;

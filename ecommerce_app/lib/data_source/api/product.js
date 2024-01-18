@@ -4,18 +4,36 @@ const connection = require('./db');
 
 // POST để thêm mới product
 router.post('/', (req, res) => {
-
+    const {image,name,quantity,price,des,idDiscount,status,idCate,idBrand}=req.body;
     const query = 'INSERT INTO product (image, name, quantity, price, des, idDiscount, status, idCate, idBrand) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    connection.query(query,[req.params.image,req.params.name,req.params.quantity,req.params.price,req.params.des,req.params.idDiscount,req.params.image,req.params.status
-    ,req.params.idCate,req.params.idBrand], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Internal server error' });
-        }
-        else {
-            return res.json(results);
-        }
+  const results=  connection.query(query,[image, name, quantity, price, des, idDiscount, status, idCate, idBrand],(err)=>{
+    if(err){
+        console.error('Error executing MySQL query:', err);
+        res.status(500).send('Internal Server Error');
+    }
+    else{
+        res.json({
+            image:image,
+            name:name,
+            quantity: quantity,
+            price:price,
+            des:des,
+            idDiscount: idDiscount,
+            status:status,
+            idCate:idCate,
+            idBrand:idBrand
+        })
+    }
+  });
+    if(results.affectedRows>0){
+        return true;
+    }
+    else{
+        return false;
+    }
+
     });
-});
+
 
 router.get('/', (req, res) => {
     connection.query('SELECT * FROM product WHERE status=1', (error, results) => {

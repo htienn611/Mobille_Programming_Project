@@ -1,11 +1,11 @@
 import 'package:ecommerce_app/models/brand.dart';
-import 'package:ecommerce_app/models/procces/get_table.dart';
+import 'package:ecommerce_app/data_source/repository/get_data.dart';
 
 class BrandPresenter{
   
    Future<List<Brand>> getBrandLst() async {
     List<Brand> rsLst = List.filled(
-        0, Brand(id: 0, name: "", idCat: 0, status: 0),
+        0, Brand(id: 0, name: "", idCate: 0, status: 0),
         growable: true);
 
     try {

@@ -1,5 +1,5 @@
 const express = require('express');
-const ngrok = require('ngrok');
+//const ngrok = require('ngrok');
 const cors = require('cors');
 
 const categoryRoutes = require('./api/category');
@@ -36,8 +36,8 @@ app.use('/promotion',promotionRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  const url = await ngrok.connect(PORT);
-  console.log(`Ngrok URL: ${url}`);
+  //const url = await ngrok.connect(PORT);
+ // console.log(`Ngrok URL: ${url}`);
 });
 
 // // Kết nối ngrok và log URL public

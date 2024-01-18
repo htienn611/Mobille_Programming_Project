@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
   });
 
 //Lấy dữ liệu bảng orderDetail theo id của order
-router.get('/:id',(req,res) => {
+router.get('/id:id',(req,res) => {
   var query = 'SELECT * FROM `order_details` WHERE idOrder=?';
   connection.query(query,[req.params.id],(error,results)=>
   {
@@ -28,6 +28,7 @@ router.get('/:id',(req,res) => {
   }
   );
 });  
+
 
 
 module.exports = router;

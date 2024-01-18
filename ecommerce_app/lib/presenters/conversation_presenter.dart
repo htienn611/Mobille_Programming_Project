@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/models/conversation.dart';
 
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
 
 class ConversationPresenter {
   Future<List<Conversation>> getCateLst() async {

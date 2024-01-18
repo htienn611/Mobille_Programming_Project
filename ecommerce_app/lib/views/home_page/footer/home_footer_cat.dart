@@ -14,15 +14,16 @@ class HomeFooterCat extends StatefulWidget {
 class _HomeFooterCatState extends State<HomeFooterCat> {
   @override
   Widget build(BuildContext context) {
-    var sW=MediaQuery.of(context).size.width;
+    var sW = MediaQuery.of(context).size.width;
     return GestureDetector(
         onTap: () {
-          setState(() {
-            widget.isShow = !widget.isShow;
-          });
+          if (!widget.isConnect)
+            setState(() {
+              widget.isShow = !widget.isShow;
+            });
         },
         child: Container(
-            width: sW-40,
+            width: sW - 40,
             padding: const EdgeInsets.symmetric(vertical: 10),
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
@@ -50,17 +51,6 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
                                     child: ClipOval(
                                       child: Image.asset(
                                         'assets/img/logo/fb.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )),
-                              ),
-                              TextButton(
-                                onPressed: () {},
-                                child: CircleAvatar(
-                                    radius: 25,
-                                    child: ClipOval(
-                                      child: Image.asset(
-                                        'assets/img/logo/grfb.jpg',
                                         fit: BoxFit.cover,
                                       ),
                                     )),
@@ -104,17 +94,17 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
                       ),
                 widget.isShow
                     ? Container(
-                      padding:const EdgeInsets.only(left: 10),
-                      width: sW-40,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                          children:const [
+                        padding: const EdgeInsets.only(left: 10),
+                        width: sW - 40,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
                             FooterSubCat(),
                             FooterSubCat(),
                             FooterSubCat(),
                           ],
                         ),
-                    )
+                      )
                     : Container()
               ],
             )));

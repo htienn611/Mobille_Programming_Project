@@ -6,7 +6,7 @@ const connection = require('./db');
 
 // lấy cả bảng brand
 router.get('/', (req, res) => {
-    connection.query('SELECT * FROM brand WHERE status=1', (error, results) => {
+    connection.query('SELECT * FROM brand ', (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Internal server error' });
         }

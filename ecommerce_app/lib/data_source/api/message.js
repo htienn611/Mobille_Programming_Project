@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/:id', (req, res) => {
+router.get('/id:id', (req, res) => {
   const messId = req.params.id;
 
   if (!messId) {

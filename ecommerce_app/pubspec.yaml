@@ -37,7 +37,7 @@ dependencies:
   postgres: ^2.6.2
   moor_flutter: ^4.1.0
   sqflite: ^2.2.8+4
-  http: ^1.1.2
+  http: ^1.0.0
   image_picker: ^1.0.4
   crypto: ^3.0.3
   datetime_picker_formfield_new: ^2.1.0

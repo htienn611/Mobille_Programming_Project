@@ -131,11 +131,11 @@ CREATE TABLE `notification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- address
-create table `Address`(
+create table `address`(
 `id` int(11) not null,
 `phoneNumber` varchar(15) NOT NULL,
- `content` varchar(255) not null,
-  `status` tinyint(1) not null
+`content` varchar(255) not null,
+`status` tinyint(1) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
 
@@ -150,14 +150,14 @@ CREATE TABLE `order` (
   `phoneNumber` varchar(15) NOT NULL,
   `date` date NOT NULL,
  `transportFee` int(11) NOT NULL,
-  `Adress` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `order`
 --
 
-INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `Adress`) VALUES
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `address`) VALUES
 (1, 0, 1, '0384864757', '2024-01-08', 10, ''),
 (2, 1, 1, '0384864757', '2024-01-08', 10, '');
 
@@ -261,12 +261,7 @@ CREATE TABLE `user` (
   `phoneNumber` varchar(15) NOT NULL,
   `name` varchar(255) NOT NULL,
   `sex` tinyint(1) DEFAULT 0,
-  `sex` tinyint(1) DEFAULT 0,
   `birthday` date DEFAULT NULL,
-  `biography` varchar(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0,
-  `status` tinyint(1) NOT NULL
   `biography` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT 0,
@@ -293,12 +288,6 @@ ALTER TABLE `address`
   ADD PRIMARY KEY (`id`),
   ADD KEY `phoneNumber` (`phoneNumber`);
 
---
--- Chỉ mục cho bảng `address`
---
-ALTER TABLE `address`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Indexes for table `brand`
@@ -402,11 +391,6 @@ ALTER TABLE `user`
 ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
---
--- AUTO_INCREMENT cho bảng `address`
---
-ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `brand`

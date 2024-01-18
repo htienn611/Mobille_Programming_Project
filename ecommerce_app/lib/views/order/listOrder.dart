@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/views/order/itemOrder.dart';
+import 'package:ecommerce_app/views/order/order_item.dart';
 import 'package:flutter/material.dart';
 
 class ListOrder extends StatefulWidget {
@@ -56,8 +57,13 @@ class _ListOrderState extends State<ListOrder> {
       ),
     ),
     body: TabBarView(children: [
+      // ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
+      //   return ItemOrder(order: _orders[index]);
+      // }
+      // ),
+      
       ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
-        return ItemOrder(order: _orders[index]);
+        return Item_Order(order: _orders[index],);
       },),
       Center(
         child: Text("Các đơn hàng chờ xác nhận"),

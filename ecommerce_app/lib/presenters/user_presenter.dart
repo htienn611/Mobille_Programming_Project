@@ -2,12 +2,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data_source/repository/get_table.dart';
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'https://4722-42-115-154-13.ngrok-free.app';
+  static const String baseUrl = 'https://ae0b-1-54-233-235.ngrok-free.app';
 }
 
 abstract class UserView {
@@ -15,6 +16,8 @@ abstract class UserView {
 }
 
 class UserPresenter {
+
+  
   final UserView _view;
   bool loginSuccessful=false;
 
@@ -34,9 +37,8 @@ class UserPresenter {
 
     if (response.statusCode == 200) {
       loginSuccessful=true;
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final User user = User.fromJson(responseData);
-      _view.displayMessage('Login successful, welcome ${user.name}!');
+      _view.displayMessage('Login successful!');
+      await saveLoginStatus(true,phoneNumber);
     } else if (response.statusCode == 401) {
       loginSuccessful=false;
       _view.displayMessage('Invalid phoneNumber or password');
@@ -66,9 +68,7 @@ class UserPresenter {
     );
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> responseData = json.decode(response.body);
-      final User user = User.fromJson(responseData);
-      _view.displayMessage('Registration successful, welcome ${user.name}!');
+      _view.displayMessage('Registration successful!');
     } else if (response.statusCode == 400) {
       _view.displayMessage('phoneNumber is already registered');
     } else {
@@ -90,11 +90,10 @@ Future<User?> getUserByPhoneNumber(String phoneNumber) async {
     final response = await http.get(
       Uri.parse('${ApiConstants.baseUrl}/user/'),
     );
-print('API Response Body: ${response.body}');
+    // print('API Response Body: ${response.body}');
     if (response.statusCode == 200) {
       // Parse the response body
       final List<dynamic> data = json.decode(response.body);
-
       // Find user with specific phone number
       var matchingUser = data.firstWhere(
         (json) => User.fromJson(json).phoneNumber == phoneNumber,
@@ -111,7 +110,6 @@ print('API Response Body: ${response.body}');
     print('Error fetching data: $error');
   }
 
-  print(userByPhoneNumber);
   return userByPhoneNumber;
 }
 Future<bool> updateUser({
@@ -138,6 +136,7 @@ Future<bool> updateUser({
 
     if (response.statusCode == 200) {
       _view.displayMessage('User updated successfully');
+      
       return true; // Update successful
     } else {
       print('Error updating user: ${response.statusCode}');
@@ -149,6 +148,21 @@ Future<bool> updateUser({
     _view.displayMessage('Failed to update user. Please try again.');
     return false; // Update failed
   }
+  
+}
+Future<void> saveLoginStatus(bool isLoggedIn, String phoneNumber) async {
+  final prefs = await SharedPreferences.getInstance();
+  prefs.setBool('isLoggedIn', isLoggedIn);
+  prefs.setString('phoneNumber', phoneNumber);
 }
 
+Future<bool> getLoginStatus() async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getBool('isLoggedIn') ?? false;
+}
+
+Future<String> getSavedPhoneNumber() async{
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('phoneNumber') ?? '';
+}
 }

@@ -42,6 +42,10 @@ dependencies:
   datetime_picker_formfield_new: ^2.1.0
   google_fonts: ^4.0.4
   http: ^0.13.6
+  firebase_core: ^2.24.2
+  flutter_local_notifications: ^16.3.0
+  firebase_messaging: ^14.7.10
+  shared_preferences: ^2.2.2
 
 
 dev_dependencies:

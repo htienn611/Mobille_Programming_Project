@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "373128898734",
+    "project_id": "techcomputer-91f2f",
+    "storage_bucket": "techcomputer-91f2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:373128898734:android:904041f1057380df86253f",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQgsSht9sjVo1kZNWvf6yX_A6OaaQIzwc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

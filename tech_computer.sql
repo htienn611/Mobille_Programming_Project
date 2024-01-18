@@ -2,10 +2,17 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
+<<<<<<<<< Temporary merge branch 1
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2024 at 06:45 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+=========
 -- Máy chủ: 127.0.0.1
 -- Thời gian đã tạo: Th1 18, 2024 lúc 07:19 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
+>>>>>>>>> Temporary merge branch 2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -131,11 +138,11 @@ CREATE TABLE `notification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- address
-create table `address`(
+create table `Address`(
 `id` int(11) not null,
 `phoneNumber` varchar(15) NOT NULL,
-`content` varchar(255) not null,
-`status` tinyint(1) not null
+ `content` varchar(255) not null,
+  `status` tinyint(1) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
 
@@ -157,9 +164,15 @@ CREATE TABLE `order` (
 -- Đang đổ dữ liệu cho bảng `order`
 --
 
-INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `address`) VALUES
+<<<<<<<<< Temporary merge branch 1
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`) VALUES
+(1, 0, 1, '0384864757', '2024-01-08', 10),
+(2, 1, 1, '0384864757', '2024-01-08', 10);
+=========
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `Adress`) VALUES
 (1, 0, 1, '0384864757', '2024-01-08', 10, ''),
 (2, 1, 1, '0384864757', '2024-01-08', 10, '');
+>>>>>>>>> Temporary merge branch 2
 
 -- --------------------------------------------------------
 
@@ -276,21 +289,25 @@ INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `biography`, `pass
 ('0384864757', 'Nguyễn Tấn Tài ', NULL, NULL, NULL, 'a320480f534776bddb5cdb54b1e93d210a3c7d199e80a23c1b2178497b184c76', 0, 1),
 ('0914105327', 'Trần Thị Kim Ngân a', 0, NULL, 'gwhwhg', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1),
 ('0975738135', 'Nguyễn Văn Linh ', NULL, NULL, NULL, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1);
+>>>>>>>>> Temporary merge branch 2
 
 --
 -- Indexes for dumped tables
 --
 
 --
+<<<<<<<<< Temporary merge branch 1
+-- Indexes for table `brand`
+=========
 -- Chỉ mục cho bảng `address`
 --
 ALTER TABLE `address`
   ADD PRIMARY KEY (`id`),
   ADD KEY `phoneNumber` (`phoneNumber`);
 
-
 --
--- Indexes for table `brand`
+-- Chỉ mục cho bảng `brand`
+>>>>>>>>> Temporary merge branch 2
 --
 ALTER TABLE `brand`
   ADD PRIMARY KEY (`id`),
@@ -332,7 +349,11 @@ ALTER TABLE `messages`
   ADD KEY `conversationID` (`conversationID`),
   ADD KEY `senderID` (`senderID`);
 
+<<<<<<<<< Temporary merge branch 1
+
+=========
 --
+>>>>>>>>> Temporary merge branch 2
 -- Chỉ mục cho bảng `notification`
 --
 ALTER TABLE `notification`
@@ -386,14 +407,17 @@ ALTER TABLE `user`
 --
 
 --
+<<<<<<<<< Temporary merge branch 1
+-- AUTO_INCREMENT for table `brand`
+=========
 -- AUTO_INCREMENT cho bảng `address`
 --
 ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
-
 --
--- AUTO_INCREMENT for table `brand`
+-- AUTO_INCREMENT cho bảng `brand`
+>>>>>>>>> Temporary merge branch 2
 --
 ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;

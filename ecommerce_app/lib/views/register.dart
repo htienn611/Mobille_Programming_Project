@@ -14,6 +14,40 @@ class _RegisterState extends State<Register> implements UserView {
   late TextEditingController birthdayController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  bool isValidDateFormat(String input) {
+  // Kiểm tra xem chuỗi có phải là định dạng yyyy-mm-dd không
+  final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+  if (!regex.hasMatch(input)) {
+    return false;
+  }
+
+  // Tách ngày, tháng, năm từ chuỗi
+  List<int> parts = input.split('-').map((e) => int.tryParse(e) ?? 0).toList();
+
+  // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
+  int year = parts[0];
+  int month = parts[1];
+  int day = parts[2];
+
+  if (year < 1000 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31) {
+    return false;
+  }
+
+  // Kiểm tra tháng 2
+  if (month == 2) {
+    bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+    if (day > 29 || (day > 28 && !isLeapYear)) {
+      return false;
+    }
+  }
+
+  // Kiểm tra số ngày của tháng
+  if ([4, 6, 9, 11].contains(month) && day > 30) {
+    return false;
+  }
+
+  return true;
+}
 
   @override
   void initState() {
@@ -78,6 +112,7 @@ class _RegisterState extends State<Register> implements UserView {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                keyboardType: TextInputType.datetime,
                 controller: birthdayController,
                 decoration: InputDecoration(
                   labelText: "Ngày sinh",
@@ -112,10 +147,14 @@ class _RegisterState extends State<Register> implements UserView {
             SizedBox(height: 9),
             ElevatedButton(
               onPressed: () {
+                if (!isValidDateFormat(birthdayController.text)) {
+                  displayMessage('Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
+                  return;
+                }
                 // Gọi phương thức Register từ UserPresenter
                 UserPresenter userPresenter = UserPresenter(this);
                 userPresenter.Register(
-                  birthday: '',
+                  birthday: birthdayController.text,
                   password: passwordController.text,
                   name: fullNameController.text,
                   phoneNumber: phoneNumberController.text,

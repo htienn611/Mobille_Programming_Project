@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 17, 2024 lúc 07:08 AM
--- Phiên bản máy phục vụ: 10.4.28-MariaDB
--- Phiên bản PHP: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2024 at 06:45 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,12 +18,12 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `tech_computer`
+-- Database: `tech_computer`
 --
 
 -- --------------------------------------------------------
 --
--- Cấu trúc bảng cho bảng `brand`
+-- Table structure for table `brand`
 --
 
 CREATE TABLE `brand` (
@@ -46,7 +46,7 @@ INSERT INTO `brand` (`id`, `name`, `idCate`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cart`
+-- Table structure for table `cart`
 --
 
 CREATE TABLE `cart` (
@@ -58,7 +58,7 @@ CREATE TABLE `cart` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `cart_details`
+-- Table structure for table `cart_details`
 --
 
 CREATE TABLE `cart_details` (
@@ -70,7 +70,7 @@ CREATE TABLE `cart_details` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `category`
+-- Table structure for table `category`
 --
 
 CREATE TABLE `category` (
@@ -79,7 +79,7 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `category`
+-- Dumping data for table `category`
 --
 
 INSERT INTO `category` (`id`, `nameCate`) VALUES
@@ -91,7 +91,7 @@ INSERT INTO `category` (`id`, `nameCate`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `conversations`
+-- Table structure for table `conversations`
 --
 
 CREATE TABLE `conversations` (
@@ -104,7 +104,7 @@ CREATE TABLE `conversations` (
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `messages`
+-- Table structure for table `messages`
 --
 
 CREATE TABLE `messages` (
@@ -115,7 +115,6 @@ CREATE TABLE `messages` (
   `conversationID` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 
 -- --------------------------------------------------------
 
@@ -131,10 +130,17 @@ CREATE TABLE `notification` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- address
+create table `Address`(
+`id` int(11) not null,
+`phoneNumber` varchar(15) NOT NULL,
+ `content` varchar(255) not null,
+  `status` tinyint(1) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `order`
+-- Table structure for table `order`
 --
 
 CREATE TABLE `order` (
@@ -143,7 +149,7 @@ CREATE TABLE `order` (
   `paymentMethods` int(11) NOT NULL,
   `phoneNumber` varchar(15) NOT NULL,
   `date` date NOT NULL,
-  `transportFee` int(11) NOT NULL,
+ `transportFee` int(11) NOT NULL,
   `Adress` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -152,13 +158,13 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`) VALUES
-(1, 0, 1, '0395060907', '2024-01-08', 10),
-(2, 1, 1, '0395060907', '2024-01-08', 10);
+(1, 0, 1, '0384864757', '2024-01-08', 10),
+(2, 1, 1, '0384864757', '2024-01-08', 10);
 
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `order_details`
+-- Table structure for table `order_details`
 --
 
 CREATE TABLE `order_details` (
@@ -177,7 +183,7 @@ INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `payments`
+-- Table structure for table `payments`
 --
 
 CREATE TABLE `payments` (
@@ -196,7 +202,7 @@ INSERT INTO `payments` (`id`, `name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `product`
+-- Table structure for table `product`
 --
 
 CREATE TABLE `product` (
@@ -224,7 +230,7 @@ INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDis
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `promotion`
+-- Table structure for table `promotion`
 --
 
 CREATE TABLE `promotion` (
@@ -247,60 +253,62 @@ INSERT INTO `promotion` (`id`, `title`, `description`, `startDate`, `endDate`, `
 -- --------------------------------------------------------
 
 --
--- Cấu trúc bảng cho bảng `user`
+-- Table structure for table `user`
 --
 
 CREATE TABLE `user` (
   `phoneNumber` varchar(15) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `sex` tinyint(1) DEFAULT NULL,
+  `sex` tinyint(1) DEFAULT 0,
   `birthday` date DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
- `password` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0
+  `biography` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Đang đổ dữ liệu cho bảng `user`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `status`) VALUES
-('0395060907', 'Nhu Y', NULL, NULL, NULL, 1);
+INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `biography`, `password`, `admin`, `status`) VALUES
+('0384864757', 'Nguyễn Tấn Tài ', NULL, null, NULL, 'a320480f534776bddb5cdb54b1e93d210a3c7d199e80a23c1b2178497b184c76', 0, 1),
+('0914105327', 'Trần Thị Kim Ngân a', 0, null, 'gwhwhg', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1),
+('0975738135', 'Nguyễn Văn Linh ', NULL, null, NULL, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1);
 
 --
--- Chỉ mục cho các bảng đã đổ
+-- Indexes for dumped tables
 --
 
 --
--- Chỉ mục cho bảng `brand`
+-- Indexes for table `brand`
 --
 ALTER TABLE `brand`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idCat` (`idCate`);
 
 --
--- Chỉ mục cho bảng `cart`
+-- Indexes for table `cart`
 --
 ALTER TABLE `cart`
   ADD PRIMARY KEY (`id`),
   ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
--- Chỉ mục cho bảng `cart_details`
+-- Indexes for table `cart_details`
 --
 ALTER TABLE `cart_details`
   ADD KEY `idCart` (`idCart`),
   ADD KEY `idProduct` (`idProduct`);
 
 --
--- Chỉ mục cho bảng `category`
+-- Indexes for table `category`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `conversations`
+-- Indexes for table `conversations`
 --
 ALTER TABLE `conversations`
   ADD PRIMARY KEY (`id`),
@@ -308,12 +316,13 @@ ALTER TABLE `conversations`
   ADD KEY `idUs2` (`idUs2`);
 
 --
--- Chỉ mục cho bảng `messages`
+-- Indexes for table `messages`
 --
 ALTER TABLE `messages`
   ADD PRIMARY KEY (`id`),
   ADD KEY `conversationID` (`conversationID`),
   ADD KEY `senderID` (`senderID`);
+
 
 -- Chỉ mục cho bảng `notification`
 --
@@ -331,20 +340,20 @@ ALTER TABLE `order`
   ADD KEY `paymentMethods` (`paymentMethods`);
 
 --
--- Chỉ mục cho bảng `order_details`
+-- Indexes for table `order_details`
 --
 ALTER TABLE `order_details`
   ADD KEY `idOrder` (`idOrder`),
   ADD KEY `idProduct` (`idProduct`);
 
 --
--- Chỉ mục cho bảng `payments`
+-- Indexes for table `payments`
 --
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `product`
+-- Indexes for table `product`
 --
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
@@ -353,47 +362,47 @@ ALTER TABLE `product`
   ADD KEY `idDiscount` (`idDiscount`);
 
 --
--- Chỉ mục cho bảng `promotion`
+-- Indexes for table `promotion`
 --
 ALTER TABLE `promotion`
   ADD PRIMARY KEY (`id`);
 
 --
--- Chỉ mục cho bảng `user`
+-- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`phoneNumber`);
 
 --
--- AUTO_INCREMENT cho các bảng đã đổ
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT cho bảng `brand`
+-- AUTO_INCREMENT for table `brand`
 --
 ALTER TABLE `brand`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT cho bảng `cart`
+-- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `category`
+-- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT cho bảng `conversations`
+-- AUTO_INCREMENT for table `conversations`
 --
 ALTER TABLE `conversations`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT cho bảng `messages`
+-- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
@@ -409,25 +418,25 @@ ALTER TABLE `order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `payments`
+-- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT cho bảng `product`
+-- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT cho bảng `promotion`
+-- AUTO_INCREMENT for table `promotion`
 --
 ALTER TABLE `promotion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Các ràng buộc cho các bảng đã đổ
+-- Constraints for dumped tables
 --
 
 --
@@ -439,27 +448,27 @@ ALTER TABLE `brand`
   ADD CONSTRAINT `brand_ibfk_1` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`);
 
 --
--- Các ràng buộc cho bảng `cart`
+-- Constraints for table `cart`
 --
 ALTER TABLE `cart`
   ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
--- Các ràng buộc cho bảng `cart_details`
+-- Constraints for table `cart_details`
 --
 ALTER TABLE `cart_details`
   ADD CONSTRAINT `cart_details_ibfk_1` FOREIGN KEY (`idCart`) REFERENCES `cart` (`id`),
   ADD CONSTRAINT `cart_details_ibfk_2` FOREIGN KEY (`idProduct`) REFERENCES `product` (`id`);
 
 --
--- Các ràng buộc cho bảng `conversations`
+-- Constraints for table `conversations`
 --
 ALTER TABLE `conversations`
   ADD CONSTRAINT `conversations_ibfk_1` FOREIGN KEY (`idUs1`) REFERENCES `user` (`phoneNumber`),
   ADD CONSTRAINT `conversations_ibfk_2` FOREIGN KEY (`idUs2`) REFERENCES `user` (`phoneNumber`);
 
 --
--- Các ràng buộc cho bảng `messages`
+-- Constraints for table `messages`
 --
 ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversationID`) REFERENCES `conversations` (`id`),
@@ -471,7 +480,6 @@ ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
--- Các ràng buộc cho bảng `order`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`),

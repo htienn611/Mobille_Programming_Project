@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 17, 2024 lúc 07:08 AM
+-- Thời gian đã tạo: Th1 18, 2024 lúc 07:19 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -22,6 +22,20 @@ SET time_zone = "+00:00";
 --
 
 -- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `address`
+--
+
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL,
+  `phoneNumber` varchar(15) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
 --
 -- Cấu trúc bảng cho bảng `brand`
 --
@@ -116,7 +130,6 @@ CREATE TABLE `messages` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -151,9 +164,9 @@ CREATE TABLE `order` (
 -- Đang đổ dữ liệu cho bảng `order`
 --
 
-INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`) VALUES
-(1, 0, 1, '0395060907', '2024-01-08', 10),
-(2, 1, 1, '0395060907', '2024-01-08', 10);
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `Adress`) VALUES
+(1, 0, 1, '0384864757', '2024-01-08', 10, ''),
+(2, 1, 1, '0384864757', '2024-01-08', 10, '');
 
 -- --------------------------------------------------------
 
@@ -174,6 +187,7 @@ CREATE TABLE `order_details` (
 INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
 (2, 1, 1),
 (1, 1, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -253,24 +267,33 @@ INSERT INTO `promotion` (`id`, `title`, `description`, `startDate`, `endDate`, `
 CREATE TABLE `user` (
   `phoneNumber` varchar(15) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `sex` tinyint(1) DEFAULT NULL,
+  `sex` tinyint(1) DEFAULT 0,
   `birthday` date DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL,
- `password` varchar(255) NOT NULL,
-  `admin` tinyint(1) NOT NULL DEFAULT 0
+  `biography` varchar(255) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT 0,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `user`
 --
 
-INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `status`) VALUES
-('0395060907', 'Nhu Y', NULL, NULL, NULL, 1);
+INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `biography`, `password`, `admin`, `status`) VALUES
+('0384864757', 'Nguyễn Tấn Tài ', NULL, NULL, NULL, 'a320480f534776bddb5cdb54b1e93d210a3c7d199e80a23c1b2178497b184c76', 0, 1),
+('0914105327', 'Trần Thị Kim Ngân a', 0, NULL, 'gwhwhg', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1),
+('0975738135', 'Nguyễn Văn Linh ', NULL, NULL, NULL, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
+
+--
+-- Chỉ mục cho bảng `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `phoneNumber` (`phoneNumber`);
 
 --
 -- Chỉ mục cho bảng `brand`
@@ -315,13 +338,13 @@ ALTER TABLE `messages`
   ADD KEY `conversationID` (`conversationID`),
   ADD KEY `senderID` (`senderID`);
 
+--
 -- Chỉ mục cho bảng `notification`
 --
 ALTER TABLE `notification`
   ADD PRIMARY KEY (`id`),
   ADD KEY `phoneNumber` (`phoneNumber`);
 
---
 --
 -- Chỉ mục cho bảng `order`
 --
@@ -369,6 +392,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `brand`
 --
 ALTER TABLE `brand`
@@ -398,15 +427,17 @@ ALTER TABLE `conversations`
 ALTER TABLE `messages`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
+--
 -- AUTO_INCREMENT cho bảng `notification`
 --
 ALTER TABLE `notification`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT cho bảng `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `payments`
@@ -431,6 +462,10 @@ ALTER TABLE `promotion`
 --
 
 --
+-- Các ràng buộc cho bảng `address`
+--
+ALTER TABLE `address`
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
 -- Các ràng buộc cho bảng `brand`
@@ -465,6 +500,7 @@ ALTER TABLE `messages`
   ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`conversationID`) REFERENCES `conversations` (`id`),
   ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`senderID`) REFERENCES `user` (`phoneNumber`);
 
+--
 -- Các ràng buộc cho bảng `notification`
 --
 ALTER TABLE `notification`

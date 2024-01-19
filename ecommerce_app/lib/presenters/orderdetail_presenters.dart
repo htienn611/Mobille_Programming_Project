@@ -19,4 +19,22 @@ class OrderDetailPresenter {
     // print(rsLst);
     return rsLst;
   }
+
+  Future<List<String>> getBestSellingProductId(int limit, dynamic idCate) async {
+    List<String> rsLst = List.filled(0, "", growable: true);
+
+    try {
+      List<dynamic> value =
+          await getItemByTitle("order_details", "best_selling",limit,{idCate} as List?);
+
+      if (value.isNotEmpty) {
+        rsLst.clear();
+        value.map((json) => rsLst.add(json['id'].toString()));
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rsLst;
+  }
 }

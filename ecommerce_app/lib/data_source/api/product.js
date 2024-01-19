@@ -110,9 +110,11 @@ router.get('/id:id', (req, res) => {
     }
     );
 });
-router.get('/bestSelling:top', (req, res) => {
-    var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (SELECT idProduct FROM `order_details` GROUP BY idProduct ORDER BY SUM(quantityProduct) DESC) LIMIT ?';
-    connection.query(query, [parseInt(req.params.top)], (error, results) => {
+router.get('/best_selling:idList', (req, res) => {
+    const idList = req.params.idList.split(',').map(id => parseInt(id));
+
+    var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (?)';
+    connection.query(query, [idList], (error, results) => {
         if (error) {
             return res.status(500).json({ error: 'Internal Server Error' });
         } else {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 18, 2024 lúc 09:35 AM
+-- Thời gian đã tạo: Th1 19, 2024 lúc 06:59 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -43,7 +43,6 @@ CREATE TABLE `address` (
 CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `idCate` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -51,11 +50,11 @@ CREATE TABLE `brand` (
 -- Đang đổ dữ liệu cho bảng `brand`
 --
 
-INSERT INTO `brand` (`id`, `name`, `idCate`, `status`) VALUES
-(5, 'Del', 2, 1),
-(6, 'Lenovo', 1, 1),
-(7, 'Apple', 2, 1),
-(8, 'Asus', 2, 1);
+INSERT INTO `brand` (`id`, `name`, `status`) VALUES
+(5, 'Del', 1),
+(6, 'Lenovo', 1),
+(7, 'Apple', 1),
+(8, 'Asus', 1);
 
 -- --------------------------------------------------------
 
@@ -98,9 +97,16 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`id`, `nameCate`) VALUES
 (1, 'Laptop'),
-(2, 'Mouse'),
+(2, 'Máy Bàn'),
 (3, 'Ram'),
-(4, 'CPU');
+(4, 'CPU'),
+(5, 'GPU'),
+(6, 'Màn Hình'),
+(7, 'Case'),
+(8, 'Nguồn'),
+(9, 'Ổ Cứng'),
+(10, 'Bàn Phím'),
+(11, 'Chuột');
 
 -- --------------------------------------------------------
 
@@ -165,7 +171,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `address`) VALUES
-(1, 0, 1, '0384864757', '2024-01-08', 10, ''),
+(1, 1, 1, '0384864757', '2024-01-08', 10, ''),
 (2, 1, 1, '0384864757', '2024-01-08', 10, '');
 
 -- --------------------------------------------------------
@@ -186,7 +192,11 @@ CREATE TABLE `order_details` (
 
 INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
 (2, 1, 1),
-(1, 1, 7);
+(1, 1, 7),
+(2, 1, 7),
+(3, 1, 8),
+(4, 2, 7),
+(3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -231,7 +241,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDiscount`, `status`, `idCate`, `idBrand`) VALUES
-(1, 'abc', 'Laptop abc', 10, 2000, 'abc', 1, 0, 2, 8),
+(1, 'abc', 'Laptop abc', 10, 2000, 'abc', 1, 1, 2, 8),
 (7, 'abc', 'Laptop Dell Inspiron 15 3511 PDP3H', 22, 22000000, 'Laptop Dell Inspiron 15 3511 PDP3H đang được người tiêu dùng hết mực săn đón nhờ thiết kế bên ngoài mỏng nhẹ cùng cấu hình mượt tới từ chipset Intel hiện đại. Bên cạnh đó laptop Dell Inspiron còn sở hữu khả năng lưu trữ ổn định thông qua thông số bộ nhớ lên tới 256GB bộ nhớ trong và 8GB RAM, đem tới trải nghiệm đa nhiệm mượt mà cùng không gian ghi nhớ tuyệt vời.Truy xuất dữ liệu nhanh với thông số bộ nhớ ổn định Laptop Dell Inspiron 15 3511 PDP3H sở hữu tốc độ truy xuất ấn tượng nhờ được tích hợp kho lưu trữ SSD 256GB. Qua đó, các thao tác tìm kiếm tập tin của bạn trên laptop Dell này sẽ trở nên vô cùng nhanh chóng, giảm thời gian chờ đợi và nâng cao hiệu suất sử dụng.', 1, 1, 1, 5),
 (8, 'acc', 'Laptop Lenovo Inspiron 22 PDP3H', 33, 30000000, 'Laptop Lenovo Inspiron 22 2000 PDP3H đang được người tiêu dùng hết mực săn đón nhờ thiết kế bên ngoài mỏng nhẹ cùng cấu hình mượt tới từ chipset Intel hiện đại. Bên cạnh đó laptop Dell Inspiron còn sở hữu khả năng lưu trữ ổn định thông qua thông số bộ nhớ lên tới 256GB bộ nhớ trong và 8GB RAM, đem tới trải nghiệm đa nhiệm mượt mà cùng không gian ghi nhớ tuyệt vời.\r\nTruy xuất dữ liệu nhanh với thông số bộ nhớ ổn định\r\nLaptop Lenovo Inspiron 22 2000 PDP3H sở hữu tốc độ truy xuất ấn tượng nhờ được tích hợp kho lưu trữ SSD 256GB. Qua đó, các thao tác tìm kiếm tập tin của bạn trên laptop Dell này sẽ trở nên vô cùng nhanh chóng, giảm thời gian chờ đợi và nâng cao hiệu suất sử dụng.', 1, 1, 1, 6);
 
@@ -299,8 +309,7 @@ ALTER TABLE `address`
 -- Chỉ mục cho bảng `brand`
 --
 ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idCat` (`idCate`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `cart`
@@ -413,7 +422,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `conversations`
@@ -466,12 +475,6 @@ ALTER TABLE `promotion`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
-
---
--- Các ràng buộc cho bảng `brand`
---
-ALTER TABLE `brand`
-  ADD CONSTRAINT `brand_ibfk_1` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`);
 
 --
 -- Các ràng buộc cho bảng `cart`

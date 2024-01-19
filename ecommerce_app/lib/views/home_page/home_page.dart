@@ -8,8 +8,7 @@ import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
 import 'package:flutter/material.dart';
 
 class HomePageScreen extends StatefulWidget { 
-   final String phone;
-  const HomePageScreen({required this.phone,super.key});
+  const HomePageScreen({super.key});
 
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();

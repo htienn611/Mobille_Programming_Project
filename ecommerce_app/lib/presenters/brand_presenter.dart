@@ -6,7 +6,7 @@ class BrandPresenter{
   
    Future<List<Brand>> getBrandLst() async {
     List<Brand> rsLst = List.filled(
-        0, Brand(id: 0, name: "", idCat: 0, status: 0),
+        0, Brand(id: 0, name: "", idCate: 0, status: 0),
         growable: true);
 
     try {

@@ -7,10 +7,10 @@ class Product {
   final int quantity;
   final int price;
   final String des;
-  final int idDiscount;
+  late  int idDiscount;
   final int status;
-  final int idCate;
-  final int idBrand;
+  late int idCate;
+  late int idBrand;
 
   Product(
       {required this.id,

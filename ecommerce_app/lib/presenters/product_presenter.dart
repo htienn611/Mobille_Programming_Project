@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
+
+import '../data_source/repository/data.dart';
 
 class ProductPresenter {
   Future<List<Product>> getProduct() async {
@@ -38,23 +39,22 @@ class ProductPresenter {
 
   Future<bool> addProductPresenter(Product p) async {
     try {
-      // bool value = await addProduct(p, "product");
-final response = await http.post(
-      Uri.parse('http://192.168.142.104:3000/product'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'image':p.image,
-            'name':p.name,
-            'quantity': p.quantity,
-            'price':p.price,
-            'des':p.des,
-            'idDiscount': p.idDiscount,
-            'status':p.status,
-            'idCate':p.idCate,
-            'idBrand':p.idBrand
-      }),
-    );
-      if (response.statusCode==200) {
+      final response = await http.post(
+        Uri.parse('http://192.168.2.3:3000/product'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'image': p.image,
+          'name': p.name,
+          'quantity': p.quantity,
+          'price': p.price,
+          'des': p.des,
+          'idDiscount': p.idDiscount,
+          'status': p.status,
+          'idCate': p.idCate,
+          'idBrand': p.idBrand
+        }),
+      );
+      if (response.statusCode == 200) {
         return true;
       }
     } catch (error) {
@@ -63,6 +63,48 @@ final response = await http.post(
     return false;
   }
 
+Future<bool> updateProductPresenter(Product p) async {
+  try {
+    final response = await http.put(
+      Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'image': p.image,
+        'name': p.name,
+        'quantity': p.quantity,
+        'price': p.price,
+        'des': p.des,
+        'idDiscount': p.idDiscount,
+        'status': p.status,
+        'idCate': p.idCate,
+        'idBrand': p.idBrand
+      }),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
+  } catch (error) {
+    print('Error updating product: $error (PRODUCT_PRESENTER)');
+  }
+  return false;
+}
+Future<bool> deleteProductPresenter(Product p) async {
+  try {
+    final response = await http.put(
+      Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'id':p.id,
+      }),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    }
+  } catch (error) {
+    print('Error updating product: $error (PRODUCT_PRESENTER)');
+  }
+  return false;
+}
   Future<Product> getProductByID(int id) async {
     Product rs = Product(
         id: 0,

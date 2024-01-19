@@ -1,4 +1,4 @@
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
 import '../models/category.dart';
 
 class CategoryPresenter {
@@ -12,13 +12,10 @@ class CategoryPresenter {
       if (value.isNotEmpty) {
         rsLst.clear();
         rsLst = value.map((json) => Category.fromJson(json)).toList();
-        print(rsLst);
       }
     } catch (error) {
-      // Xử lý lỗi ở đây nếu cần thiết
       print('Error fetching data: $error');
     }
-    // print(rsLst);
     return rsLst;
   }
 }

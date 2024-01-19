@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/models/brand.dart';
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
+
+import '../data_source/repository/data.dart';
 
 class BrandPresenter{
   

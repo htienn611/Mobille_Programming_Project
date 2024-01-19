@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'https://b309-58-187-136-7.ngrok-free.app';
+  static const String baseUrl = 'https://4722-42-115-154-13.ngrok-free.app';
 }
 
 abstract class UserView {
@@ -15,27 +15,32 @@ abstract class UserView {
 
 class UserPresenter {
   final UserView _view;
+  bool loginSuccessful=false;
 
   UserPresenter(this._view);
 
-  Future<void> Login(String phoneNumber, String password) async {
-    final hashedPassword = _hashPassword(password);
+  Future<User?> Login({ required String phoneNumber, required String password}) async {
 
     final response = await http.post(
-      Uri.parse('${ApiConstants.baseUrl}/login'),
-      body: {
+      Uri.parse('${ApiConstants.baseUrl}/user/login'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
         'phoneNumber': phoneNumber,
-        'password': hashedPassword,
-      },
+        'password': password,
+      }),
+      
     );
 
     if (response.statusCode == 200) {
+      loginSuccessful=true;
       final Map<String, dynamic> responseData = json.decode(response.body);
       final User user = User.fromJson(responseData);
       _view.displayMessage('Login successful, welcome ${user.name}!');
     } else if (response.statusCode == 401) {
+      loginSuccessful=false;
       _view.displayMessage('Invalid phoneNumber or password');
     } else {
+      loginSuccessful=false;
       _view.displayMessage('Failed to login. Please try again.');
     }
   }
@@ -49,7 +54,7 @@ class UserPresenter {
     final hashedPassword = _hashPassword(password);
     
     final response = await http.post(
-      Uri.parse('${ApiConstants.baseUrl}/user'),
+      Uri.parse('${ApiConstants.baseUrl}/user/register'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
         'birthday': birthday,
@@ -75,5 +80,74 @@ class UserPresenter {
     final digest = sha256.convert(keyBytes);
     return digest.toString();
   }
+
+
+Future<User?> getUserByPhoneNumber(String phoneNumber) async {
+  User? userByPhoneNumber;
+
+  try {
+    final response = await http.get(
+      Uri.parse('${ApiConstants.baseUrl}/user/'),
+    );
+print('API Response Body: ${response.body}');
+    if (response.statusCode == 200) {
+      // Parse the response body
+      final List<dynamic> data = json.decode(response.body);
+
+      // Find user with specific phone number
+      var matchingUser = data.firstWhere(
+        (json) => User.fromJson(json).phoneNumber == phoneNumber,
+        orElse: () => null,
+      );
+
+      if (matchingUser != null) {
+        userByPhoneNumber = User.fromJson(matchingUser);
+      }
+    } else {
+      print('Error: ${response.statusCode}');
+    }
+  } catch (error) {
+    print('Error fetching data: $error');
+  }
+
+  print(userByPhoneNumber);
+  return userByPhoneNumber;
+}
+Future<bool> updateUser({
+  required String phoneNumber,
+  required String name,
+  required bool sex,
+  required String birthday,
+  required String biography,
+}) async {
+  try {
+    // Make a request to your update API endpoint
+    final response = await http.post(
+      Uri.parse('${ApiConstants.baseUrl}/user/update'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({
+        'phoneNumber': phoneNumber,
+        'name': name,
+        'sex': sex,
+        'birthday': birthday,
+        'biography': biography,
+        // Add other necessary fields
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      _view.displayMessage('User updated successfully');
+      return true; // Update successful
+    } else {
+      print('Error updating user: ${response.statusCode}');
+      _view.displayMessage('Failed to update user. Please try again.');
+      return false; // Update failed
+    }
+  } catch (error) {
+    print('Error updating user: $error');
+    _view.displayMessage('Failed to update user. Please try again.');
+    return false; // Update failed
+  }
 }
 
+}

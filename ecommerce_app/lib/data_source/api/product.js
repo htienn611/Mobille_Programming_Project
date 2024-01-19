@@ -33,8 +33,59 @@ router.post('/', (req, res) => {
     }
 
     });
-
-
+//PUT để sửa sản phẩm
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { image, name, quantity, price, des, idDiscount, status, idCate, idBrand } = req.body;
+  
+    const query = 'UPDATE product SET image=?, name=?, quantity=?, price=?, des=?, idDiscount=?, status=?, idCate=?, idBrand=? WHERE id=?';
+  
+    connection.query(query, [image, name, quantity, price, des, idDiscount, status, idCate, idBrand, id], (err, results) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({
+            id: id,
+            image: image,
+            name: name,
+            quantity: quantity,
+            price: price,
+            des: des,
+            idDiscount: idDiscount,
+            status: status,
+            idCate: idCate,
+            idBrand: idBrand
+          });
+        } else {
+          res.status(404).send('Product not found');
+        }
+      }
+    });
+  });
+//PUT cập nhật lại để xóa sản phẩm 
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+  
+    const query = 'UPDATE product SET status=0 WHERE id=?';
+  
+    connection.query(query, [id], (err, results) => {
+      if (err) {
+        console.error('Error executing MySQL query:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.affectedRows > 0) {
+          res.json({
+            id: id,
+          });
+        } else {
+          res.status(404).send('Product not found');
+        }
+      }
+    });
+  });
+  
 router.get('/', (req, res) => {
     connection.query('SELECT * FROM product WHERE status=1', (error, results) => {
         if (error) {
@@ -47,7 +98,7 @@ router.get('/', (req, res) => {
 });
 
 //lấy sản phẩm theo mã sản phẩm
-router.get('/:id', (req, res) => {
+router.get('/id:id', (req, res) => {
     var query = 'SELECT * FROM `product` WHERE status!=0 AND id=?';
     connection.query(query, [req.params.id], (error, results) => {
         if (error) {
@@ -59,5 +110,17 @@ router.get('/:id', (req, res) => {
     }
     );
 });
+router.get('/bestSelling:top', (req, res) => {
+    var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (SELECT idProduct FROM `order_details` GROUP BY idProduct ORDER BY SUM(quantityProduct) DESC) LIMIT ?';
+    connection.query(query, [parseInt(req.params.top)], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            return res.json(results);
+        }
+    });
+});
+
+
 
 module.exports = router;

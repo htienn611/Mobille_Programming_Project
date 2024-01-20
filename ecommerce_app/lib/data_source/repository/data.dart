@@ -2,10 +2,20 @@ import 'dart:convert';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http://172.16.12.111:3000';
+var host = 'http://192.168.1.4:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+Future<List<dynamic>> getTableByIdCate(String tableName, {int? idCate}) async {
+  final url = idCate != null ? '$host/$tableName?idCate=$idCate' : '$host/$tableName';
+  final response = await http.get(Uri.parse(url));
+
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -22,8 +32,17 @@ Future<List<dynamic>> getItemByID(String tableName, int id) async {
   }
 }
 
-Future<List<dynamic>> getItemByTitle(String tableName,String title, [dynamic para]) async {
-  final response = await http.get(Uri.parse('$host/$tableName/$title$para'));
+Future<List<dynamic>> getItemByTitle(String tableName, String title,
+    [dynamic val, List<dynamic>? paras]) async {
+  String url = '$host/$tableName/$title$val';
+  print(url);
+  if (paras != null) {
+    for (var item in paras) {
+      url += '/$item';
+    }
+  }
+
+  final response = await http.get(Uri.parse(url));
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -31,6 +50,7 @@ Future<List<dynamic>> getItemByTitle(String tableName,String title, [dynamic par
   }
 }
 
+// ADD SẢN PHẨM
 Future<dynamic> addProduct(Product product, String tableName) async {
   final Uri url = Uri.parse(('$host/$tableName'));
 
@@ -54,5 +74,40 @@ Future<dynamic> addProduct(Product product, String tableName) async {
     );
   } catch (error) {
     // xử lý lỗi
+  }
+}
+
+// UPDATE SẢN PHẨM THEO ID
+Future<dynamic> updateProduct(Product product, String tableName) async {
+  final Uri url = Uri.parse('$host/$tableName/${product.id}');
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'image': product.image,
+        'name': product.name,
+        'quantity': product.quantity,
+        'price': product.price,
+        'des': product.des,
+        'idDiscount': product.idDiscount,
+        'idCate': product.idCate,
+        'idBrand': product.idBrand,
+      }),
+    );
+
+    // Cập nhật thành công
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+    // Có lỗi trong quá trình cập nhật
+    else {
+      throw Exception('Failed to update product (data.dart)');
+    }
+  } catch (error) {
+    print('Error updating product: $error  (data.dart)');
+    throw Exception('Error updating product: $error (data.dart)');
   }
 }

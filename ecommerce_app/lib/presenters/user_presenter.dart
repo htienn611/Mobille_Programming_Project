@@ -4,7 +4,6 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data_source/repository/get_table.dart';
 import '../models/user.dart';
 
 class ApiConstants {

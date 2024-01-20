@@ -1,24 +1,22 @@
 import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/models/category.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/models/promotion.dart';
 import 'package:ecommerce_app/presenters/brand_presenter.dart';
 import 'package:ecommerce_app/presenters/category_presenter.dart';
 import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:ecommerce_app/presenters/promotion_presenter.dart';
-import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerce_app/models/category.dart';
 
-class ProductManagement extends StatefulWidget {
-  const ProductManagement({super.key});
+class EditProduct extends StatefulWidget {
+  final Product sanpham;
+  EditProduct({super.key, required this.sanpham});
+
   @override
-  State<ProductManagement> createState() => _ProductManagementState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _ProductManagementState extends State<ProductManagement> {
-  int dropDownValueCate = 1;
-  int dropDownValuePromotion = 1;
-  int dropDownValueBrand = 5;
+class _EditProductState extends State<EditProduct> {
   TextEditingController nameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
@@ -27,16 +25,19 @@ class _ProductManagementState extends State<ProductManagement> {
   CategoryPresenter catePre = CategoryPresenter();
   List<Brand> danhSachNhanHang = [];
   BrandPresenter brandPre = BrandPresenter();
-  ProductPresenter proPre = ProductPresenter();
-  bool checkAddProduct = false;
   List<Promotion> danhSachGiamGia = [];
   PromotionPresenter promotionPre = PromotionPresenter();
+  ProductPresenter proPre = ProductPresenter();
+  bool checkUpdateProduct = false;
 
-  void loadData() async {
+  Future<void> loadData() async {
     danhSachDanhMuc = await catePre.getCateLst();
     danhSachNhanHang = await brandPre.getBrandLst();
     danhSachGiamGia = await promotionPre.getPromotionLst();
-    setState(() {});
+    nameController.text = widget.sanpham.name;
+    priceController.text = widget.sanpham.price.toString();
+    quantityController.text = widget.sanpham.quantity.toString();
+    desController.text = widget.sanpham.des;
   }
 
   @override
@@ -49,7 +50,7 @@ class _ProductManagementState extends State<ProductManagement> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(mess),
-        duration: const Duration(seconds: 2),
+        duration: const Duration(seconds: 20), // Đặt thời gian hiển thị
       ),
     );
   }
@@ -72,7 +73,7 @@ class _ProductManagementState extends State<ProductManagement> {
           },
         );
       }
-  void _addProduct(BuildContext context) {
+  void _editProduct(BuildContext context, Product pro) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
@@ -136,11 +137,11 @@ class _ProductManagementState extends State<ProductManagement> {
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 DropdownButton<int>(
-                  value: dropDownValueCate,
+                  value: pro.idCate,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {
                     setState(() {
-                      dropDownValueCate = newValue!;
+                      pro.idCate = newValue!;
                     });
                   },
                   items: danhSachDanhMuc.map((motDanhMuc) {
@@ -150,11 +151,11 @@ class _ProductManagementState extends State<ProductManagement> {
                   }).toList(),
                 ),
                 DropdownButton<int>(
-                  value: dropDownValueBrand,
+                  value: pro.idBrand,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {
                     setState(() {
-                      dropDownValueBrand = newValue!;
+                      pro.idBrand = newValue!;
                     });
                   },
                   items: danhSachNhanHang.map((motNhanHang) {
@@ -164,11 +165,11 @@ class _ProductManagementState extends State<ProductManagement> {
                   }).toList(),
                 ),
                 DropdownButton<int>(
-                  value: dropDownValuePromotion,
+                  value: pro.idDiscount,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {
                     setState(() {
-                      dropDownValuePromotion = newValue!;
+                      pro.idDiscount = newValue!;
                     });
                   },
                   items: danhSachGiamGia.map((motGiamGia) {
@@ -187,25 +188,25 @@ class _ProductManagementState extends State<ProductManagement> {
                     showErrMessSnackBar(
                         "Xin hãy nhập thông tin đầy đủ trước khi thêm");
                   } else {
-                    Product product = Product.AddProduct(
-                        image: "image",
+                    Product newP = Product(
+                        id: pro.id,
+                        image: pro.image,
                         name: nameController.text,
                         quantity: int.parse(quantityController.text),
                         price: int.parse(priceController.text),
                         des: desController.text,
-                        idDiscount: dropDownValuePromotion,
+                        idDiscount: pro.idDiscount,
                         status: 1,
-                        idCate: dropDownValueCate,
-                        idBrand: dropDownValueBrand);
-
-                    checkAddProduct = await proPre.addProductPresenter(product);
+                        idCate: pro.idCate,
+                        idBrand: pro.idBrand);
+                    checkUpdateProduct =
+                        await proPre.updateProductPresenter(newP);
                     Navigator.pop(context);
-                    if (checkAddProduct) {
-                      showMessSnackBar('Thêm sản phẩm thành công');
+                    if (checkUpdateProduct) {
+                      showMessSnackBar('Cập nhật sản phẩm thành công');
                       setState(() {});
-                    } else {
-                      showMessSnackBar('Thêm sản phẩm thất bại');
-                    }
+                    } else
+                      showMessSnackBar('Cập nhật sản phẩm thất bại');
                   }
                   setState(() {});
                 },
@@ -218,145 +219,10 @@ class _ProductManagementState extends State<ProductManagement> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            backgroundColor: const Color.fromARGB(185, 233, 30, 33),
-            leading: const Icon(
-              Icons.arrow_back,
-              color: Colors.white,
-            ),
-            actions: [
-              PopupMenuButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ),
-                  itemBuilder: (BuildContext context) {
-                    return [
-                      PopupMenuItem(
-                          child: ListTile(
-                        title: const Text("Thêm sản phẩm"),
-                        onTap: () {
-                          // xử lý thêm sản phẩm
-                          Navigator.pop(context);
-                          setState(() {
-                            _addProduct(context);
-                          });
-                        },
-                      )),
-                      PopupMenuItem(
-                          child: ListTile(
-                        title: const Text("Thêm danh mục"),
-                        onTap: () {
-                          // xử lý thêm sản phẩm
-                        },
-                      ))
-                    ];
-                  })
-            ],
-            bottom: TabBar(
-                labelColor: Colors.white,
-                unselectedLabelColor: Colors.white,
-                isScrollable: true,
-                tabs: [
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: const Text("Tất cả"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: const Text("Laptop"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: const Text("Mouse"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: const Text("Ram"),
-                  ),
-                  GestureDetector(
-                    onLongPress: () {
-                      _showMenu(context);
-                    },
-                    child: const Text("CPU"),
-                  ),
-                ]),
-          ),
-          body: const TabBarView(
-            children: [
-              ListProduct(),
-              ListProduct(),
-              ListProduct(),
-              ListProduct(),
-              ListProduct(),
-            ],
-          ),
-        ));
+    return IconButton(
+        onPressed: () {
+          _editProduct(context, widget.sanpham);
+        },
+        icon: const Icon(Icons.edit));
   }
-}
-
-void _showMenu(BuildContext context) {
-  // Hiển thị menu khi nhấn giữ lên tab
-  showMenu(
-    context: context,
-    position: const RelativeRect.fromLTRB(0, 100, 0, 0),
-    items: [
-      PopupMenuItem(
-        child: ListTile(
-          title: const Icon(Icons.edit),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-      PopupMenuItem(
-        child: ListTile(
-          title: const Icon(Icons.delete),
-          onTap: () {
-            Navigator.pop(context);
-            _showDeleteConfirmation(context);
-          },
-        ),
-      ),
-    ],
-  );
-}
-
-void _showDeleteConfirmation(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Xác nhận Xóa'),
-        content: const Text('Bạn có chắc chắn muốn xóa không?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Đóng thông báo
-            },
-            child: const Text('Hủy'),
-          ),
-          TextButton(
-            onPressed: () {
-              // Thực hiện xóa dữ liệu
-              Navigator.pop(context); // Đóng thông báo sau khi xử lý xóa
-            },
-            child: const Text('Xóa'),
-          ),
-        ],
-      );
-    },
-  );
 }

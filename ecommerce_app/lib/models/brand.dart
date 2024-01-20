@@ -1,24 +1,20 @@
-
-
-import '../data_source/repository/data.dart';
-
 class Brand {
   final int id;
   final String name;
-  final int idCat;
+  final int idCate;
   final int status;
 
   Brand({
     required this.id,
     required this.name,
-    required this.idCat,
+    required this.idCate,
     required this.status,
   });
 
   Brand.fromJson(Map<String, dynamic> json)
       : id = json['id']??0,
         name = json['name']??"",
-        idCat = json['idCat']??0,
+        idCate = json['idCate']??0,
         status = json['status']??0;
 
 }

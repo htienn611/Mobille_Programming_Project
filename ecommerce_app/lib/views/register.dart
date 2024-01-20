@@ -20,14 +20,13 @@ class _RegisterState extends State<Register> implements UserView {
   if (!regex.hasMatch(input)) {
     return false;
   }
-
   // Tách ngày, tháng, năm từ chuỗi
-  List<int> parts = input.split('-').map((e) => int.tryParse(e) ?? 0).toList();
+  List<String> parts = input.split('-');
 
   // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
-  int year = parts[0];
-  int month = parts[1];
-  int day = parts[2];
+  int year = int.parse(parts[0]);
+  int month = int.parse(parts[1]);
+  int day = int.parse(parts[2]);
 
   if (year < 1000 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31) {
     return false;
@@ -65,7 +64,7 @@ class _RegisterState extends State<Register> implements UserView {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width -150,
           child: Text(
             "ĐĂNG KÝ",
             style: TextStyle(

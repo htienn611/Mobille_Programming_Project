@@ -13,7 +13,7 @@ class _HomePageAppbarItemState extends State<HomePageAppbarItem> {
     var sW = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.only(right: 5),
-      width: sW * 0.87,
+      width: sW -5,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

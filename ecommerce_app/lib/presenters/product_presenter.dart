@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
 import 'package:http/http.dart' as http;
@@ -31,6 +29,7 @@ class ProductPresenter {
         rsLst = value.map((json) => Product.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);
@@ -58,6 +57,7 @@ class ProductPresenter {
         return true;
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error (PRODUCT_PRESENTER)');
     }
     return false;
@@ -84,6 +84,7 @@ class ProductPresenter {
         return true;
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error updating product: $error (PRODUCT_PRESENTER)');
     }
     return false;
@@ -95,6 +96,7 @@ class ProductPresenter {
         Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
+          'id': p.id,
           'image': p.image,
           'name': p.name,
           'quantity': p.quantity,
@@ -109,6 +111,7 @@ class ProductPresenter {
         return true;
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error updating product: $error (PRODUCT_PRESENTER)');
     }
     return false;
@@ -134,13 +137,14 @@ class ProductPresenter {
         rs = Product.fromJson(value[0]);
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);
     return rs;
   }
 
-  Future<List<Product>> getBestSellingProducts(var limit,var idCate ) async {
+  Future<List<Product>> getBestSellingProducts(var limit, var idCate) async {
     List<Product> rsLst = List.filled(
         0,
         Product(
@@ -159,7 +163,7 @@ class ProductPresenter {
     try {
       OrderDetailPresenter orderDetailsPre = OrderDetailPresenter();
       List<dynamic> idLst =
-          await orderDetailsPre.getBestSellingProductId(limit,idCate);
+          await orderDetailsPre.getBestSellingProductId(limit, idCate);
       String strIds = "";
       if (idLst.isNotEmpty) {
         for (var item in idLst) {
@@ -170,18 +174,54 @@ class ProductPresenter {
           }
         }
       }
-      print(strIds);
+      // ignore: avoid_print
+      print('Ids Product: $strIds');
+      List<dynamic> value = await getItemByTitle("product", "byIdLst", strIds);
+      // ignore: avoid_print
+      print("loaded: getBestSellingProducts product presenter");
+      if (value.isNotEmpty) {
+        rsLst.clear();
+        rsLst = value.map((json) => Product.fromJson(json)).toList();
+      }
+    } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rsLst;
+  }
+
+  Future<List<Product>> getProductsByIdCateIdBrand(
+      limit, idCate, idBrand) async {
+    List<Product> rsLst = List.filled(
+        0,
+        Product(
+            id: 0,
+            image: "",
+            name: "",
+            quantity: 0,
+            price: 0,
+            des: "",
+            idDiscount: 0,
+            status: 0,
+            idCate: 0,
+            idBrand: 0),
+        growable: true);
+
+    try {
       List<dynamic> value =
-          await getItemByTitle("product", "best_selling", strIds);
+          await getItemByTitle("product", "byIdCate", idCate, [idBrand, limit]);
+      // ignore: avoid_print
+      print("loaded: getProductsByIdCateIdBrand product presenter");
 
       if (value.isNotEmpty) {
         rsLst.clear();
         rsLst = value.map((json) => Product.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
-    // print(rsLst);
     return rsLst;
   }
 }

@@ -120,6 +120,7 @@ router.get('/id:id', (req, res) => {
 });
 
 
+
 router.get('/byIdLst:idList', (req, res) => {
   const idList = req.params.idList.split(',').map(id => parseInt(id));
 
@@ -146,6 +147,19 @@ router.get('/byIdCate:idCate/:idBrand/:limit', (req, res) => {
   });
 });
 
+//lấy sản phẩm trong một hóa đơn
+router.get('/InfoProduct:id',(req,res)=>
+{
+    var query='SELECT * FROM product,order_details WHERE product.id=order_details.idProduct AND order_details.idOrder= ?';
+    connection.query(query,[req.params.id],(error,results)=>{
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            return res.json(results);
+        }
+
+    });
+})
 
 
 module.exports = router;

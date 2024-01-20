@@ -40,4 +40,20 @@ class OrderDetailPresenter {
     // print(rsLst);
     return rsLst;
   }
+
+   Future<OrderDetail> getOrderDetailByID(int id) async {
+    OrderDetail rs=OrderDetail(0,0, 0);
+
+    try {
+      dynamic value = await getItemByID("order_details", id);
+
+      if (value.isNotEmpty) {
+        rs = OrderDetail.fromJson(value[0]);
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
+  }
 }

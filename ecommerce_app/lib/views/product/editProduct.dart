@@ -50,11 +50,29 @@ class _EditProductState extends State<EditProduct> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(mess),
-        duration: const Duration(seconds: 2), // Đặt thời gian hiển thị
+        duration: const Duration(seconds: 20), // Đặt thời gian hiển thị
       ),
     );
   }
-
+  void showErrMessSnackBar(String mess) {
+     showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Cảnh báo'),
+              content: Text(mess),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Đóng thông báo
+                  },
+                  child: Text('Đóng'),
+                ),
+              ],
+            );
+          },
+        );
+      }
   void _editProduct(BuildContext context, Product pro) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -167,7 +185,7 @@ class _EditProductState extends State<EditProduct> {
                       quantityController.text.isEmpty ||
                       priceController.text.isEmpty ||
                       desController.text.isEmpty) {
-                    showMessSnackBar(
+                    showErrMessSnackBar(
                         "Xin hãy nhập thông tin đầy đủ trước khi thêm");
                   } else {
                     Product newP = Product(

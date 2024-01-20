@@ -67,7 +67,8 @@ router.put('/:id', (req, res) => {
 //PUT cập nhật lại để xóa sản phẩm 
 router.put('/id:id', (req, res) => {
     const { id } = req.params;
-  
+    const { image, name, quantity, price, des, idDiscount, status, idCate, idBrand } = req.body;
+
     const query = 'UPDATE product SET status=0 WHERE id=?';
   
     connection.query(query, [id], (err, results) => {
@@ -77,7 +78,14 @@ router.put('/id:id', (req, res) => {
       } else {
         if (results.affectedRows > 0) {
           res.json({
-            id: id,
+            image: image,
+            name: name,
+            quantity: quantity,
+            price: price,
+            des: des,
+            idDiscount: idDiscount,
+            idCate: idCate,
+            idBrand: idBrand
           });
         } else {
           res.status(404).send('Product not found');

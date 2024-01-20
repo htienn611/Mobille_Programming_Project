@@ -7,7 +7,7 @@ const connection = require('./db');
 // lấy cả bảng brand
 router.post('/register', async (req, res) => {
 
-    const { sex, password, name, phoneNumber, status, birthday } = req.body;
+    const { sex, password, name, phoneNumber, birthday } = req.body;
     console.log(req.body);
     const checkUserQuery = 'SELECT * FROM User WHERE phoneNumber = ?';
     const userExists = await new Promise((resolve, reject) => {
@@ -21,27 +21,21 @@ router.post('/register', async (req, res) => {
     });
 
     if (userExists) {
-        res.status(400).json({ success: false, message: 'sex is already registered' });
+        res.status(400);
     } else {
         // const hashedPassword = await bcrypt.hash(password, 10);
 
         const addUserQuery = `
-    INSERT INTO User (sex, Password, name, PhoneNumber, Status,admin,birthday)
-    VALUES (?, ?, ?, ?, ?,?,?)
+    INSERT INTO User (Password, name, PhoneNumber, Status,admin,birthday)
+    VALUES ( ?, ?, ?, ?,?,?)
   `;
 
-        connection.query(addUserQuery, [sex, password, name, phoneNumber, 1, 0, birthday], (err) => {
+        connection.query(addUserQuery, [ password, name, phoneNumber, 1, 0, birthday], (err) => {
             if (err) {
                 console.error('Error executing MySQL query:', err);
                 res.status(500).send('Internal Server Error');
-            } else {
-                res.json({
-                    name: name,
-                    sex: sex,
-                    Phone: phoneNumber,
-                    Password: password
-                });
-            }
+            } 
+            
         });
     }
 });
@@ -58,7 +52,7 @@ router.post('/login', async (req, res) => {
             res.status(500).send('Lỗi Nội Server');
         } else {
             if (results.length === 0) {
-                res.status(401).json({ success: false, message: 'Số điện thoại không tồn tại' });
+                res.status(401);
             } else {
                 // So sánh mật khẩu đã nhập với mật khẩu đã băm trong cơ sở dữ liệu
                 const user = results[0];
@@ -66,7 +60,7 @@ router.post('/login', async (req, res) => {
 
                 if (hashedPassword === user.password) {
                     // Đăng nhập thành công
-                    res.json({
+                    res.status(200).json({
                         success: true,
                         message: 'Đăng nhập thành công',
                     });

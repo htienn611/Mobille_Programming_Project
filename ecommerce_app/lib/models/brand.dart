@@ -1,7 +1,3 @@
-
-
-import '../data_source/repository/data.dart';
-
 class Brand {
   final int id;
   final String name;

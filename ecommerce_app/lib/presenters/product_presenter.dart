@@ -97,6 +97,14 @@ class ProductPresenter {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'id': p.id,
+          'image': p.image,
+          'name': p.name,
+          'quantity': p.quantity,
+          'price': p.price,
+          'des': p.des,
+          'idDiscount': p.idDiscount,
+          'idCate': p.idCate,
+          'idBrand': p.idBrand
         }),
       );
       if (response.statusCode == 200) {

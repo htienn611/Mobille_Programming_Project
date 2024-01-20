@@ -1,41 +1,108 @@
 import 'package:ecommerce_app/models/brand.dart';
 import 'package:ecommerce_app/models/category.dart';
+import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/presenters/brand_presenter.dart';
 import 'package:ecommerce_app/presenters/category_presenter.dart';
+import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:ecommerce_app/views/home_page/content_section/sub_cat_label.dart';
 import 'package:flutter/material.dart';
-
 import 'product_label.dart';
 
-class ContenSection extends StatefulWidget {
-  const ContenSection({super.key, this.isBestSelling = false});
+class ContentSection extends StatefulWidget {
+  const ContentSection(
+      {super.key, this.isBestSelling = false, required this.cate});
   final bool isBestSelling;
+  final Category cate;
   @override
-  State<ContenSection> createState() => _ContenSectionState();
+  State<ContentSection> createState() => _ContentSectionState();
 }
 
-class _ContenSectionState extends State<ContenSection>
-    with SingleTickerProviderStateMixin {
+class _ContentSectionState extends State<ContentSection>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
-  List<dynamic> subLst = List.filled(0, "", growable: true);
-  List<SubCatLabel> subCatItems =
-      List.filled(0, const SubCatLabel(title: ""), growable: true);
+  List<SubCatLabel> subCatItems = List.filled(
+      0, SubCatLabel(object: "", reLoadProduct: () {}),
+      growable: true);
+  List<ProductLabel> productsLabel = List.filled(
+      0,
+      ProductLabel(
+          product: Product(
+              id: 0,
+              image: "image",
+              name: "name",
+              quantity: 0,
+              price: 0,
+              des: "des",
+              idDiscount: 0,
+              status: 0,
+              idCate: 0,
+              idBrand: 0)),
+      growable: true);
+
+  Future<void> loadProducts(limit, idCate, idBrand) async {
+    List<Product> products = List.filled(
+        0,
+        Product(
+            id: 0,
+            image: "image",
+            name: "name",
+            quantity: 0,
+            price: 0,
+            des: "des",
+            idDiscount: 0,
+            status: 0,
+            idCate: 0,
+            idBrand: 0),
+        growable: true);
+
+    ProductPresenter proPre = ProductPresenter();
+
+    products = widget.isBestSelling
+        ? await proPre.getBestSellingProducts(limit, idCate)
+        : await proPre.getProductsByIdCateIdBrand(limit, idCate, idBrand);
+      print("here");
+      productsLabel.clear();
+      for (var item in products) {
+        productsLabel.add(ProductLabel(
+          product: item,
+        ));
+      }
+    setState(() {});
+  }
 
   Future<void> loadData() async {
+    List<dynamic> subLst = List.filled(0, "", growable: true);
+    //load sub cate data
     if (widget.isBestSelling) {
       CategoryPresenter catePre = CategoryPresenter();
       subLst = await catePre.getCateLst();
     } else {
-      BrandPresenter brandPre = BrandPresenter();
-      subLst = await brandPre.getBrandLst();
-    }
-    if (subLst[0] is Category) {
-      for (Category item in subLst) {
-        subCatItems.add(SubCatLabel(title: item.nameCate));
+      if (widget.cate.id != 0) {
+        BrandPresenter brandPre = BrandPresenter();
+        subLst = await brandPre.getBrandLstByCate(widget.cate.id);
       }
-    } else {
-      for (Brand item in subLst) {
-        subCatItems.add(SubCatLabel(title: item.name));
+    }
+    if (subLst.isNotEmpty) {
+      if (subLst[0] is Category) {
+        for (Category item in subLst) {
+          subCatItems.add(SubCatLabel(
+            object: item,
+            reLoadProduct: () => loadProducts(
+              5,
+              item.id,
+              0,
+            ),
+          ));
+        }
+        loadProducts(5, (subLst[0] as Category).id, 0);
+      } else {
+        for (Brand item in subLst) {
+          subCatItems.add(SubCatLabel(
+            object: item,
+            reLoadProduct: () => loadProducts(5, widget.cate.id, item.id),
+          ));
+        }
+        loadProducts(5, widget.cate.id, (subLst[0] as Brand).id);
       }
     }
   }
@@ -48,6 +115,12 @@ class _ContenSectionState extends State<ContenSection>
       duration: const Duration(milliseconds: 800),
     )..repeat(reverse: true);
     loadData().then((value) => {setState(() {})});
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,9 +164,9 @@ class _ContenSectionState extends State<ContenSection>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "LapTop",
-                        style: TextStyle(fontSize: 20),
+                      Text(
+                        widget.cate.nameCate,
+                        style: const TextStyle(fontSize: 20),
                       ),
                       TextButton(
                         onPressed: () {},
@@ -111,12 +184,7 @@ class _ContenSectionState extends State<ContenSection>
             )),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: const [
-            ProductLabel(),
-            ProductLabel(),
-            ProductLabel(),
-            ProductLabel(),
-          ]),
+          child: Row(children: productsLabel),
         ),
       ]),
     );

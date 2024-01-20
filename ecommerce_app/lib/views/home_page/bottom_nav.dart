@@ -14,6 +14,7 @@ class _BottomNavState extends State<BottomNav> {
           decoration: const BoxDecoration(
               border: Border(top: BorderSide(color: Colors.red, width: 1))),
           child: BottomNavigationBar(
+            onTap: (index){},
             items: const [
               BottomNavigationBarItem(
                   icon: Icon(Icons.home_outlined), label: "Trang chủ"),
@@ -28,7 +29,7 @@ class _BottomNavState extends State<BottomNav> {
                   icon: Icon(Icons.account_circle_outlined),
                   label: "Tài khoản"),
             ],
-            currentIndex: 2,
+            currentIndex: 0,
             selectedItemColor: const Color.fromARGB(255, 224, 84, 75),
             selectedLabelStyle:
                 const TextStyle(color: Color.fromARGB(255, 224, 84, 75)),

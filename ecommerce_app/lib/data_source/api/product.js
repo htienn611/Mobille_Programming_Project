@@ -65,7 +65,7 @@ router.put('/:id', (req, res) => {
     });
   });
 //PUT cập nhật lại để xóa sản phẩm 
-router.put('/:id', (req, res) => {
+router.put('/id:id', (req, res) => {
     const { id } = req.params;
   
     const query = 'UPDATE product SET status=0 WHERE id=?';
@@ -110,17 +110,32 @@ router.get('/id:id', (req, res) => {
     }
     );
 });
-router.get('/best_selling:idList', (req, res) => {
-    const idList = req.params.idList.split(',').map(id => parseInt(id));
 
-    var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (?)';
-    connection.query(query, [idList], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: 'Internal Server Error' });
-        } else {
-            return res.json(results);
-        }
-    });
+
+router.get('/byIdLst:idList', (req, res) => {
+  const idList = req.params.idList.split(',').map(id => parseInt(id));
+
+  var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (?)';
+  connection.query(query, [idList], (error, results) => {
+      if (error) {
+          return res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+          return res.json(results);
+      }
+  });
+});
+
+router.get('/byIdCate:idCate/:idBrand/:limit', (req, res) => {
+  //const idList = req.params.idList.split(',').map(id => parseInt(id));
+
+  var query = 'SELECT * FROM `product` WHERE status != 0 AND idCate=? and idBrand=? order by idDiscount desc limit ?';
+  connection.query(query, [parseInt(req.params.idCate), parseInt(req.params.idBrand),parseInt(req.params.limit)], (error, results) => {
+      if (error) {
+          return res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+          return res.json(results);
+      }
+  });
 });
 
 

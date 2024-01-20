@@ -15,6 +15,7 @@ class OrderPresenter {
         rsLst = value.map((json) => Order.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);

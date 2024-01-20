@@ -63,48 +63,57 @@ class ProductPresenter {
     return false;
   }
 
-Future<bool> updateProductPresenter(Product p) async {
-  try {
-    final response = await http.put(
-      Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'image': p.image,
-        'name': p.name,
-        'quantity': p.quantity,
-        'price': p.price,
-        'des': p.des,
-        'idDiscount': p.idDiscount,
-        'status': p.status,
-        'idCate': p.idCate,
-        'idBrand': p.idBrand
-      }),
-    );
-    if (response.statusCode == 200) {
-      return true;
+  Future<bool> updateProductPresenter(Product p) async {
+    try {
+      final response = await http.put(
+        Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'image': p.image,
+          'name': p.name,
+          'quantity': p.quantity,
+          'price': p.price,
+          'des': p.des,
+          'idDiscount': p.idDiscount,
+          'status': p.status,
+          'idCate': p.idCate,
+          'idBrand': p.idBrand
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (error) {
+      print('Error updating product: $error (PRODUCT_PRESENTER)');
     }
-  } catch (error) {
-    print('Error updating product: $error (PRODUCT_PRESENTER)');
+    return false;
   }
-  return false;
-}
-Future<bool> deleteProductPresenter(Product p) async {
-  try {
-    final response = await http.put(
-      Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({
-        'id':p.id,
-      }),
-    );
-    if (response.statusCode == 200) {
-      return true;
+
+  Future<bool> deleteProductPresenter(Product p) async {
+    try {
+      final response = await http.put(
+        Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'image': p.image,
+          'name': p.name,
+          'quantity': p.quantity,
+          'price': p.price,
+          'des': p.des,
+          'idDiscount': p.idDiscount,
+          'idCate': p.idCate,
+          'idBrand': p.idBrand
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (error) {
+      print('Error updating product: $error (PRODUCT_PRESENTER)');
     }
-  } catch (error) {
-    print('Error updating product: $error (PRODUCT_PRESENTER)');
+    return false;
   }
-  return false;
-}
+
   Future<Product> getProductByID(int id) async {
     Product rs = Product(
         id: 0,

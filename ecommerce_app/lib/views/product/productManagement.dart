@@ -53,7 +53,25 @@ class _ProductManagementState extends State<ProductManagement> {
       ),
     );
   }
-
+  void showErrMessSnackBar(String mess) {
+     showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Cảnh báo'),
+              content: Text(mess),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Đóng thông báo
+                  },
+                  child: Text('Đóng'),
+                ),
+              ],
+            );
+          },
+        );
+      }
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
         isScrollControlled: true,
@@ -166,7 +184,7 @@ class _ProductManagementState extends State<ProductManagement> {
                       quantityController.text.isEmpty ||
                       priceController.text.isEmpty ||
                       desController.text.isEmpty) {
-                    showMessSnackBar(
+                    showErrMessSnackBar(
                         "Xin hãy nhập thông tin đầy đủ trước khi thêm");
                   } else {
                     Product product = Product.AddProduct(

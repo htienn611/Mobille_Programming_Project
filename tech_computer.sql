@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 19, 2024 lúc 12:59 PM
+-- Thời gian đã tạo: Th1 20, 2024 lúc 09:37 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -238,13 +238,11 @@ INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDis
 (10, 'image', 'San pham moi', 20, 200000, 'san ta ', 1, 0, 2, 6),
 (11, 'image', 'San pham moi hai', 20, 200000, 'san ta ', 1, 0, 2, 6),
 (12, 'image', 'san pham ba', 23, 23232, 'mota', 1, 0, 2, 6),
-(13, 'image', 'san pham bon', 34, 21322, 'mo ta ', 1, 1, 3, 7),
-(14, 'image', 'san pham bon 2', 34, 21322, 'mo ta ', 1, 1, 3, 7),
-(15, NULL, '', 0, 0, NULL, NULL, 0, NULL, NULL),
-(16, 'image', 'Mới sửa sản phẩm ', 100, 200000, '1 giờ 18 phút ngày 19/1/2024', 1, 1, 4, 7),
-(17, 'image', 'Chuột del', 350, 230000, 'Đây là chuột không dây chính hãng ', 1, 1, 3, 5),
-(18, NULL, '', 0, 0, NULL, NULL, 0, NULL, NULL),
-(19, NULL, '', 0, 0, NULL, NULL, 0, NULL, NULL);
+(13, 'image', 'Inter Core i5', 34, 590000, 'I5 tuy lâu đời nhưng vẫn còn rất nhiều tiện ích cũng như nhiều người ưa chuộng ', 1, 1, 3, 5),
+(14, 'image', 'Inter Core i9 ', 34, 10010000, 'I9 mới được ra mắt với nhiều khả năng thích nghi cùng tiện dụng', 1, 1, 4, 6),
+(16, 'image', 'Chuột không dây E56', 100, 200000, 'Chuột không dây tiện dụng cho các học sinh sinh viên nhân viên văn phòng ', 1, 1, 2, 6),
+(20, 'image', 'Sản phẩm thử nghiệm ', 52, 52000, 'Đây là sản phảm thử nghiệm ', 1, 0, 2, 7),
+(21, 'image', 'Ram DD4 ', 12, 500000, 'Đây là Ram DD4 mới nhất trên thị trường thích howpk nhiều cấu hình máy', 1, 1, 3, 8);
 
 -- --------------------------------------------------------
 
@@ -460,7 +458,7 @@ ALTER TABLE `payments`
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`

@@ -85,7 +85,6 @@ Future<dynamic> updateProduct(Product product, String tableName) async {
         'price': product.price,
         'des': product.des,
         'idDiscount': product.idDiscount,
-        'status': product.status,
         'idCate': product.idCate,
         'idBrand': product.idBrand,
       }),

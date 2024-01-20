@@ -41,6 +41,7 @@ router.get('/id:id', (req, res) => {
     }
     );
 });
+
 router.get('/bestSelling:top', (req, res) => {
     var query = 'SELECT * FROM `product` WHERE status != 0 AND id IN (SELECT idProduct FROM `order_details` GROUP BY idProduct ORDER BY SUM(quantityProduct) DESC) LIMIT ?';
     connection.query(query, [parseInt(req.params.top)], (error, results) => {
@@ -52,6 +53,19 @@ router.get('/bestSelling:top', (req, res) => {
     });
 });
 
+//lấy sản phẩm trong một hóa đơn
+router.get('/InfoProduct:id',(req,res)=>
+{
+    var query='SELECT * FROM product,order_details WHERE product.id=order_details.idProduct AND order_details.idOrder= ?';
+    connection.query(query,[req.params.id],(error,results)=>{
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            return res.json(results);
+        }
+
+    });
+})
 
 
 module.exports = router;

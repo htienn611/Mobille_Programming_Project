@@ -14,6 +14,7 @@ class CategoryPresenter {
         rsLst = value.map((json) => Category.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     return rsLst;

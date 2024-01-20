@@ -47,6 +47,7 @@ class _ProfileState extends State<Profile> implements UserView {
           phoneNumberController.text = user!.phoneNumber;
           biographyController.text = user!.biography;
           print(biographyController.text);
+          print(1);
         });
       }
     } catch (error) {
@@ -146,10 +147,6 @@ class _ProfileState extends State<Profile> implements UserView {
                 controller: nameController,
                 decoration: InputDecoration(
                   labelText: "Tên:",
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_forward_ios),
-                  ),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -176,10 +173,6 @@ class _ProfileState extends State<Profile> implements UserView {
                 controller: birthdayController,
                 decoration: InputDecoration(
                   labelText: "Ngày sinh:",
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_forward_ios),
-                  ),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -192,10 +185,6 @@ class _ProfileState extends State<Profile> implements UserView {
                 controller: phoneNumberController,
                 decoration: InputDecoration(
                   labelText: "SĐT:",
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_forward_ios),
-                  ),
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -207,10 +196,6 @@ class _ProfileState extends State<Profile> implements UserView {
                 controller: biographyController,
                 decoration: InputDecoration(
                   labelText: "Tiểu sử",
-                  suffixIcon: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.arrow_forward_ios),
-                  ),
                   border: OutlineInputBorder(),
                 ),
               ),

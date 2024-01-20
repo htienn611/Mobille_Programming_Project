@@ -22,10 +22,9 @@ class MessagePresenter {
         rsLst = value.map((json) => Message.fromJson(json)).toList();
       }
     } catch (error) {
-      // Xử lý lỗi ở đây nếu cần thiết
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
-    // print(rsLst);
     return rsLst;
   }
 }

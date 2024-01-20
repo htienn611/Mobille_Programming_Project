@@ -29,7 +29,20 @@ router.get('/id:id',(req,res) => {
   );
 });  
 
-
+router.get('/best_selling:limit/:cateId',(req,res) => {
+  var query = 'SELECT product.id FROM `order_details`,`product` WHERE order_details.idProduct=product.id and idCate=? GROUP by idProduct order by sum(quantityProduct) DESC limit ?';
+  connection.query(query,[parseInt(req.params.cateId),parseInt(req.params.limit)],(error,results)=>
+  {
+    if(error)
+    {
+      return res.status(500).json({error: 'Internal Server Error'})
+    }
+    else {
+      return res.json(results);
+  }
+  }
+  );
+});  
 
 
 

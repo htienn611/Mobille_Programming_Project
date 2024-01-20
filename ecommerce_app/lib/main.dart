@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/data_source/api/fireBaseApi.dart';
+import 'package:ecommerce_app/firebase_options.dart';
 import 'package:ecommerce_app/models/order_detail.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
@@ -14,13 +16,19 @@ import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:postgres/postgres.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseApi().initNotification();
+  runApp(MyApp());
 }
-
+final navigatorKey= GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -33,8 +41,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ListOrder(),
       locale: const Locale('vi', 'VN'),
+      home: Login(),
+      navigatorKey: navigatorKey,
     );
   }
 }
+

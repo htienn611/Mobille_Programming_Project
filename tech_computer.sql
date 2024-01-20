@@ -43,7 +43,6 @@ CREATE TABLE `address` (
 CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `idCate` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -51,11 +50,11 @@ CREATE TABLE `brand` (
 -- Đang đổ dữ liệu cho bảng `brand`
 --
 
-INSERT INTO `brand` (`id`, `name`, `idCate`, `status`) VALUES
-(5, 'Del', 2, 1),
-(6, 'Lenovo', 1, 1),
-(7, 'Apple', 2, 1),
-(8, 'Asus', 2, 1);
+INSERT INTO `brand` (`id`, `name`, `status`) VALUES
+(5, 'Del', 1),
+(6, 'Lenovo', 1),
+(7, 'Apple', 1),
+(8, 'Asus', 1);
 
 -- --------------------------------------------------------
 
@@ -98,9 +97,16 @@ CREATE TABLE `category` (
 
 INSERT INTO `category` (`id`, `nameCate`) VALUES
 (1, 'Laptop'),
-(2, 'Mouse'),
+(2, 'Máy Bàn'),
 (3, 'Ram'),
-(4, 'CPU');
+(4, 'CPU'),
+(5, 'GPU'),
+(6, 'Màn Hình'),
+(7, 'Case'),
+(8, 'Nguồn'),
+(9, 'Ổ Cứng'),
+(10, 'Bàn Phím'),
+(11, 'Chuột');
 
 -- --------------------------------------------------------
 
@@ -165,7 +171,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `address`) VALUES
-(1, 0, 1, '0384864757', '2024-01-08', 10, ''),
+(1, 1, 1, '0384864757', '2024-01-08', 10, ''),
 (2, 1, 1, '0384864757', '2024-01-08', 10, '');
 
 -- --------------------------------------------------------
@@ -186,7 +192,11 @@ CREATE TABLE `order_details` (
 
 INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
 (2, 1, 1),
-(1, 1, 7);
+(1, 1, 7),
+(2, 1, 7),
+(3, 1, 8),
+(4, 2, 7),
+(3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -308,8 +318,7 @@ ALTER TABLE `address`
 -- Chỉ mục cho bảng `brand`
 --
 ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idCat` (`idCate`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `cart`
@@ -422,7 +431,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `conversations`
@@ -475,12 +484,6 @@ ALTER TABLE `promotion`
 --
 ALTER TABLE `address`
   ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
-
---
--- Các ràng buộc cho bảng `brand`
---
-ALTER TABLE `brand`
-  ADD CONSTRAINT `brand_ibfk_1` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`);
 
 --
 -- Các ràng buộc cho bảng `cart`

@@ -1,3 +1,7 @@
+import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/models/category.dart';
+import 'package:ecommerce_app/presenters/brand_presenter.dart';
+import 'package:ecommerce_app/presenters/category_presenter.dart';
 import 'package:ecommerce_app/views/home_page/content_section/sub_cat_label.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +9,7 @@ import 'product_label.dart';
 
 class ContenSection extends StatefulWidget {
   const ContenSection({super.key, this.isBestSelling = false});
- final bool isBestSelling;
+  final bool isBestSelling;
   @override
   State<ContenSection> createState() => _ContenSectionState();
 }
@@ -13,6 +17,28 @@ class ContenSection extends StatefulWidget {
 class _ContenSectionState extends State<ContenSection>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  List<dynamic> subLst = List.filled(0, "", growable: true);
+  List<SubCatLabel> subCatItems =
+      List.filled(0, const SubCatLabel(title: ""), growable: true);
+
+  Future<void> loadData() async {
+    if (widget.isBestSelling) {
+      CategoryPresenter catePre = CategoryPresenter();
+      subLst = await catePre.getCateLst();
+    } else {
+      BrandPresenter brandPre = BrandPresenter();
+      subLst = await brandPre.getBrandLst();
+    }
+    if (subLst[0] is Category) {
+      for (Category item in subLst) {
+        subCatItems.add(SubCatLabel(title: item.nameCate));
+      }
+    } else {
+      for (Brand item in subLst) {
+        subCatItems.add(SubCatLabel(title: item.name));
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -21,6 +47,7 @@ class _ContenSectionState extends State<ContenSection>
       vsync: this,
       duration: const Duration(milliseconds: 800),
     )..repeat(reverse: true);
+    loadData().then((value) => {setState(() {})});
   }
 
   @override
@@ -80,18 +107,7 @@ class _ContenSectionState extends State<ContenSection>
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SubCatLabel(isBestSelling: widget.isBestSelling),
-                SubCatLabel(
-                  isBestSelling: widget.isBestSelling,
-                ),
-                SubCatLabel(
-                  isBestSelling: widget.isBestSelling,
-                ),
-                SubCatLabel(
-                  isBestSelling: widget.isBestSelling,
-                ),
-              ],
+              children: subCatItems,
             )),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

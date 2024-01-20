@@ -19,7 +19,6 @@ class BrandPresenter{
       // Xử lý lỗi ở đây nếu cần thiết
       print('Error fetching data: $error (BRAND)');
     }
-    print(rsLst);
     return rsLst;
   }
 }

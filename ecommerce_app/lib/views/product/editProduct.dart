@@ -56,24 +56,24 @@ class _EditProductState extends State<EditProduct> {
   }
 
   void showErrMessSnackBar(String mess) {
-     showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Cảnh báo'),
-              content: Text(mess),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Đóng thông báo
-                  },
-                  child: Text('Đóng'),
-                ),
-              ],
-            );
-          },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cảnh báo'),
+          content: Text(mess),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng thông báo
+              },
+              child: Text('Đóng'),
+            ),
+          ],
         );
-      }
+      },
+    );
+  }
 
   void _editProduct(BuildContext context, Product pro) {
     showModalBottomSheet(

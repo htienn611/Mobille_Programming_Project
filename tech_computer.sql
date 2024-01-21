@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 20, 2024 lúc 09:37 AM
+-- Thời gian đã tạo: Th1 21, 2024 lúc 02:56 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -33,6 +33,15 @@ CREATE TABLE `address` (
   `content` varchar(255) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `address`
+--
+
+INSERT INTO `address` (`id`, `phoneNumber`, `content`, `status`) VALUES
+(1, '0384864757', 'Ấp 3 xã Nhơn Đức huyện Nhà Bè Tp Hồ Chí Minh', 1),
+(2, '0914105327', '165/12 ấp 1 xã Nhơn Đức huyện Nhà Bè Tp Hồ Chí Minh', 1),
+(3, '0975738135', '64/32/12/56 P.2, Q.4 Tp Hồ Chí Minh', 1);
 
 -- --------------------------------------------------------
 
@@ -413,7 +422,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `brand`

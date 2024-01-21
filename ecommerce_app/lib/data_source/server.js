@@ -7,6 +7,7 @@ const brandRoutes = require('./api/brand');
 const productRoutes = require('./api/product');
 const orderRoutes=require('./api/order');
 const order_detailsRoutes=require('./api/orderDetail');
+const cartRoutes = require('./api/cart');
 
 const PORT = process.env.PORT || 3000;
 
@@ -22,6 +23,7 @@ app.use('/brand', brandRoutes)
 app.use('/product', productRoutes)
 app.use('/order',orderRoutes);
 app.use('/order_details',order_detailsRoutes);
+app.use('/cart', cartRoutes);
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);

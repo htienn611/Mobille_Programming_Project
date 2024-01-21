@@ -214,45 +214,45 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                   Text('120.000đ', style: TextStyle(fontSize: 20.0),),
                 ],)
                 ),
-                GestureDetector( 
-                  onTap: () {
-                    showDialog(context: context, builder: (BuildContext context){
-                      return Dialog(
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                        child: SingleChildScrollView(
-                          child: Container(
-                            height: 300.0,
-                            child: TextButton(onPressed: (){
+                // GestureDetector( 
+                //   onTap: () {
+                //     showDialog(context: context, builder: (BuildContext context){
+                //       return Dialog(
+                //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                //         child: SingleChildScrollView(
+                //           child: Container(
+                //             height: 300.0,
+                //             child: TextButton(onPressed: (){
                               
-                            }, child: Text('Mã giảm 1'),),
-                          ),
-                        )
-                      );
+                //             }, child: Text('Mã giảm 1'),),
+                //           ),
+                //         )
+                //       );
                       
-                    });
-                  },
-                  child:
-                Container(
-                  margin: EdgeInsets.all(20.0),
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 0.5,
-                      color: Colors.black26,
-                    ),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.add_circle_outline_rounded, color: Colors.indigoAccent, size: 40.0,),
-                      SizedBox(width: 5.0,),
-                      Text('Thêm thẻ giảm giá', style: TextStyle(color: Colors.indigoAccent, fontSize: 17.0),)
-                    ],
-                  ),)
-                  ),
-                ),
+                //     });
+                //   },
+                //   child:
+                // Container(
+                //   margin: EdgeInsets.all(20.0),
+                //   height: 60.0,
+                //   decoration: BoxDecoration(
+                //     border: Border.all(
+                //       width: 0.5,
+                //       color: Colors.black26,
+                //     ),
+                //     borderRadius: BorderRadius.circular(10.0),
+                //   ),
+                //   child: Center(
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Icon(Icons.add_circle_outline_rounded, color: Colors.indigoAccent, size: 40.0,),
+                //       SizedBox(width: 5.0,),
+                //       Text('Thêm thẻ giảm giá', style: TextStyle(color: Colors.indigoAccent, fontSize: 17.0),)
+                //     ],
+                //   ),)
+                //   ),
+                // ),
             ]),
           ),
           Container(

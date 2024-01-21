@@ -53,32 +53,34 @@ class _ProductManagementState extends State<ProductManagement> {
       ),
     );
   }
+
   void showErrMessSnackBar(String mess) {
-     showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Cảnh báo'),
-              content: Text(mess),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Đóng thông báo
-                  },
-                  child: Text('Đóng'),
-                ),
-              ],
-            );
-          },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cảnh báo'),
+          content: Text(mess),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng thông báo
+              },
+              child: Text('Đóng'),
+            ),
+          ],
         );
-      }
+      },
+    );
+  }
+
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: MediaQuery.of(context).size.height - 200,
+            height: MediaQuery.of(context).size.height - 100,
             child: Column(children: [
               Stack(
                 children: [
@@ -134,8 +136,9 @@ class _ProductManagementState extends State<ProductManagement> {
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(hintText: "Mô tả"),
               ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 DropdownButton<int>(
+                  menuMaxHeight: 150,
                   value: dropDownValueCate,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {
@@ -150,6 +153,7 @@ class _ProductManagementState extends State<ProductManagement> {
                   }).toList(),
                 ),
                 DropdownButton<int>(
+                  menuMaxHeight: 150,
                   value: dropDownValueBrand,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {
@@ -164,6 +168,7 @@ class _ProductManagementState extends State<ProductManagement> {
                   }).toList(),
                 ),
                 DropdownButton<int>(
+                  menuMaxHeight: 150,
                   value: dropDownValuePromotion,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
                   onChanged: (int? newValue) {

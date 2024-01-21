@@ -67,7 +67,7 @@ router.put('/:id', (req, res) => {
 //PUT cập nhật lại để xóa sản phẩm 
 router.put('/id:id', (req, res) => {
     const { id } = req.params;
-    const { image, name, quantity, price, des, idDiscount, status, idCate, idBrand } = req.body;
+    const { image, name, quantity, price, des, idDiscount, idCate, idBrand } = req.body;
 
     const query = 'UPDATE product SET status=0 WHERE id=?';
   

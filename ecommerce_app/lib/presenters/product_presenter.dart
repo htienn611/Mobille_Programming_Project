@@ -39,7 +39,7 @@ class ProductPresenter {
   Future<bool> addProductPresenter(Product p) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.2.3:3000/product'),
+        Uri.parse('http://172.17.13.24:3000/product'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'image': p.image,
@@ -96,7 +96,6 @@ class ProductPresenter {
         Uri.parse('http://192.168.2.3:3000/product/${p.id}'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
-          'id': p.id,
           'image': p.image,
           'name': p.name,
           'quantity': p.quantity,

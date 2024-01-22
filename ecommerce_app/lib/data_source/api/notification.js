@@ -13,13 +13,36 @@ router.post('/', async (req, res) => {
     VALUES ( ?,?)
   `;
 
-        connection.query(addNotiQuery, [ phoneNumber,content], (err) => {
+        connection.query(addNotiQuery, [ phoneNumber,content], (err,results) => {
             if (err) {
                 console.error('Error executing MySQL query:', err);
                 res.status(500).send('Internal Server Error');
             } 
+            return res.json(results);
         });
     
 });
-
-module.exports=router;
+router.get('/:phoneNumber', (req, res) => {
+    const selectQuery = 'SELECT content FROM Notification where phoneNumber=?';
+    const phoneNumber = req.params.phoneNumber;
+  
+    connection.query(selectQuery, [phoneNumber], (err, results) => {
+      if (err) {
+        console.error('Error fetching notifications:', err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        if (results.length === 0) {
+          res.status(404).send('Notification not found');
+        } else {
+          // Map the results to an array of notification objects
+          const notifications = results.map(notification => ({
+            content: notification.content,
+          }));
+  
+          res.status(200).json(notifications);
+        }
+      }
+    });
+  });
+  
+module.exports = router;

@@ -1,5 +1,5 @@
 const express = require('express');
-//const ngrok = require('ngrok');
+const ngrok = require('ngrok');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -79,6 +79,6 @@ db.connect((err) => {
 
 server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  // const url = await ngrok.connect(PORT);
-  // console.log(`Ngrok URL: ${url}`);
+  const url = await ngrok.connect(PORT);
+  console.log(`Ngrok URL: ${url}`);
 });

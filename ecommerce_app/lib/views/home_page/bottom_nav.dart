@@ -23,7 +23,7 @@ class _BottomNavState extends State<BottomNav> {
           border: Border(top: BorderSide(color: Colors.red, width: 1))),
       child: BottomNavigationBar(
         onTap: (index) {
-          currentIndex = index;
+          currentIndex = index==5?4:index;
           onTap(index);
           setState(() {
           });

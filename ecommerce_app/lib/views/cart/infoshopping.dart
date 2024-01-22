@@ -1,6 +1,12 @@
 import 'dart:convert';
 
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
+import 'package:ecommerce_app/models/order.dart';
+import 'package:ecommerce_app/models/order_detail.dart';
+import 'package:ecommerce_app/models/user.dart';
+import 'package:ecommerce_app/presenters/order_presenter.dart';
+import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
+import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:ecommerce_app/views/cart/payshopping.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
@@ -15,8 +21,15 @@ class InfoCartScreen extends StatefulWidget {
   @override
   State<InfoCartScreen> createState() => _InfoCartScreenState();
 }
-class _InfoCartScreenState extends State<InfoCartScreen> {
 
+class _InfoCartScreenState extends State<InfoCartScreen> {
+  late User user;
+  late Order order;
+  late OrderDetail orderDetail;
+
+  OrderPresenter oPre = OrderPresenter();
+  OrderDetailPresenter odPre = OrderDetailPresenter();
+  
   bool isTextFieldEmpty = true;
   bool isTextFieldNumberEmpty = true;
 
@@ -25,23 +38,22 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _controllerNumber = TextEditingController();
 
-  
   List<dynamic> provinces = [];
-  int ? selectedProvince;
+  int? selectedProvince;
 
   List<dynamic> districts = [];
-  int ? selectedDistricts;
-
+  int? selectedDistricts;
 
   List<dynamic> communes = [];
-  int ? selectedCommunes;
+  int? selectedCommunes;
 
-   DateTime ? selectedDate;
+  DateTime? selectedDate;
 
-    bool isCheckedDelivery = true;
-    bool isCheckedInStore = false;
+  bool isCheckedDelivery = true;
+  bool isCheckedInStore = false;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     fetchProvinces();
     fetchDistricts();
@@ -49,7 +61,7 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
     _controller.addListener(_onTextChanged);
   }
 
-  Future<void> fetchProvinces() async{
+  Future<void> fetchProvinces() async {
     final response = await http.get(
       Uri.parse('https://provinces.open-api.vn/api/'),
     );
@@ -62,7 +74,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
       print('Failed to fetch provinces. Error: ${response.statusCode}');
     }
   }
-  Future<void> fetchDistricts() async{
+
+  Future<void> fetchDistricts() async {
     final response = await http.get(
       Uri.parse('https://provinces.open-api.vn/api/d/'),
     );
@@ -75,7 +88,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
       print('Failed to fetch districts. Error: ${response.statusCode}');
     }
   }
-  Future<void> fetchCommunes() async{
+
+  Future<void> fetchCommunes() async {
     final response = await http.get(
       Uri.parse('https://provinces.open-api.vn/api/w/'),
     );
@@ -100,34 +114,37 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        backgroundColor: Color.fromARGB(255,224, 84, 75),
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.arrow_back_rounded),onPressed: (){Navigator.pop(context);}),
-        title: const Text(
-          "Giỏ hàng",
-          style: TextStyle(color: Colors.black),
-        ),
-        actions: [
-          IconButton(
+          backgroundColor: Color.fromARGB(255, 224, 84, 75),
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back_rounded),
               onPressed: () {
-                Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ChatScreen()),
-                              );
-              },
-              icon: const Icon(Icons.chat_bubble_outline_outlined)),
-        ],
-      ),
-        body: Stack(
-          children: [
-            SingleChildScrollView(
+                Navigator.pop(context);
+              }),
+          title: const Text(
+            "Giỏ hàng",
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen()),
+                  );
+                },
+                icon: const Icon(Icons.chat_bubble_outline_outlined)),
+          ],
+        ),
+        body: Stack(children: [
+          SingleChildScrollView(
             child: Column(children: [
               Container(
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                margin: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+                margin:
+                    const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
                 height: 100.0,
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -224,7 +241,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                       ),
                       Text(
                         isTextFieldEmpty ? 'Không được bỏ trống' : '',
-                        style: const TextStyle(fontSize: 10.0, color: Colors.red),
+                        style:
+                            const TextStyle(fontSize: 10.0, color: Colors.red),
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -243,7 +261,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                       ),
                       Text(
                         isTextFieldNumberEmpty ? 'Không được bỏ trống' : '',
-                        style: const TextStyle(fontSize: 10.0, color: Colors.red),
+                        style:
+                            const TextStyle(fontSize: 10.0, color: Colors.red),
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -290,7 +309,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                             SizedBox(
                               height: 60.0,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Expanded(
                                     child: DropdownButtonFormField(
@@ -360,7 +380,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                             SizedBox(
                               height: 60.0,
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SizedBox(
                                     width: 150.0,
@@ -388,7 +409,8 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                                         decoration: InputDecoration(
                                             border: OutlineInputBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(10.0))),
+                                                    BorderRadius.circular(
+                                                        10.0))),
                                       ),
                                     ),
                                   ),
@@ -465,79 +487,80 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                     ]),
                   )),
               Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.only(
-                  left: 16.0,
-                  right: 16.0,
-                  bottom: 8.0,
-                  top: 4.0,
-                ),
-                child: Column(
-                  children: [
-                    const Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.only(
+                      left: 16.0,
+                      right: 16.0,
+                      bottom: 8.0,
+                      top: 4.0,
+                    ),
+                    child: Column(
                       children: [
-                        Text("Tổng tiền"),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                        const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("\$0"),
+                            Text("Tổng tiền"),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text("\$0"),
+                              ],
+                            )
                           ],
-                        )
-                      ],
-                    ),
-                    Row(children: [
-                      Expanded(
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red,
-                                elevation: 0,
-                                //shape: RoundedRectangleBorder(),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 32.0,
-                                  vertical: 8.0,
-                                )),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PayShoppingScreen()),
-                              );
-                            },
-                            child: const Text(
-                              'Tiếp tục',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                      )
-                    ]),
-                    const SizedBox(
-                      height: 8.0,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
+                        ),
+                        Row(children: [
+                          Expanded(
                             child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    elevation: 0,
+                                    //shape: RoundedRectangleBorder(),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0,
+                                      vertical: 8.0,
+                                    )),
                                 onPressed: () {
                                   Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePageScreen()),
-                              );
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            PayShoppingScreen()),
+                                  );
                                 },
-                                child: const Text('Mua sản phẩm khác'))),
+                                child: const Text(
+                                  'Tiếp tục',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          )
+                        ]),
+                        const SizedBox(
+                          height: 8.0,
+                        ),
+                        Row(
+                          children: [
+                            Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomePageScreen()),
+                                      );
+                                    },
+                                    child: const Text('Mua sản phẩm khác'))),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              )),
+                  )),
             ]),
           ),
-          ]
-        ));
+        ]));
   }
 }

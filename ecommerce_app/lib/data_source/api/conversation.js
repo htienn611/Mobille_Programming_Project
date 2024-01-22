@@ -2,15 +2,6 @@ const express = require('express');
 const router = express.Router();
 const connection = require('./db');
 
-router.put('/:id', (req, res) => {
-});
-
-router.delete('/:id', (req, res) => {
-});
-
-router.post('/', (req, res) => {
-});
-
 router.get('/', (req, res) => {
     connection.query('SELECT * FROM conversations where status!=0', (error, results) => {
         if (error) {
@@ -21,7 +12,7 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:idUs1', (req, res) => {
+router.get('/idUs1:idUs1', (req, res) => {
     const idUs1 = req.params.idUs1;
 
     if (!idUs1) {
@@ -38,5 +29,13 @@ router.get('/:idUs1', (req, res) => {
     });
 });
 
+router.post('/insert', (req, res) => {
+    const { idUs1, idUs2} = req.body;
+    const query = 'INSERT INTO conversations (`idUs1`, `idUs2`, `status`) VALUES (?, ?, 1)';
+    connection.query(query, [idUs1, idUs2], (err) => {
+        if  (err) throw err;
+        res.json({ success: true, message: 'Data inserted successfully' });
+    });
+});
 
 module.exports = router;

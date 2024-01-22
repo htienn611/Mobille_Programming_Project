@@ -21,21 +21,24 @@ class _RouterState extends State<Routers> implements UserView {
   String phoneNumber = '';
   var _currentIndex = 0;
 
-  List<Widget> _pages = [];
+  List<Widget> _pages = [
+    const Center(
+      child: Text("loading..."),
+    )
+  ];
 
   Future<void> statusLG() async {
     UserPresenter userPresenter = UserPresenter(this);
     // ignore: unrelated_type_equality_checks
-    if (userPresenter.getLoginStatus() == true) {
+
+//    if (userPresenter.getLoginStatus() == true) {
       phoneNumber = await userPresenter.getSavedPhoneNumber();
-      setState(() {});
-    }
+  //  }
   }
 
   @override
   void initState() {
     super.initState();
-    statusLG();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -55,17 +58,24 @@ class _RouterState extends State<Routers> implements UserView {
         }
       }
     });
-    _pages = [
-      HomePageScreen(scrollController: scrollController),
-      const Center(
-        child: Text("Danh Mục"),
-      ),
-      const Center(
-        child: Text("Thông Báo"),
-      ),
-      const ListOrder(),
-      Profile(phoneNumber: phoneNumber),
-    ];
+    statusLG().then((value) {
+      _pages.clear();
+      // ignore: avoid_print
+      print('routers: $phoneNumber');
+      _pages = [
+        HomePageScreen(
+            scrollController: scrollController, phoneNumber: phoneNumber),
+        const Center(
+          child: Text("Danh Mục"),
+        ),
+        const Center(
+          child: Text("Thông Báo"),
+        ),
+        const ListOrder(),
+        Profile(phoneNumber: phoneNumber),
+      ];
+      setState(() {});
+    });
   }
 
   @override
@@ -76,7 +86,7 @@ class _RouterState extends State<Routers> implements UserView {
           ? BottomNav(onTabTapped: (index) async {
               if (index == 4) {
                 if (phoneNumber == '') {
-                  _pages.removeLast();
+                  _pages.clear();
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -84,13 +94,24 @@ class _RouterState extends State<Routers> implements UserView {
                       ));
                   UserPresenter userPresenter = UserPresenter(this);
                   phoneNumber = await userPresenter.getSavedPhoneNumber();
-                  _pages.add(Profile(phoneNumber: phoneNumber));
+                  _pages = [
+                    HomePageScreen(
+                      scrollController: scrollController,
+                      phoneNumber: phoneNumber,
+                    ),
+                    const Center(
+                      child: Text("Danh Mục"),
+                    ),
+                    const Center(
+                      child: Text("Thông Báo"),
+                    ),
+                    const ListOrder(),
+                    Profile(phoneNumber: phoneNumber),
+                  ];
                 }
               }
               _currentIndex = index;
-              setState(() {
-                print(phoneNumber);
-              });
+              setState(() {});
             })
           : const SizedBox(),
     );

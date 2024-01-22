@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/models/conversation.dart';
+import 'package:ecommerce_app/presenters/conversation_presenter.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:flutter/material.dart';
 
@@ -150,7 +152,7 @@ class _RegisterState extends State<Register> implements UserView {
             ),
             const SizedBox(height: 9),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (!isValidDateFormat(birthdayController.text)) {
                   displayMessage(
                       'Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
@@ -164,6 +166,7 @@ class _RegisterState extends State<Register> implements UserView {
                   name: fullNameController.text,
                   phoneNumber: phoneNumberController.text,
                 );
+
                 Navigator.pop(this.context);
               },
               style: ButtonStyle(

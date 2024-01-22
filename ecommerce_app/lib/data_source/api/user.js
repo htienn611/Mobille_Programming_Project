@@ -120,4 +120,19 @@ router.post('/update', (req, res) => {
     });
 });
 
+///////////////////// tienn
+router.get('/id:phone', (req, res) => {
+    var query = 'SELECT * FROM `user` WHERE status!=0 AND phoneNumber=?';
+    connection.query(query, [req.params.phone], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' })
+        }
+        else {
+            return res.json(results);
+        }
+    }
+    );
+});
+
+
 module.exports = router;

@@ -1,23 +1,111 @@
 import 'package:ecommerce_app/data_source/repository/data.dart';
+import 'package:ecommerce_app/models/conversation.dart';
+import 'package:ecommerce_app/models/messages.dart';
+import 'package:ecommerce_app/models/user.dart';
+import 'package:ecommerce_app/presenters/conversation_presenter.dart';
+import 'package:ecommerce_app/presenters/message_presenter.dart';
+import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:ecommerce_app/views/chat/chat_appbar_items.dart';
+import 'package:ecommerce_app/views/chat/message.dart';
 import 'package:ecommerce_app/views/chat/message_input.dart';
-import 'package:ecommerce_app/views/chat/message_section.dart';
 import 'package:flutter/material.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:socket_io_client/socket_io_client.dart' as io;
 
+// ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
-
+  ChatScreen({super.key, required this.phoneNumber, this.us2 = '0968431225'});
+  final String phoneNumber;
+  var us2 = '';
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatScreenState extends State<ChatScreen> implements UserView {
   late ScrollController _scrollController;
-  late IO.Socket socket;
+  TextEditingController message = TextEditingController();
+  late io.Socket socket;
+  late User us;
+  late Conversation conv;
+
+  List<MessageItem> messLst = List.filled(
+      0, const MessageItem(title: "helo", isMe: true),
+      growable: true);
+  var tempState = true;
 
   void sendMessage(String message) {
-    socket.emit('chat message', message);
+    if (socket.connected) {
+      tempState = true;
+      messLst.add(MessageItem(title: message, isMe: tempState));
+      // Gửi tin nhắn lên server với sự kiện 'clientMessage'
+      socket.emit('clientMessage', {
+        'content': message,
+        'senderID': us.phoneNumber,
+        'to': conv.idUs1 == us.phoneNumber ? conv.idUs2 : conv.idUs1,
+        'timestamp': DateTime.now().toString(),
+        'conversationID': conv.id,
+      });
+
+      // ignore: avoid_print
+      print('Sent message to server: $message');
+      setState(() {});
+    } else {
+      // ignore: avoid_print
+      print('Socket is not connected');
+    }
+  }
+
+  void sendUserId() {
+    // Gửi sự kiện 'userConnected' để thông báo ID người dùng khi kết nối
+    socket.emit('userConnected', {'userId': us.phoneNumber, 'admin': us.admin});
+    // ignore: avoid_print
+    print('Sent user ID to server: ${us.phoneNumber}');
+  }
+
+  void receiveMessages(mess, fromTo) {
+    messLst.add(MessageItem(title: mess, isMe: fromTo == us.phoneNumber));
+    // Scroll to the bottom of the chat
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+
+    // ignore: avoid_print
+    print(fromTo == us.phoneNumber);
+  }
+
+  Future<void> loadData() async {
+    UserPresenter usPre = UserPresenter(this);
+    us = await usPre.getUserByID(widget.phoneNumber);
+    ConversationPresenter convPre = ConversationPresenter();
+    if (us.admin) {
+      conv = await convPre.getConv(widget.us2);
+    } else {
+      conv = await convPre.getConv(us.phoneNumber);
+    }
+
+    MessagePresenter messPre = MessagePresenter();
+    List<Message> messData = List.filled(
+        0,
+        Message(
+            id: 0,
+            senderID: 'senderID',
+            content: 'content',
+            timestamp: DateTime.now(),
+            conversationId: 0,
+            status: 0));
+    messData = await messPre.getMessLstByConvId(conv.id);
+    messLst.clear();
+    for (var item in messData) {
+      messLst.add(MessageItem(
+          title: item.content, isMe: item.senderID == us.phoneNumber));
+    }
+    // ignore: avoid_print
+    print('chat id conv:${conv.id}');
+    setState(() {
+      // ignore: avoid_print
+      print('chat id us:${us.phoneNumber}');
+    });
   }
 
   @override
@@ -30,19 +118,24 @@ class _ChatScreenState extends State<ChatScreen> {
     });
 
     // Kết nối với máy chủ WebSocket
-    socket =
-        IO.io(host, IO.OptionBuilder().setTransports(['websocket']).build());
-
+    socket = io.io(host, <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+    });
+    socket.connect();
     // Kiểm tra trạng thái kết nối
     socket.on('connect', (_) {
+      // ignore: avoid_print
       print('Connected');
-      socket.emit('chat message', 'test');
+      sendUserId();
     });
 
     // Đăng ký sự kiện 'chat message'
-    socket.on('chat message', (msg) {
+    socket.on('servertMessage', (data) {
       // ignore: avoid_print
-      print('Nhận được tin nhắn: $msg');
+      print('Nhận được tin nhắn: $data');
+      loadData();
+      //receiveMessages(data['mess'], data['from']);
     });
 
     socket.onDisconnect((_) {
@@ -51,8 +144,8 @@ class _ChatScreenState extends State<ChatScreen> {
         print("disconnected");
       });
     });
-    // ignore: avoid_print
-    print(socket.connected);
+
+    loadData();
   }
 
   @override
@@ -66,16 +159,13 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: const [ChatAppbarItems()],
       ),
       body: SingleChildScrollView(
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Column(children: [
           SizedBox(
             height: hS * 0.75,
             child: SingleChildScrollView(
+              reverse: true,
               controller: _scrollController,
-              child: Column(children: [
-                MessageSection(isMe: true),
-                MessageSection(isMe: true),
-                MessageSection(isMe: true)
-              ]),
+              child: Column(children: messLst),
             ),
           ),
           MessageInput(
@@ -89,7 +179,11 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
-    super.dispose();
     socket.disconnect();
+    socket.dispose();
+    super.dispose();
   }
+
+  @override
+  void displayMessage(String message) {}
 }

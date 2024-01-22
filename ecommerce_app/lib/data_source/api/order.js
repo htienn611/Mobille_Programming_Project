@@ -30,6 +30,32 @@ router.get('/id:id',(req,res) => {
   );
 });  
 
+// cập nhật trạng thái đơn hàng khi hủy
+router.put('/id/:id', (req, res) => {
+  const { id } = req.params;
+  const { paymentMethods, phoneNumber, date, transportFee, address } = req.body;
+
+  const query = 'UPDATE `order` SET status=3 WHERE id=?';
+
+  connection.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('Error executing MySQL query:', err);
+      res.status(500).send('Internal Server Error');
+    } else {
+      if (results.affectedRows > 0) {
+        res.json({
+          paymentMethods: paymentMethods,
+          phoneNumber: phoneNumber,
+          date: date,
+          transportFee: transportFee,
+          address: address,
+        });
+      } else {
+        res.status(404).send('Order not found');
+      }
+    }
+  });
+});
 
 
 module.exports = router;

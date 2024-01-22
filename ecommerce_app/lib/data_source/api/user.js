@@ -120,4 +120,23 @@ router.post('/update', (req, res) => {
     });
 });
 
+// lấy thông tin người dùng theo số dt
+router.get('/phoneNumber:phoneNumber', (req, res) => {
+    var query = 'SELECT * FROM `user` WHERE phoneNumber LIKE ? LIMIT 1';
+    connection.query(query, [req.params.phoneNumber], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' })
+        }
+        else {
+            return res.json(results);
+        }
+    }
+    );
+});
+
+
+
+
+
+
 module.exports = router;

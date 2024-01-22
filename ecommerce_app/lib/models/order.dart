@@ -6,9 +6,10 @@ class Order {
   String phoneNumber;
   DateTime date;
   int transportFee;
+  String address;
   
   Order( this.id, this.Status, this.paymentMethods, this.phoneNumber, this.date,
-      this.transportFee);
+      this.transportFee,this.address);
 
   Order.fromJson(Map<String, dynamic> json)
       : id = json['id']??0,
@@ -16,5 +17,6 @@ class Order {
       paymentMethods=json['paymentMethods']??0,
       phoneNumber=json['phoneNumber']??"",
       date=DateTime.parse(json['date'])??DateTime.now(),
-      transportFee=json['transportFee']??"";
+      transportFee=json['transportFee']??"",
+      address=json['address']??"";
 }

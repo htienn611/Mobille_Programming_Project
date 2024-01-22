@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http://172.16.12.100:3000';
+var host = 'http://172.16.12.35:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));
@@ -31,6 +32,16 @@ Future<List<dynamic>> getItemByID(String tableName, int id) async {
     throw Exception('Failed to load data');
   }
 }
+
+Future<List<dynamic>> getItemByPhone(String tableName, String phone) async {
+  final response = await http.get(Uri.parse('$host/$tableName/phoneNumber/$phone'));
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
 
 Future<List<dynamic>> getItemByTitle(String tableName, String title,
     [dynamic val, List<dynamic>? paras]) async {
@@ -114,3 +125,39 @@ Future<dynamic> updateProduct(Product product, String tableName) async {
     throw Exception('Error updating product: $error (data.dart)');
   }
 }
+
+//update hóa đơn theo id
+Future<dynamic> updateOrder(Order order, String tableName) async {
+  final Uri url = Uri.parse('$host/$tableName/${order.id}');
+  try {
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode({
+        'paymentMethods': order.paymentMethods,
+        'phoneNumber': order.phoneNumber,
+        'date': order.date?.toIso8601String(), // Thêm kiểm tra null cho order.date
+        'transportFee': order.transportFee,
+        'address': order.address,
+      }),
+    );
+
+    // Cập nhật thành công
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    }
+    // Có lỗi trong quá trình cập nhật
+    else {
+      print('Failed to update order: ${response.body}');
+      throw Exception('Failed to update order (data.dart)');
+    }
+  } catch (error) {
+    print('Error updating order: $error');
+    throw Exception('Error updating order: $error (data.dart)');
+  }
+}
+
+
+

@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
+import 'package:ecommerce_app/data_source/repository/data.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'http://172.16.12.117:3000';
+  static const String baseUrl = 'http://172.16.12.100:3000';
 }
 
 abstract class UserView {
@@ -169,4 +168,23 @@ Future<void> clearSharedPreferences() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
 }
+
+// lấy thông tin người dùng theo số điện thoại
+
+ Future<User> getUserByPhone(String phone) async {
+    User rs=User(phoneNumber: "", name: "", sex: false, birthday: "", biography: "", password: "password", status:"");
+
+    try {
+      dynamic value = await getItemByPhone("user", phone);
+
+      if (value.isNotEmpty) {
+        rs = User.fromJson(value[0]);
+      }
+    } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
+  }
 }

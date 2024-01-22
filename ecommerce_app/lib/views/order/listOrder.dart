@@ -1,3 +1,4 @@
+// ignore: file_names
 import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/views/order/order_item.dart';
@@ -10,9 +11,10 @@ class ListOrder extends StatefulWidget {
 }
 
 class _ListOrderState extends State<ListOrder> {
+  
   final OrderPresenter _orderPresenter = OrderPresenter();
   List<Order> _orders =
-      List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0), growable: true);
+      List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0,""), growable: true);
 
   void _loadData() async {
     _orders = await _orderPresenter.getlstOrder();
@@ -21,36 +23,29 @@ class _ListOrderState extends State<ListOrder> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("aaa");
-    print(_orders.where((element) => element.Status == 0).toList()[0].phoneNumber);
-    print(_orders.where((element) => element.Status == 1).toList()[0].phoneNumber);
-
     return DefaultTabController(
       length: 5,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.arrow_back,
               )),
-          backgroundColor: Color.fromARGB(255, 224, 84, 75),
+          backgroundColor: const Color.fromARGB(255, 224, 84, 75),
           toolbarHeight: 30,
-          actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart))
-          ],
-          shape: ContinuousRectangleBorder(
+         
+          shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
-          bottom: TabBar(
+          bottom: const TabBar(
             tabs: [
               Tab(
                 text: 'Tất cả',
@@ -87,6 +82,7 @@ class _ListOrderState extends State<ListOrder> {
                   itemBuilder: (context, index) {
                       return ItemOrder(order: _orders.where((element) => element.Status==0).toList()[index]);
                   })
+                  
               : const Center(
                   child: Text(
                     "Chưa có đơn hàng nào chờ xác nhận",

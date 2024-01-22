@@ -1,11 +1,13 @@
 import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/models/OrderDetail.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
 import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/views/order/orderDetail.dart';
 
+// ignore: must_be_immutable
 class ItemOrder extends StatefulWidget {
   ItemOrder({super.key, required this.order});
   Order order;
@@ -17,32 +19,27 @@ class _ItemOrderState extends State<ItemOrder> {
   late int orderStatus;
   ProductPresenter proPre = ProductPresenter();
   OrderDetailPresenter orderDetailPre = OrderDetailPresenter();
+  OrderPresenter orderPre = OrderPresenter();
   late OrderDetail orderDetail;
   late Product product;
-  void loadProducts() async {
+  late bool updateOrder = false;
+  void loadData() async {
     product = await proPre.getOneProduct(widget.order.id);
-
-    setState(() {});
-  }
-
-  void loadOrderDetail() async {
     orderDetail = await orderDetailPre.getOrderDetailByID(widget.order.id);
     setState(() {});
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    loadProducts();
-    loadOrderDetail();
+    loadData();
     orderStatus = widget.order.Status;
   }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    print(widget.order.date);
+    //print(widget.order.date);
     return Container(
       width: screenWidth - 20,
       padding: const EdgeInsets.all(10),
@@ -91,27 +88,13 @@ class _ItemOrderState extends State<ItemOrder> {
                   height: 5,
                 ),
                 Text(
+                  // ignore: unnecessary_string_interpolations
                   '${widget.order.date.toString().split(" ")[0]}',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),
-            Column(
-              children: [
-                const Text(
-                  "Tổng thanh toán",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '${product.price * orderDetail.quantityProduct}',
-                  style: const TextStyle(
-                      color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
+           
           ],
         ),
         Container(
@@ -137,6 +120,7 @@ class _ItemOrderState extends State<ItemOrder> {
                   width: (screenWidth - 20) * 0.6,
                   child: RichText(
                     text: TextSpan(
+                      // ignore: unnecessary_string_interpolations
                       text: '${product.name}',
                       style: const TextStyle(
                           fontSize: 15,
@@ -168,15 +152,17 @@ class _ItemOrderState extends State<ItemOrder> {
                 ),
                 Row(
                   children: [
-                    TextButton(onPressed: (){
-                        Navigator.push(
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                  Order_Detail(idOrder: widget.order.id),
+                                  Order_Detail(idOrder: widget.order.id,),
                             ),
                           );
-                    }, child: Text("xem thêm")),
+                        },
+                        child: Text("xem thêm")),
                     const SizedBox(
                       width: 50,
                     ),
@@ -197,14 +183,16 @@ class _ItemOrderState extends State<ItemOrder> {
                                       },
                                       child: const Text("Hủy bỏ")),
                                   TextButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          orderStatus = 3;
+                                      onPressed: () async {
+                                        updateOrder = await orderPre
+                                            .updateStatusOrder(widget.order);
+                                        if (updateOrder) {
+                                           orderStatus = 3;
                                           widget.order.Status = orderStatus;
-                                        });
-                                        widget.order.Status == 3;
-                                        Navigator.of(context).pop();
-                                        setState(() {});
+                                           widget.order.Status == 3;
+                                          Navigator.of(context).pop();
+                                          setState(() {});
+                                        }
                                       },
                                       child: const Text("Xác nhận"))
                                 ],
@@ -229,6 +217,7 @@ class _ItemOrderState extends State<ItemOrder> {
                           );
                         }
                       },
+                      // ignore: sort_child_properties_last
                       child: const Text("Hủy đơn",
                           style: TextStyle(color: Colors.white)),
                       style: ButtonStyle(

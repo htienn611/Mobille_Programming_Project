@@ -30,7 +30,7 @@ class _ChatAppbarItemsState extends State<ChatAppbarItems> {
               const SizedBox(
                 width: 10,
               ),
-               const Column(
+                const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

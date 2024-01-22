@@ -24,6 +24,7 @@ class _LoginState extends State<Login> implements UserView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: SizedBox(
           width: MediaQuery.of(context).size.width,

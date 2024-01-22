@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MessageInput extends StatefulWidget {
-  const MessageInput({super.key});
-
+  MessageInput({super.key, required this.sendMessage});
+  Function(String) sendMessage;
   @override
   State<MessageInput> createState() => _MessageInputState();
 }
@@ -25,7 +25,7 @@ class _MessageInputState extends State<MessageInput> {
               maxLines: null,
               controller: message,
               decoration: const InputDecoration(
-                hintText: "Nhập tin nhắn...",
+                  hintText: "Nhập tin nhắn...",
                   border: OutlineInputBorder(borderSide: BorderSide.none)),
             ),
           ),
@@ -34,10 +34,11 @@ class _MessageInputState extends State<MessageInput> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: ()async {
+                  await  widget.sendMessage(message.text);
+                  },
                   icon: const Icon(Icons.insert_comment_outlined)),
-              IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.send))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.send))
             ],
           ),
         ],

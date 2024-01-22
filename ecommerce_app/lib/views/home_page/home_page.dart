@@ -6,7 +6,6 @@ import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
 import 'package:ecommerce_app/views/home_page/footer/home_footer.dart';
 import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({super.key, required this.scrollController});
@@ -16,7 +15,6 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  bool _isVisible = true;
 
   @override
   void initState() {

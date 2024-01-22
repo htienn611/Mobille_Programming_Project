@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl='https://ae0b-1-54-233-235.ngrok-free.app';
+  static const String baseUrl = 'http://172.16.12.117:3000';
 }
 
 abstract class UserView {
@@ -164,5 +164,9 @@ Future<bool> getLoginStatus() async {
 Future<String> getSavedPhoneNumber() async{
   final prefs = await SharedPreferences.getInstance();
   return prefs.getString('phoneNumber') ?? '';
+}
+Future<void> clearSharedPreferences() async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
 }
 }

@@ -1,11 +1,15 @@
 import 'package:ecommerce_app/models/user.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
+import 'package:ecommerce_app/views/routers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Profile extends StatefulWidget {
-  final String phoneNumber;
+import '../presenters/fireBaseApi.dart';
 
-  const Profile({required this.phoneNumber, Key? key}) : super(key: key);
+class Profile extends StatefulWidget {
+  String phoneNumber;
+
+   Profile({required this.phoneNumber, Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
@@ -19,7 +23,7 @@ class _ProfileState extends State<Profile> implements UserView {
   late TextEditingController phoneNumberController;
   late TextEditingController biographyController;
   User? user;
-
+NotificationServices notificationServices = NotificationServices();
   @override
   void initState() {
     super.initState();
@@ -29,7 +33,18 @@ class _ProfileState extends State<Profile> implements UserView {
     birthdayController = TextEditingController();
     phoneNumberController = TextEditingController();
     biographyController = TextEditingController();
+ notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
 
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
     _loadUserByPhoneNumber();
   }
 
@@ -60,7 +75,7 @@ class _ProfileState extends State<Profile> implements UserView {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Chọn giới tính'),
+          title: const Text('Chọn giới tính'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -68,13 +83,13 @@ class _ProfileState extends State<Profile> implements UserView {
                 onPressed: () {
                   Navigator.of(context).pop(true); // Nam
                 },
-                child: Text('Nam'),
+                child: const Text('Nam'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(false); // Nữ
                 },
-                child: Text('Nữ'),
+                child: const Text('Nữ'),
               ),
             ],
           ),
@@ -94,9 +109,9 @@ class _ProfileState extends State<Profile> implements UserView {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Container(
+        title: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Text(
+          child: const Text(
             "THÔNG TIN CÁ NHÂN",
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
@@ -116,23 +131,24 @@ class _ProfileState extends State<Profile> implements UserView {
               if (updateSuccess) {
                 // Handle successful update, e.g., show a success message
                 print('User updated successfully');
+                sendNotificationAfterChangeProfile();
               } else {
                 // Handle update failure, e.g., show an error message
                 print('Failed to update user');
               }
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Image(
+                child: const Image(
                   fit: BoxFit.cover,
                   image: AssetImage('assets/img/meo.jpg'),
                   width: 200,
@@ -140,18 +156,18 @@ class _ProfileState extends State<Profile> implements UserView {
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Tên:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -161,9 +177,9 @@ class _ProfileState extends State<Profile> implements UserView {
                   labelText: "Giới tính:",
                   suffixIcon: IconButton(
                     onPressed: _selectGender,
-                    icon: Icon(Icons.arrow_forward_ios),
+                    icon: const Icon(Icons.arrow_forward_ios),
                   ),
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -171,36 +187,46 @@ class _ProfileState extends State<Profile> implements UserView {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: birthdayController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Ngày sinh:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 readOnly: true,
                 controller: phoneNumberController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "SĐT:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: biographyController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Tiểu sử",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
+            ElevatedButton(onPressed: (){
+               UserPresenter userPresenter = UserPresenter(this);
+               userPresenter.clearSharedPreferences();
+              Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => const Routers(),
+                      ),
+                    );
+            }, child: const Text('Đăng xuất'))
           ],
         ),
       ),
@@ -214,7 +240,7 @@ class _ProfileState extends State<Profile> implements UserView {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Thông báo"),
+          title: const Text("Thông báo"),
           content: Text(message),
           actions: [
             TextButton(
@@ -222,11 +248,20 @@ class _ProfileState extends State<Profile> implements UserView {
                 Navigator.of(context).pop();
 
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );
       },
     );
+  }
+  
+  void sendNotificationAfterChangeProfile() async {
+    final deviceToken = await notificationServices.getDeviceToken();
+
+    await notificationServices.sendFCMNotification(
+        title: 'Change Profile Success',
+        body: 'You have change information!',
+        deviceToken: deviceToken);
   }
 }

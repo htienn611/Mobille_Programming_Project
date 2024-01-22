@@ -56,7 +56,8 @@ Future<dynamic> addProduct(Product product, String tableName) async {
   final Uri url = Uri.parse(('$host/$tableName'));
 
   try {
-    final response = await http.post(
+    //final response =
+     await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -108,6 +109,7 @@ Future<dynamic> updateProduct(Product product, String tableName) async {
       throw Exception('Failed to update product (data.dart)');
     }
   } catch (error) {
+    // ignore: avoid_print
     print('Error updating product: $error  (data.dart)');
     throw Exception('Error updating product: $error (data.dart)');
   }

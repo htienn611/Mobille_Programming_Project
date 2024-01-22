@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/presenters/noti_presenter.dart';
 import 'package:ecommerce_app/views/notification/notification_item.dart';
 import 'package:flutter/material.dart';
 
@@ -54,25 +55,7 @@ Expanded(child: Text("")),
                 SizedBox(width: 10,)
               ],
             ),
-            SizedBox(height: 20,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
+            
           ],
         ),
       ),

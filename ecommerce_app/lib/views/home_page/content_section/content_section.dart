@@ -60,7 +60,6 @@ class _ContentSectionState extends State<ContentSection>
     products = widget.isBestSelling
         ? await proPre.getBestSellingProducts(limit, idCate)
         : await proPre.getProductsByIdCateIdBrand(limit, idCate, idBrand);
-      print("here");
       productsLabel.clear();
       for (var item in products) {
         productsLabel.add(ProductLabel(

@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/data_source/repository/data.dart';
 
 class Product {
   late int id;

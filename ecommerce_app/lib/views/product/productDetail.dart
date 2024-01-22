@@ -1,7 +1,14 @@
+//import 'package:ecommerce_app/models/cart_detail.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/views/product/ratingStar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class ProductDetail extends StatefulWidget {
-  const ProductDetail({super.key});
+  final Product product;
+  //final CartDetail cartDetail;
+  const ProductDetail({super.key, required this.product});
 
   @override
   State<ProductDetail> createState() => _ProductDetailState();
@@ -10,139 +17,224 @@ class ProductDetail extends StatefulWidget {
 class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(185, 233, 30, 33),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ))
-        ],
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-                      Image.asset(
-              'assets/img/laptop/laptop.jpg',
-              fit: BoxFit.cover,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width-100,
-            ),
-          Text(
-              "Laptop Acer Aspire 5 Gaming A515 58GM 51LB i5 13420H/16GB/512GB/4GB RTX2050/Win11",
-              softWrap: true,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
-          Text(
-            "32.000.000 vnđ",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color:Colors.red ),
-          ),
-            Text("Số lượng: 20"),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "Những mẫu laptop Aspire Gaming chắc chắn đã quá quen thuộc với anh em nhờ hiệu năng mạnh mẽ nhưng lại được gắn với mác giá vô cùng hợp lý. Với mẫu Acer Aspire 5 Gaming vào năm 2023 này chắc chắn sẽ không làm mọi người thất vọng với cũng giá đó nhưng hiệu năng có phần được nâng lên nữa.Laptop được trang bị bộ vi xử lý Intel Core i5 Raptor Lake - 13420H cùng card rời NVIDIA GeForce RTX 2050 4 GB đa nhiệm hiệu quả cho mình mọi công việc trên cơ quan, học tập hay giải trí thường ngày đến việc thực hiện các bản thiết kế trên nền tảng Premiere, Photoshop,... tuy nhiên với các ấn phẩm nghệ thuật, đồ hoạ động quá nhiều layer hay effect thì mình đánh giá máy chưa đáp ứng được nhanh chóng, nếu chỉ sử dụng cho công việc thông thường thôi thì vẫn rất ok nha.",
-              softWrap: true,
-              textAlign: TextAlign.justify,
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
-                width: 50,
-                height: 50,
-                color: Colors.grey,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Trúc Trần",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("Rất tuyệt")
-                ],
-              ),
-              SizedBox(
-                width: 200,
-              ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.send))
-            ]),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
-                width: 50,
-                height: 50,
-                color: Colors.greenAccent,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Chương Phú",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("Very good")
-                ],
-              ),
-            ]),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-              Container(
-                width: 50,
-                height: 50,
-                color: Colors.pink,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Column(
-                children: [
-                  Text(
-                    "Lee Do Huyn",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("Chạy mượt ")
-                ],
-              ),
-            ]),
-          )
-        ],
-      )),
-      bottomNavigationBar: BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              label: "Thêm"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.flash_on,
-                color: Colors.white,
-              ),
-              label: "Mua ngay")
-        ],
-        selectedLabelStyle: TextStyle(color: Colors.white),
-        unselectedLabelStyle: TextStyle(color: Colors.white),
-        backgroundColor: Color.fromARGB(147, 233, 30, 33),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        systemNavigationBarColor:
+            Colors.transparent, // Để thanh điều hướng ở dưới trong suốt
+        systemNavigationBarIconBrightness:
+            Brightness.light, // Màu icon trên thanh điều hướng
+        statusBarColor:
+            Colors.transparent, // Để thanh trạng thái ở trên trong suốt
+        statusBarIconBrightness:
+            Brightness.light, // Màu icon trên thanh trạng thái
       ),
     );
+    return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent, // Đặt màu trong suốt
+          elevation: 0,
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                ))
+          ],
+        ),
+        body: SingleChildScrollView(
+            child: Column(
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(
+                    25.0), // Điều chỉnh giá trị này để chỉnh bo góc dưới bên trái
+                bottomRight: Radius.circular(
+                    25.0), // Điều chỉnh giá trị này để chỉnh bo góc dưới bên phải
+              ),
+              child: Image.asset(
+                'assets/img/laptop/laptop.jpg',
+                fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width - 50,
+              ),
+            ),
+            Container(
+                child: Column(children: [
+              Text(widget.product.name,
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
+              const RatingStar(),
+              Text(
+                "${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(widget.product.price)} vnđ",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.red),
+              ),
+              Text("Số lượng: ${widget.product.quantity.toString()}"),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  widget.product.des,
+                  softWrap: true,
+                  textAlign: TextAlign.justify,
+                ),
+              ),
+            ])),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.grey,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Column(
+                  children: [
+                    Text(
+                      "Trúc Trần",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("Rất tuyệt")
+                  ],
+                ),
+                const SizedBox(
+                  width: 200,
+                ),
+                IconButton(onPressed: () {}, icon: const Icon(Icons.send))
+              ]),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.greenAccent,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Column(
+                  children: [
+                    Text(
+                      "Chương Phú",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("Very good")
+                  ],
+                ),
+              ]),
+            ),
+            Container(
+              padding: const EdgeInsets.all(8),
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.pink,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Column(
+                  children: [
+                    Text(
+                      "Lee Do Huyn",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text("Chạy mượt ")
+                  ],
+                ),
+              ]),
+            )
+          ],
+        )),
+        bottomNavigationBar: Container(
+          height: 50,
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 5,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(185, 233, 30, 33),
+                  ),
+                  child: const Center(
+                      child: Icon(Icons.chat,color: Colors.white,)),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(185, 233, 30, 33),
+                  ),
+                  child: const Center(
+                      child: Text(
+                    "Thêm vào giỏ",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  )),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  // if (widget.product.id == widget.cartDetail.idProduct) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //   content: Text('Sản phẩm đã có trong giỏ hàng'),
+                  //   duration: const Duration(seconds: 2),
+                  //   ),
+                  // );
+                  // } else {
+                  //   CartDetail newCartD = CartDetail(
+                  //       id: .id,
+                  //       image: pro.image,
+                  //       quantity: int.parse(quantityController.text),
+                  //   checkUpdateProduct =
+                  //       await proPre.updateProductPresenter(newP);
+                  //   Navigator.pop(context);
+                  //   if (checkUpdateProduct) {
+                  //     showMessSnackBar('Cập nhật sản phẩm thành công');
+                  //     setState(() {});
+                  //   } else
+                  //     showMessSnackBar('Cập nhật sản phẩm thất bại');
+                  },
+                
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color.fromARGB(185, 233, 30, 33),
+                  ),
+                  child: const Center(
+                      child: Text(
+                    "Mua ngay",
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  )),
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

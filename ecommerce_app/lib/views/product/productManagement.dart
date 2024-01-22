@@ -1,68 +1,83 @@
-import 'dart:io';
-
 import 'package:ecommerce_app/models/brand.dart';
+import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/models/promotion.dart';
+import 'package:ecommerce_app/presenters/brand_presenter.dart';
 import 'package:ecommerce_app/presenters/category_presenter.dart';
+import 'package:ecommerce_app/presenters/product_presenter.dart';
+import 'package:ecommerce_app/presenters/promotion_presenter.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
 import 'package:flutter/material.dart';
 import 'package:ecommerce_app/models/category.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:convert';
 
 class ProductManagement extends StatefulWidget {
   const ProductManagement({super.key});
-
   @override
   State<ProductManagement> createState() => _ProductManagementState();
 }
 
 class _ProductManagementState extends State<ProductManagement> {
-  String dropDownValue = "Laptop";
-  String dropDownValueBrand = "Del";
-  CategoryPresenter catePre = CategoryPresenter();
-  //late ImagePicker _picker;
-  // late XFile _image;
+  int dropDownValueCate = 1;
+  int dropDownValuePromotion = 1;
+  int dropDownValueBrand = 5;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController desController = TextEditingController();
   List<Category> danhSachDanhMuc = [];
-  void loadData() async {
-    List<Category> danhMuc = await catePre.getCateLst();
-    setState(() {
-      danhSachDanhMuc = danhMuc;
-    });
-  }
-
+  CategoryPresenter catePre = CategoryPresenter();
   List<Brand> danhSachNhanHang = [];
-  void loadDataBrand() async {
-    List<Brand> nhanHang = await Brand.getBrandLst();
-    setState(() {
-      danhSachNhanHang = nhanHang;
-    });
+  BrandPresenter brandPre = BrandPresenter();
+  ProductPresenter proPre = ProductPresenter();
+  bool checkAddProduct = false;
+  List<Promotion> danhSachGiamGia = [];
+  PromotionPresenter promotionPre = PromotionPresenter();
+
+  void loadData() async {
+    danhSachDanhMuc = await catePre.getCateLst();
+    danhSachNhanHang = await brandPre.getBrandLst();
+    danhSachGiamGia = await promotionPre.getPromotionLst();
+    setState(() {});
   }
 
   @override
   void initState() {
     super.initState();
     loadData();
-    loadDataBrand();
-   // _picker = ImagePicker();
-    //_image = XFile("assets/img/laptop/laptop.jpg");
   }
 
-  // Future<void> _pickImage() async {
-  //   final XFile? pickedImage =
-  //       await _picker.pickImage(source: ImageSource.gallery);
-
-  //   if (pickedImage != null) {
-  //     setState(() {
-  //       _image = pickedImage;
-  //     });
-  //   }
-  // }
-
+  void showMessSnackBar(String mess) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(mess),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+  void showErrMessSnackBar(String mess) {
+     showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Cảnh báo'),
+              content: Text(mess),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Đóng thông báo
+                  },
+                  child: const Text('Đóng'),
+                ),
+              ],
+            );
+          },
+        );
+      }
   void _addProduct(BuildContext context) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return Container(
+          return SizedBox(
             height: MediaQuery.of(context).size.height - 200,
             child: Column(children: [
               Stack(
@@ -72,17 +87,10 @@ class _ProductManagementState extends State<ProductManagement> {
                     height: 120,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(75),
-                      child: 
-                      // _image != null
-                      //     ? Image.file(
-                      //         File(_image.path),
-                      //         fit: BoxFit.cover,
-                      //       )
-                      //     : 
-                          Image(
-                              image: AssetImage('assets/img/laptop/laptop.jpg'),
-                              fit: BoxFit.cover,
-                            ),
+                      child: const Image(
+                        image: AssetImage('assets/img/laptop/laptop.jpg'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Positioned(
@@ -99,65 +107,109 @@ class _ProductManagementState extends State<ProductManagement> {
                             Icons.camera_alt_rounded,
                             color: Colors.grey,
                           ),
-                          onPressed: () {
-                           // _pickImage();
-                          },
+                          onPressed: () {},
                         ),
                       ))
                 ],
               ),
               TextField(
-                decoration: InputDecoration(hintText: "Tên sản phẩm"),
+                maxLength: 28,
+                controller: nameController,
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(hintText: "Tên sản phẩm"),
               ),
               TextField(
-                decoration: InputDecoration(hintText: "Giá"),
+                controller: priceController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(hintText: "Giá"),
               ),
               TextField(
-                decoration: InputDecoration(hintText: "Giảm giá"),
+                controller: quantityController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(hintText: "Số lượng"),
               ),
               TextField(
-                decoration: InputDecoration(hintText: "Số lượng"),
-              ),
-              TextField(
-                decoration: InputDecoration(hintText: "Mô tả"),
+                maxLines: 4,
+                controller: desController,
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(hintText: "Mô tả"),
               ),
               Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                DropdownButton<String>(
-                  value: dropDownValue,
+                DropdownButton<int>(
+                  value: dropDownValueCate,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (String? newValue) {
+                  onChanged: (int? newValue) {
                     setState(() {
-                      dropDownValue = newValue!;
-                      print(dropDownValue);
+                      dropDownValueCate = newValue!;
                     });
                   },
                   items: danhSachDanhMuc.map((motDanhMuc) {
-                    return DropdownMenuItem<String>(
-                        value: motDanhMuc.nameCate.toString(),
+                    return DropdownMenuItem<int>(
+                        value: motDanhMuc.id,
                         child: Text(motDanhMuc.nameCate.toString()));
                   }).toList(),
                 ),
-                DropdownButton<String>(
+                DropdownButton<int>(
                   value: dropDownValueBrand,
                   icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (String? newValue) {
+                  onChanged: (int? newValue) {
                     setState(() {
                       dropDownValueBrand = newValue!;
-                      print(dropDownValueBrand);
                     });
                   },
                   items: danhSachNhanHang.map((motNhanHang) {
-                    return DropdownMenuItem<String>(
-                        value: motNhanHang.name.toString(),
+                    return DropdownMenuItem<int>(
+                        value: motNhanHang.id,
                         child: Text(motNhanHang.name.toString()));
+                  }).toList(),
+                ),
+                DropdownButton<int>(
+                  value: dropDownValuePromotion,
+                  icon: const Icon(Icons.arrow_drop_down_outlined),
+                  onChanged: (int? newValue) {
+                    setState(() {
+                      dropDownValuePromotion = newValue!;
+                    });
+                  },
+                  items: danhSachGiamGia.map((motGiamGia) {
+                    return DropdownMenuItem<int>(
+                        value: motGiamGia.id,
+                        child: Text(motGiamGia.title.toString()));
                   }).toList(),
                 )
               ]),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  if (nameController.text.isEmpty ||
+                      quantityController.text.isEmpty ||
+                      priceController.text.isEmpty ||
+                      desController.text.isEmpty) {
+                    showErrMessSnackBar(
+                        "Xin hãy nhập thông tin đầy đủ trước khi thêm");
+                  } else {
+                    Product product = Product.AddProduct(
+                        image: "image",
+                        name: nameController.text,
+                        quantity: int.parse(quantityController.text),
+                        price: int.parse(priceController.text),
+                        des: desController.text,
+                        idDiscount: dropDownValuePromotion,
+                        status: 1,
+                        idCate: dropDownValueCate,
+                        idBrand: dropDownValueBrand);
+
+                    checkAddProduct = await proPre.addProductPresenter(product);
+                    Navigator.pop(context);
+                    if (checkAddProduct) {
+                      showMessSnackBar('Thêm sản phẩm thành công');
+                      setState(() {});
+                    } else {
+                      showMessSnackBar('Thêm sản phẩm thất bại');
+                    }
+                  }
+                  setState(() {});
                 },
-                child: Text("Lưu"),
+                child: const Text("Lưu"),
               )
             ]),
           );
@@ -167,7 +219,7 @@ class _ProductManagementState extends State<ProductManagement> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: 5,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -186,7 +238,7 @@ class _ProductManagementState extends State<ProductManagement> {
                     return [
                       PopupMenuItem(
                           child: ListTile(
-                        title: Text("Thêm sản phẩm"),
+                        title: const Text("Thêm sản phẩm"),
                         onTap: () {
                           // xử lý thêm sản phẩm
                           Navigator.pop(context);
@@ -197,7 +249,7 @@ class _ProductManagementState extends State<ProductManagement> {
                       )),
                       PopupMenuItem(
                           child: ListTile(
-                        title: Text("Thêm danh mục"),
+                        title: const Text("Thêm danh mục"),
                         onTap: () {
                           // xử lý thêm sản phẩm
                         },
@@ -214,23 +266,41 @@ class _ProductManagementState extends State<ProductManagement> {
                     onLongPress: () {
                       _showMenu(context);
                     },
-                    child: Text("Tất cả"),
+                    child: const Text("Tất cả"),
                   ),
                   GestureDetector(
                     onLongPress: () {
                       _showMenu(context);
                     },
-                    child: Text("Một"),
+                    child: const Text("Laptop"),
+                  ),
+                  GestureDetector(
+                    onLongPress: () {
+                      _showMenu(context);
+                    },
+                    child: const Text("Mouse"),
+                  ),
+                  GestureDetector(
+                    onLongPress: () {
+                      _showMenu(context);
+                    },
+                    child: const Text("Ram"),
+                  ),
+                  GestureDetector(
+                    onLongPress: () {
+                      _showMenu(context);
+                    },
+                    child: const Text("CPU"),
                   ),
                 ]),
           ),
           body: const TabBarView(
             children: [
-              // Nội dung tab mặc định
               ListProduct(),
-              Center(
-                child: Text('Laptop'),
-              ),
+              ListProduct(),
+              ListProduct(),
+              ListProduct(),
+              ListProduct(),
             ],
           ),
         ));
@@ -241,20 +311,19 @@ void _showMenu(BuildContext context) {
   // Hiển thị menu khi nhấn giữ lên tab
   showMenu(
     context: context,
-    position: RelativeRect.fromLTRB(0, 100, 0, 0),
+    position: const RelativeRect.fromLTRB(0, 100, 0, 0),
     items: [
       PopupMenuItem(
         child: ListTile(
-          title: Icon(Icons.edit),
+          title: const Icon(Icons.edit),
           onTap: () {
-            print('Option 1 selected  ');
             Navigator.pop(context);
           },
         ),
       ),
       PopupMenuItem(
         child: ListTile(
-          title: Icon(Icons.delete),
+          title: const Icon(Icons.delete),
           onTap: () {
             Navigator.pop(context);
             _showDeleteConfirmation(context);
@@ -270,21 +339,21 @@ void _showDeleteConfirmation(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Xác nhận Xóa'),
-        content: Text('Bạn có chắc chắn muốn xóa không?'),
+        title: const Text('Xác nhận Xóa'),
+        content: const Text('Bạn có chắc chắn muốn xóa không?'),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context); // Đóng thông báo
             },
-            child: Text('Hủy'),
+            child: const Text('Hủy'),
           ),
           TextButton(
             onPressed: () {
               // Thực hiện xóa dữ liệu
               Navigator.pop(context); // Đóng thông báo sau khi xử lý xóa
             },
-            child: Text('Xóa'),
+            child: const Text('Xóa'),
           ),
         ],
       );

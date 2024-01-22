@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/data_source/repository/get_data.dart';
+import 'package:ecommerce_app/data_source/repository/data.dart';
 import 'package:ecommerce_app/models/order_detail.dart';
 
 class OrderDetailPresenter {
@@ -14,9 +14,46 @@ class OrderDetailPresenter {
         rsLst = value.map((json) => OrderDetail.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error');
+    }
+    return rsLst;
+  }
+
+  Future<List<String>> getBestSellingProductId(
+      int limit, dynamic idCate) async {
+    List<String> rsLst = List.filled(0, "", growable: true);
+
+    try {
+      List<dynamic> value = await getItemByTitle(
+          "order_details", "best_selling", limit, [idCate]);
+      // ignore: avoid_print
+      print("loaded: getBestSellingProductId in order detail presenter");
+      if (value.isNotEmpty) {
+        rsLst.clear();
+        rsLst = value.map((e) => e['id'].toString()).toList();
+      }
+    } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);
     return rsLst;
+  }
+
+   Future<OrderDetail> getOrderDetailByID(int id) async {
+    OrderDetail rs=OrderDetail(0,0, 0);
+
+    try {
+      dynamic value = await getItemByID("order_details", id);
+
+      if (value.isNotEmpty) {
+        rs = OrderDetail.fromJson(value[0]);
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
   }
 }

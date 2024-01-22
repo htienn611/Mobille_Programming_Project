@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th1 16, 2024 lúc 12:14 PM
+-- Thời gian đã tạo: Th1 20, 2024 lúc 09:37 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.2.4
 
@@ -24,15 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `address`
+--
+
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL,
+  `phoneNumber` varchar(15) NOT NULL,
+  `content` varchar(255) NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `brand`
 --
 
 CREATE TABLE `brand` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `idCate` int(11) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `brand`
+--
+
+INSERT INTO `brand` (`id`, `name`, `status`) VALUES
+(5, 'Del', 1),
+(6, 'Lenovo', 1),
+(7, 'Apple', 1),
+(8, 'Asus', 1);
 
 -- --------------------------------------------------------
 
@@ -74,8 +96,17 @@ CREATE TABLE `category` (
 --
 
 INSERT INTO `category` (`id`, `nameCate`) VALUES
-(1, '[abc]'),
-(2, '[abc1]');
+(1, 'Laptop'),
+(2, 'Máy Bàn'),
+(3, 'Ram'),
+(4, 'CPU'),
+(5, 'GPU'),
+(6, 'Màn Hình'),
+(7, 'Case'),
+(8, 'Nguồn'),
+(9, 'Ổ Cứng'),
+(10, 'Bàn Phím'),
+(11, 'Chuột');
 
 -- --------------------------------------------------------
 
@@ -132,16 +163,16 @@ CREATE TABLE `order` (
   `phoneNumber` varchar(15) NOT NULL,
   `date` date NOT NULL,
   `transportFee` int(11) NOT NULL,
-  `Adress` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `order`
 --
 
-INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `Adress`) VALUES
-(1, 0, 1, '0395060907', '2024-01-08', 10, ''),
-(2, 1, 1, '0395060907', '2024-01-08', 10, '');
+INSERT INTO `order` (`id`, `Status`, `paymentMethods`, `phoneNumber`, `date`, `transportFee`, `address`) VALUES
+(1, 1, 1, '0384864757', '2024-01-08', 10, ''),
+(2, 1, 1, '0384864757', '2024-01-08', 10, '');
 
 -- --------------------------------------------------------
 
@@ -161,7 +192,11 @@ CREATE TABLE `order_details` (
 
 INSERT INTO `order_details` (`quantityProduct`, `idOrder`, `idProduct`) VALUES
 (2, 1, 1),
-(1, 1, 2);
+(1, 1, 7),
+(2, 1, 7),
+(3, 1, 8),
+(4, 2, 7),
+(3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -175,6 +210,13 @@ CREATE TABLE `payments` (
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `payments`
+--
+
+INSERT INTO `payments` (`id`, `name`, `status`) VALUES
+(1, 'Thanh toán tiền mặt', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -183,7 +225,7 @@ CREATE TABLE `payments` (
 
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
-  `image` varchar(255) DEFAULT NULL,
+  `image` longtext DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `quantity` int(11) NOT NULL,
   `price` bigint(20) NOT NULL,
@@ -199,8 +241,18 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`id`, `image`, `name`, `quantity`, `price`, `des`, `idDiscount`, `status`, `idCate`, `idBrand`) VALUES
-(1, NULL, 'Laptop abc', 10, 2000, NULL, NULL, 1, NULL, NULL),
-(2, NULL, 'LAPTOP2', 2, 222, NULL, NULL, 1, NULL, NULL);
+(1, 'abc', 'Laptop abc', 10, 2000, 'abc', 1, 0, 2, 8),
+(7, 'abc', 'Laptop Dell Inspiron 15 351', 22, 22000000, 'Laptop Dell Inspiron 15 3511 PDP3H đang được người tiêu dùng hết mực săn đón nhờ thiết kế bên ngoài mỏng nhẹ cùng cấu hình mượt tới từ chipset Intel hiện đại. Bên cạnh đó laptop Dell Inspiron còn sở hữu khả năng lưu trữ ổn định thông qua thông số bộ nhớ lên tới 256GB bộ nhớ trong và 8GB RAM, đem tới trải nghiệm đa nhiệm mượt mà cùng không gian ghi nhớ tuyệt vời.Truy xuất dữ liệu nhanh với thông số bộ nhớ ổn định Laptop Dell Inspiron 15 3511 PDP3H sở hữu tốc độ truy xuất ấn tượng nhờ được tích hợp kho lưu trữ SSD 256GB. Qua đó, các thao tác tìm kiếm tập tin của bạn trên laptop Dell này sẽ trở nên vô cùng nhanh chóng, giảm thời gian chờ đợi và nâng cao hiệu suất sử dụng.', 1, 1, 1, 5),
+(8, 'acc', 'Laptop Lenovo Inspiron 22', 33, 30000000, 'Laptop Lenovo Inspiron 22 2000 PDP3H đang được người tiêu dùng hết mực săn đón nhờ thiết kế bên ngoài mỏng nhẹ cùng cấu hình mượt tới từ chipset Intel hiện đại. Bên cạnh đó laptop Dell Inspiron còn sở hữu khả năng lưu trữ ổn định thông qua thông số bộ nhớ lên tới 256GB bộ nhớ trong và 8GB RAM, đem tới trải nghiệm đa nhiệm mượt mà cùng không gian ghi nhớ tuyệt vời.\r\nTruy xuất dữ liệu nhanh với thông số bộ nhớ ổn định\r\nLaptop Lenovo Inspiron 22 2000 PDP3H sở hữu tốc độ truy xuất ấn tượng nhờ được tích hợp kho lưu trữ SSD 256GB. Qua đó, các thao tác tìm kiếm tập tin của bạn trên laptop Dell này sẽ trở nên vô cùng nhanh chóng, giảm thời gian chờ đợi và nâng cao hiệu suất sử dụng.', 1, 1, 1, 6),
+(9, 'image', 'Chuot khong day', 32, 430000, 'Day la chuot khong day ', 1, 0, 2, 6),
+(10, 'image', 'San pham moi', 20, 200000, 'san ta ', 1, 0, 2, 6),
+(11, 'image', 'San pham moi hai', 20, 200000, 'san ta ', 1, 0, 2, 6),
+(12, 'image', 'san pham ba', 23, 23232, 'mota', 1, 0, 2, 6),
+(13, 'image', 'Inter Core i5', 34, 590000, 'I5 tuy lâu đời nhưng vẫn còn rất nhiều tiện ích cũng như nhiều người ưa chuộng ', 1, 1, 3, 5),
+(14, 'image', 'Inter Core i9 ', 34, 10010000, 'I9 mới được ra mắt với nhiều khả năng thích nghi cùng tiện dụng', 1, 1, 4, 6),
+(16, 'image', 'Chuột không dây E56', 100, 200000, 'Chuột không dây tiện dụng cho các học sinh sinh viên nhân viên văn phòng ', 1, 1, 2, 6),
+(20, 'image', 'Sản phẩm thử nghiệm ', 52, 52000, 'Đây là sản phảm thử nghiệm ', 1, 0, 2, 7),
+(21, 'image', 'Ram DD4 ', 12, 500000, 'Đây là Ram DD4 mới nhất trên thị trường thích howpk nhiều cấu hình máy', 1, 1, 3, 8);
 
 -- --------------------------------------------------------
 
@@ -218,6 +270,13 @@ CREATE TABLE `promotion` (
   `quantityForEach` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Đang đổ dữ liệu cho bảng `promotion`
+--
+
+INSERT INTO `promotion` (`id`, `title`, `description`, `startDate`, `endDate`, `status`, `quantityForEach`) VALUES
+(1, 'Giảm giá cuối năm', 'Giảm giá cuối năm 2023 chào đón năm mới, giảm 50 phần trăm trên mỗi sản phẩm', '2024-01-16 20:37:26', '2024-02-29 20:37:26', 1, 100);
+
 -- --------------------------------------------------------
 
 --
@@ -227,9 +286,9 @@ CREATE TABLE `promotion` (
 CREATE TABLE `user` (
   `phoneNumber` varchar(15) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `sex` tinyint(1) DEFAULT NULL,
+  `sex` tinyint(1) DEFAULT 0,
   `birthday` date DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
+  `biography` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT 0,
   `status` tinyint(1) NOT NULL
@@ -239,19 +298,27 @@ CREATE TABLE `user` (
 -- Đang đổ dữ liệu cho bảng `user`
 --
 
-INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `address`, `password`, `admin`, `status`) VALUES
-('0395060907', 'Nhu Y', NULL, NULL, NULL, 'abc123', 1, 1);
+INSERT INTO `user` (`phoneNumber`, `name`, `sex`, `birthday`, `biography`, `password`, `admin`, `status`) VALUES
+('0384864757', 'Nguyễn Tấn Tài ', NULL, NULL, NULL, 'a320480f534776bddb5cdb54b1e93d210a3c7d199e80a23c1b2178497b184c76', 0, 1),
+('0914105327', 'Trần Thị Kim Ngân a', 0, NULL, 'gwhwhg', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1),
+('0975738135', 'Nguyễn Văn Linh ', NULL, NULL, NULL, '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 0, 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ
 --
 
 --
+-- Chỉ mục cho bảng `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `phoneNumber` (`phoneNumber`);
+
+--
 -- Chỉ mục cho bảng `brand`
 --
 ALTER TABLE `brand`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idCat` (`idCate`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `cart`
@@ -343,10 +410,16 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `brand`
 --
 ALTER TABLE `brand`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `cart`
@@ -358,7 +431,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT cho bảng `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `conversations`
@@ -388,29 +461,29 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT cho bảng `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT cho bảng `promotion`
 --
 ALTER TABLE `promotion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
 --
 
 --
--- Các ràng buộc cho bảng `brand`
+-- Các ràng buộc cho bảng `address`
 --
-ALTER TABLE `brand`
-  ADD CONSTRAINT `brand_ibfk_1` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`);
+ALTER TABLE `address`
+  ADD CONSTRAINT `address_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
 -- Các ràng buộc cho bảng `cart`
@@ -446,11 +519,26 @@ ALTER TABLE `notification`
   ADD CONSTRAINT `notification_ibfk_1` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`);
 
 --
+-- Các ràng buộc cho bảng `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`phoneNumber`) REFERENCES `user` (`phoneNumber`),
+  ADD CONSTRAINT `order_ibfk_3` FOREIGN KEY (`paymentMethods`) REFERENCES `payments` (`id`);
+
+--
 -- Các ràng buộc cho bảng `order_details`
 --
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`idOrder`) REFERENCES `order` (`id`),
   ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`idProduct`) REFERENCES `product` (`id`);
+
+--
+-- Các ràng buộc cho bảng `product`
+--
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`idBrand`) REFERENCES `brand` (`id`),
+  ADD CONSTRAINT `product_ibfk_2` FOREIGN KEY (`idCate`) REFERENCES `category` (`id`),
+  ADD CONSTRAINT `product_ibfk_3` FOREIGN KEY (`idDiscount`) REFERENCES `promotion` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

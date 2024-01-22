@@ -2,8 +2,6 @@ import 'package:ecommerce_app/models/order_detail.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class itemOrderDetail extends StatefulWidget {
   itemOrderDetail({super.key, required this.oderDetail});
@@ -31,7 +29,7 @@ class _itemOrderDetailState extends State<itemOrderDetail> {
   @override
   Widget build(BuildContext context) {
     return product == null
-        ? CircularProgressIndicator()
+        ? const CircularProgressIndicator()
         : Container(
             padding: const EdgeInsets.all(15),
             decoration: const BoxDecoration(
@@ -55,8 +53,8 @@ class _itemOrderDetailState extends State<itemOrderDetail> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${product.name}'),
-                        Padding(padding: EdgeInsets.all(10)),
+                        Text(product.name),
+                        const Padding(padding: EdgeInsets.all(10)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

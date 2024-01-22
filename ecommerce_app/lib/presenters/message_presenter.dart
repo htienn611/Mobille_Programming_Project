@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/models/messages.dart';
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
 
 class MessagePresenter {
   Future<List<Message>> getCateLst() async {
@@ -22,10 +22,9 @@ class MessagePresenter {
         rsLst = value.map((json) => Message.fromJson(json)).toList();
       }
     } catch (error) {
-      // Xử lý lỗi ở đây nếu cần thiết
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
-    // print(rsLst);
     return rsLst;
   }
 }

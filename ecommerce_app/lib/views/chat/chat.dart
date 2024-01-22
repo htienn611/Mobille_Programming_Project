@@ -2,8 +2,6 @@ import 'package:ecommerce_app/views/chat/chat_appbar_items.dart';
 import 'package:ecommerce_app/views/chat/message_input.dart';
 import 'package:ecommerce_app/views/chat/message_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -35,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         body: Stack(alignment: Alignment.bottomCenter, children: [
           Container(
-            padding: EdgeInsets.only(bottom: 80),
+            padding: const EdgeInsets.only(bottom: 80),
             height: MediaQuery.of(context).size.height,
             alignment: Alignment.bottomCenter,
             child: SingleChildScrollView(

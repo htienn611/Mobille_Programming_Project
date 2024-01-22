@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
-import 'package:ecommerce_app/views/order/itemOrder.dart';
+import 'package:ecommerce_app/views/order/order_item.dart';
 import 'package:flutter/material.dart';
 
 class ListOrder extends StatefulWidget {
@@ -29,17 +29,17 @@ class _ListOrderState extends State<ListOrder> {
   @override
   Widget build(BuildContext context) {
     return  DefaultTabController(length: 5, child: Scaffold(appBar: AppBar(
-      leading: IconButton(onPressed: (){},icon: Icon(Icons.arrow_back,)),
-      backgroundColor: Color.fromARGB(255, 224, 84, 75),
+      leading: IconButton(onPressed: (){},icon: const Icon(Icons.arrow_back,)),
+      backgroundColor: const Color.fromARGB(255, 224, 84, 75),
       toolbarHeight: 30,
       actions: [
-        IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+        IconButton(onPressed: (){}, icon: const Icon(Icons.shopping_cart))
 
       ],
-      shape: ContinuousRectangleBorder(
+      shape: const ContinuousRectangleBorder(
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15))
       ),
-      bottom: TabBar(tabs: 
+      bottom: const TabBar(tabs: 
       [
         Tab(text: 'Tất cả',),
         Tab(text: 'Chờ xác nhận',),
@@ -56,19 +56,24 @@ class _ListOrderState extends State<ListOrder> {
       ),
     ),
     body: TabBarView(children: [
+      // ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
+      //   return ItemOrder(order: _orders[index]);
+      // }
+      // ),
+      
       ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
-        return ItemOrder(order: _orders[index]);
+        return Item_Order(order: _orders[index],);
       },),
-      Center(
+      const Center(
         child: Text("Các đơn hàng chờ xác nhận"),
       ),
-      Center(
+      const Center(
         child: Text("Các đơn hàng chờ giao"),
       ),
-      Center(
+      const Center(
         child: Text("Các đơn hàng đã giao"),
       ),
-       Center(
+       const Center(
         child: Text("Các đơn hàng đã hủy"),
       ),
 

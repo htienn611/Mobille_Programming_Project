@@ -32,8 +32,8 @@ class _MessageInputState extends State<MessageInput> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                  onPressed: () {}, icon: Icon(Icons.insert_comment_outlined)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.tag_faces))
+                  onPressed: () {}, icon: const Icon(Icons.insert_comment_outlined)),
+              IconButton(onPressed: () {}, icon: const Icon(Icons.tag_faces))
             ],
           ),
         ],

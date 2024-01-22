@@ -1,6 +1,6 @@
 import 'package:ecommerce_app/models/conversation.dart';
 
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
 
 class ConversationPresenter {
   Future<List<Conversation>> getCateLst() async {
@@ -17,6 +17,7 @@ class ConversationPresenter {
       }
     } catch (error) {
       // Xử lý lỗi ở đây nếu cần thiết
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);

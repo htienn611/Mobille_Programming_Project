@@ -16,7 +16,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
   @override
   Widget build(BuildContext context) {
 
-  void _colormomoclick(){
+  void colormomoclick(){
     setState(() {
     colormomo = Colors.blue;
     colorpay = Colors.black;
@@ -24,7 +24,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
     wpay = 2.0;
     });
   }
-  void _colorpayclick(){
+  void colorpayclick(){
 
     setState(() {
     colormomo = Colors.black;
@@ -35,16 +35,18 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
   }
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 70.0,
-        backgroundColor: Colors.red,
-        leading: IconButton(icon: const Icon(Icons.arrow_back_rounded), onPressed: (){Navigator.pop(context);},),
-        title: const Text('Thanh toán'),
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
+        leading: IconButton(icon: Icon(Icons.arrow_back_rounded),onPressed: (){Navigator.pop(context);}),
+        title: const Text(
+          "Giỏ hàng",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: [
-          IconButton(icon: Icon(Icons.chat_bubble_outline_outlined), onPressed: (){
-            Navigator.push(context,
-  MaterialPageRoute(builder: (context) => const ChatScreen()),);
-          },),
+          IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.chat_bubble_outline_outlined)),
         ],
       ),
       body: SingleChildScrollView(
@@ -52,17 +54,17 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
       Column(
         children: [
           Container(
-            padding: EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-            margin: EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+            margin: const EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
             height: 100.0,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 2.0,
-                color: Color.fromARGB(96, 123, 118, 118),
+                color: const Color.fromARGB(96, 123, 118, 118),
               ),
               borderRadius: BorderRadius.circular(15.0),
               ),
-            child:Row(
+            child:const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -93,40 +95,40 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onTap: _colormomoclick,
+                onTap: colormomoclick,
               child: Container(
-                margin: EdgeInsets.only( top: 10.0),
+                margin: const EdgeInsets.only( top: 10.0),
                 width: 150.0,
                 height: 70.0,
                 decoration: BoxDecoration(
                   border: Border.all(width: wmomo, color: colormomo),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Image.asset('assets/img/logo/MoMo_Logo.png', width: 40.0, height: 40.0,),
                     //SizedBox(width: 5.0,),
-                    Text('Momo\nWallet', style: TextStyle(fontSize: 15.0),),
+                    const Text('Momo\nWallet', style: TextStyle(fontSize: 15.0),),
                 ]),
               ),
               ),
               GestureDetector( 
-                onTap: _colorpayclick,
+                onTap: colorpayclick,
                 child: Container(
-                margin: EdgeInsets.only(top: 10.0),
+                margin: const EdgeInsets.only(top: 10.0),
                 width: 150.0,
                 height: 70.0,
                 decoration: BoxDecoration(
                   border: Border.all(width: wpay, color: colorpay),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Image.asset('assets/img/logo/money.jpg', width: 40.0, height: 40.0,),
-                    SizedBox(width: 5.0,),
-                    Text('Tiền mặt', style: TextStyle(fontSize: 15.0),),
+                    const SizedBox(width: 5.0,),
+                    const Text('Tiền mặt', style: TextStyle(fontSize: 15.0),),
                 ]),
               ),
               ),
@@ -135,13 +137,13 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.only(left: 10.0, top: 10.0),
-              child: Text('Chi tiết giao dịch', style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),)
+                margin: const EdgeInsets.only(left: 10.0, top: 10.0),
+              child: const Text('Chi tiết giao dịch', style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),)
               )
             ],
           ),
           Container(
-            margin: EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             height: 400.0,
             decoration: BoxDecoration(
               border: Border.all(width: 1.0, color: Colors.black),
@@ -150,8 +152,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
             child: Column(
               children: [
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
-                child: Row(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 40.0),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Họ và tên', style: TextStyle(fontSize: 20.0, color: Colors.black26),),
@@ -159,13 +161,13 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 ],)
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0,),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0,),
                   height: 0.5,
                   decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
-                child: Row(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Số tiền thanh toán', style: TextStyle(fontSize: 20.0, color: Colors.black26),),
@@ -173,13 +175,13 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 ],)
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
                   decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
-                child: Row(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Vận chuyển', style: TextStyle(fontSize: 20.0, color: Colors.black26),),
@@ -187,13 +189,13 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 ],)
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
                   decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
-                child: Row(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Giảm giá', style: TextStyle(fontSize: 20.0, color: Colors.black26),),
@@ -201,65 +203,27 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 ],)
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
                   decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
-                child: Row(
+                  margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('Thành tiền', style: TextStyle(fontSize: 20.0, color: Colors.black26),),
                   Text('120.000đ', style: TextStyle(fontSize: 20.0),),
                 ],)
                 ),
-                // GestureDetector( 
-                //   onTap: () {
-                //     showDialog(context: context, builder: (BuildContext context){
-                //       return Dialog(
-                //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-                //         child: SingleChildScrollView(
-                //           child: Container(
-                //             height: 300.0,
-                //             child: TextButton(onPressed: (){
-                              
-                //             }, child: Text('Mã giảm 1'),),
-                //           ),
-                //         )
-                //       );
-                      
-                //     });
-                //   },
-                //   child:
-                // Container(
-                //   margin: EdgeInsets.all(20.0),
-                //   height: 60.0,
-                //   decoration: BoxDecoration(
-                //     border: Border.all(
-                //       width: 0.5,
-                //       color: Colors.black26,
-                //     ),
-                //     borderRadius: BorderRadius.circular(10.0),
-                //   ),
-                //   child: Center(
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Icon(Icons.add_circle_outline_rounded, color: Colors.indigoAccent, size: 40.0,),
-                //       SizedBox(width: 5.0,),
-                //       Text('Thêm thẻ giảm giá', style: TextStyle(color: Colors.indigoAccent, fontSize: 17.0),)
-                //     ],
-                //   ),)
-                //   ),
-                // ),
+                
             ]),
           ),
           Container(
                 height: 100.0,
                 decoration: BoxDecoration(
                 border: Border.all(width: 2.0, color: Colors.black),
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0)),
                 ),
                 child: Center(
                   child: Column(
@@ -267,16 +231,16 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Container(margin: EdgeInsets.only(top: 7.0),child:Text('Thanh toán số tiền',style: TextStyle(color: Colors.black, fontSize: 15.0),),),
-                          Container(margin: EdgeInsets.only(top: 7.0),child:Text('120.000đ', style: TextStyle(color: Colors.red, fontSize: 15.0),),),
+                          Container(margin: const EdgeInsets.only(top: 7.0),child:const Text('Thanh toán số tiền',style: TextStyle(color: Colors.black, fontSize: 15.0),),),
+                          Container(margin: const EdgeInsets.only(top: 7.0),child:const Text('120.000đ', style: TextStyle(color: Colors.red, fontSize: 15.0),),),
                           ],
                       ),
                 Container(
-                  margin: EdgeInsets.only(top: 5.0),
+                  margin: const EdgeInsets.only(top: 5.0),
                   width: 300.0,
                   height: 50.0,
                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20.0), color: Colors.red),
-                  child: TextButton(child: Text('Thanh toán', style: TextStyle(color: Colors.white, fontSize: 20.0),), onPressed: (){}, ),
+                  child: TextButton(child: const Text('Thanh toán', style: TextStyle(color: Colors.white, fontSize: 20.0),), onPressed: (){}, ),
                 )
                   ]
                 ),

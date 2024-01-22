@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:ecommerce_app/models/order.dart';
-import '../data_source/repository/get_data.dart';
+import '../data_source/repository/data.dart';
+import 'package:http/http.dart' as http;
 
 class OrderPresenter {
   //trả về một future chứa danh sách các đối tượng order
@@ -15,9 +18,33 @@ class OrderPresenter {
         rsLst = value.map((json) => Order.fromJson(json)).toList();
       }
     } catch (error) {
+      // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);
     return rsLst;
   }
+Future<bool> addOrderPresenter(Order o) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.2.3:3000/order'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'paymentMethods': o.paymentMethods,
+          'phoneNumber': o.phoneNumber,
+          'date': o.date,
+          'transportFee': o.transportFee,
+          'Status': o.Status,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error (PRODUCT_PRESENTER)');
+    }
+    return false;
+  }
+  
 }

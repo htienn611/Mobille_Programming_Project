@@ -14,9 +14,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Container(width: MediaQuery.of(context).size.width,child: Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
+        title: SizedBox(width: MediaQuery.of(context).size.width,child: const Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+          IconButton(onPressed: (){}, icon: const Icon(Icons.shopping_cart))
         ],
       ),
       
@@ -25,13 +25,13 @@ class _NotificationScreenState extends State<NotificationScreen> {
           children: [
 
             Container(
-              padding: EdgeInsets.fromLTRB(10, 15, 0, 10),
+              padding: const EdgeInsets.fromLTRB(10, 15, 0, 10),
               child: Row(
                 mainAxisAlignment:MainAxisAlignment.spaceAround ,
                 children: [
-                  Icon(Icons.local_offer_outlined),
-                  SizedBox(width: 10,),
-                  Expanded(
+                  const Icon(Icons.local_offer_outlined),
+                  const SizedBox(width: 10,),
+                  const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -40,12 +40,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       ],
                     ),
                   ),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios))
+                  IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios))
                 ],
               ),
             ),
-            SizedBox(height: 40,),
-            Row(
+            const SizedBox(height: 40,),
+            const Row(
               children: [
                 SizedBox(width: 10,),
                 Text("Cập nhật đơn hàng"),
@@ -54,25 +54,25 @@ Expanded(child: Text("")),
                 SizedBox(width: 10,)
               ],
             ),
-            SizedBox(height: 20,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
-            Notification_Item(),
-            SizedBox(height: 10,),
+            const SizedBox(height: 20,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
+            const Notification_Item(),
+            const SizedBox(height: 10,),
           ],
         ),
       ),

@@ -1,70 +1,232 @@
+import 'package:ecommerce_app/models/user.dart';
+import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final String phoneNumber;
+
+  const Profile({required this.phoneNumber, Key? key}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> implements UserView {
+  late UserPresenter userPresenter;
+  late TextEditingController nameController;
+  late TextEditingController sexController;
+  late TextEditingController birthdayController;
+  late TextEditingController phoneNumberController;
+  late TextEditingController biographyController;
+  User? user;
+
+  @override
+  void initState() {
+    super.initState();
+    userPresenter = UserPresenter(this);
+    nameController = TextEditingController();
+    sexController = TextEditingController();
+    birthdayController = TextEditingController();
+    phoneNumberController = TextEditingController();
+    biographyController = TextEditingController();
+
+    _loadUserByPhoneNumber();
+  }
+
+  Future<void> _loadUserByPhoneNumber() async {
+    try {
+      User? fetchedUser = await userPresenter.getUserByPhoneNumber(widget.phoneNumber);
+
+      if (fetchedUser != null) {
+        setState(() {
+          user = fetchedUser;
+          // Set initial values for text controllers
+          nameController.text = user!.name;
+          sexController.text = user!.sex ? "Nam" : "Nữ";
+          birthdayController.text = user!.birthday;
+          phoneNumberController.text = user!.phoneNumber;
+          biographyController.text = user!.biography;
+          print(biographyController.text);
+          print(1);
+        });
+      }
+    } catch (error) {
+      print('Error loading user data: $error');
+    }
+  }
+
+  Future<void> _selectGender() async {
+    bool? isMale = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Chọn giới tính'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true); // Nam
+                },
+                child: const Text('Nam'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false); // Nữ
+                },
+                child: const Text('Nữ'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+
+    if (isMale != null) {
+      setState(() {
+        sexController.text = isMale ? 'Nam' : 'Nữ';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Container(width: MediaQuery.of(context).size.width,child: Text("THÔNG TIN CÁ NHÂN", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
+        title: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: const Text(
+            "THÔNG TIN CÁ NHÂN",
+            style: TextStyle(color: Colors.white),
+            textAlign: TextAlign.center,
+          ),
+        ),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.check))
+          IconButton(
+            onPressed: () async {
+              bool updateSuccess = await userPresenter.updateUser(
+                phoneNumber: widget.phoneNumber,
+                name: nameController.text,
+                sex: sexController.text=="Nam",
+                birthday: birthdayController.text,
+                biography: biographyController.text,
+              );
+
+              if (updateSuccess) {
+                // Handle successful update, e.g., show a success message
+                print('User updated successfully');
+              } else {
+                // Handle update failure, e.g., show an error message
+                print('Failed to update user');
+              }
+            },
+            icon: const Icon(Icons.check),
+          ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height:80),
-            Center(child: ClipRRect(borderRadius: BorderRadius.circular(100),child: Image(fit: BoxFit.cover,image: AssetImage('assets/img/anh.jpg'),width: 200, height: 200,)), ),
-            SizedBox(height: 50,),
+            const SizedBox(height: 80),
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/img/meo.jpg'),
+                  width: 200,
+                  height: 200,
+                ),
+              ),
+            ),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(labelText: "Tên",suffixIcon: IconButton(onPressed: (){}, icon:Icon( Icons.arrow_forward_ios)), 
-                border: OutlineInputBorder()),
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: "Tên:",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-            SizedBox(height: 9,),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(labelText: "Giới tính",suffixIcon: IconButton(onPressed: (){}, icon:Icon( Icons.arrow_forward_ios)), 
-                border: OutlineInputBorder(),enabled: false),
+                readOnly: true,
+                controller: sexController,
+                decoration: InputDecoration(
+                  labelText: "Giới tính:",
+                  suffixIcon: IconButton(
+                    onPressed: _selectGender,
+                    icon: const Icon(Icons.arrow_forward_ios),
+                  ),
+                  border: const OutlineInputBorder(),
+                ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(labelText: "Ngày sinh",suffixIcon: IconButton(onPressed: (){}, icon:Icon( Icons.arrow_forward_ios)), 
-                border: OutlineInputBorder()),
+                controller: birthdayController,
+                decoration: const InputDecoration(
+                  labelText: "Ngày sinh:",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-            SizedBox(height: 9,),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(labelText: "SĐT",suffixIcon: IconButton(onPressed: (){}, icon:Icon( Icons.arrow_forward_ios)), 
-                border: OutlineInputBorder()),
+                readOnly: true,
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
+                  labelText: "SĐT:",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-            SizedBox(height: 9,),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                decoration: InputDecoration(labelText: "Tiểu sử",suffixIcon: IconButton(onPressed: (){}, icon:Icon( Icons.arrow_forward_ios)), 
-                border: OutlineInputBorder()),
+                controller: biographyController,
+                decoration: const InputDecoration(
+                  labelText: "Tiểu sử",
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
-            SizedBox(height: 9,),
-        ])));
+            const SizedBox(height: 9),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void displayMessage(String message) {
+    // Hiển thị thông báo đăng ký
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Thông báo"),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

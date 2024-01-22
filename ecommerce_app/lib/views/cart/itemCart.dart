@@ -1,10 +1,12 @@
 
 import 'package:ecommerce_app/models/cart.dart';
+import 'package:ecommerce_app/models/cart_detail.dart';
 import 'package:flutter/material.dart';
 
 class ItemCart extends StatefulWidget {
-  ItemCart({super.key, required this.cart});
+  ItemCart({super.key, required this.cart, required this.cartDetail});
   Cart cart;
+  CartDetail cartDetail;
   @override
   State<ItemCart> createState() => _ItemCartState();
 }
@@ -29,13 +31,13 @@ class _ItemCartState extends State<ItemCart> {
           children: [
             Column(
               children: [
-                Text('${widget.cart.phoneNumber}'),
+                Text(widget.cart.phoneNumber),
               ],
 
             ),
-            Column(
+            const Column(
               children: [
-                IconButton(onPressed: (){}, icon: const Icon(Icons.delete_outline_rounded)),
+               // DeleteProductCart(cartDetail:),
               ],
 
             )

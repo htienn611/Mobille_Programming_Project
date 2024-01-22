@@ -1,14 +1,14 @@
 import 'dart:ffi';
 
-class Notification{
+class Notifications{
   final String phoneNumber;
   final String content;
-  final int id;
+  final String id;
 
-  Notification({required this.phoneNumber,required this.content,required this.id});
+  Notifications({required this.phoneNumber,required this.content,required this.id});
 
-  factory Notification.fromJson(Map<String,dynamic> json){
-    return Notification(
+  factory Notifications.fromJson(Map<String,dynamic> json){
+    return Notifications(
       content: json['content']??"",
       phoneNumber: json['phoneNumber']??"",
       id: json['id']??"",

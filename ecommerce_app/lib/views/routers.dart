@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
+import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,8 @@ class Routers extends StatefulWidget {
 class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  String phoneNumber = '';
+  bool isLog=false;
+  String PhoneNumber='';
   var _currentIndex = 0;
 
   List<Widget> _pages = [

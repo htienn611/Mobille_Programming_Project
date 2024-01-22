@@ -81,9 +81,13 @@ class _LoginState extends State<Login> implements UserView {
                     phoneNumber: phoneNumberController.text,
                   );
                   if (userPresenter.loginSuccessful == true) {
+                    print("Luu sdt");
                     // Lưu trạng thái đăng nhập và số điện thoại
                     await userPresenter.saveLoginStatus(
                         true, phoneNumberController.text);
+                    print(await userPresenter.getSavedPhoneNumber());
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Routers(),));
+
                   }
                 },
                 style: const ButtonStyle(

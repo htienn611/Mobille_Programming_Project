@@ -7,7 +7,7 @@ import '../data_source/repository/data.dart';
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'http://172.16.12.117:3000';
+  static const String baseUrl = 'https://102a-118-71-246-82.ngrok-free.app';
 }
 
 abstract class UserView {

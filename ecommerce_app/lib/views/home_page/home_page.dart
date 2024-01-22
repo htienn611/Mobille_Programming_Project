@@ -46,9 +46,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 color: Colors.grey[300],
                 child: Column(children: [
                   const PromotionBanner(),
+                  //ngọc trúc thêm tham số stutus còn thiếu vào dòng 70 vì do thay đổi ở csdl sửa để kh bị lỗi
                   ContentSection(
                     isBestSelling: true,
-                    cate: Category(id: 0, nameCate: ""),
+                    cate: Category(id: 0, nameCate: "", status: 0),
                   ),
                   const ContentSectionList(),
                   const HomeFooter()

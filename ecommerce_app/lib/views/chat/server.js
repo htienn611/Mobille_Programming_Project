@@ -1,5 +1,5 @@
 const express = require('express');
-//const ngrok = require('ngrok');
+const ngrok = require('ngrok');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -31,10 +31,7 @@ const io = socketIo(server, {
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 
-app.use((req, res, next) => {
-  req.db = db;
-  next();
-});
+
 
 //khai báo sử dụng category.js
 app.use('/user', userRoutes)
@@ -44,38 +41,42 @@ app.use('/order', orderRoutes);
 app.use('/order_details', order_detailsRoutes);
 app.use('/category', categoryRoutes);
 app.use('/conversation', conversationRoutes);
-app.use('/message', messageRoutes);
+app.use('/messages', messageRoutes);
 app.use('/promotion', promotionRoutes);
 app.use('/notification', notificationRoutes);
 
-const connectedUsers = []
-
+const connectedUsers = {};
 io.on('connection', (socket) => {
   console.log('Một người dùng đã kết nối');
-
   socket.on('userConnected', (data) => {
-    const userId = data.userId;
+    console.log(data);
+    var userId = data.userId;
     connectedUsers[userId] = socket.id;
-    console.log(`User ${userId} connected`);
-    console.log(connectedUsers);
+    socket.join(userId);
+    console.log(`Đã đặt userId=${userId}, socketId=${socket.id}`);
   });
 
-  socket.on('clientMessage', async (data) => {
-    // try {
-    //   // Sử dụng đối tượng kết nối từ middleware (đã thêm vào từ app.use((req, res, next) => ...))
-    //   const result = await req.db.promise().execute('INSERT INTO messages (content) VALUES (?)', [msg]);
-    //   console.log('Tin nhắn đã được lưu vào cơ sở dữ liệu:', result);
-    // } catch (error) {
-    //   console.error('Lỗi khi lưu tin nhắn vào cơ sở dữ liệu:', error.message);
-    // }
-    console.log(data.userId);
+  socket.on('clientMessage', (data) => {
+    const query = 'INSERT INTO `messages`(`senderID`, `content`, `timestamp`, `conversationID`, `status`) VALUES (?,?,?,?,1)';
+    db.query(query, [data.senderID, data.content, data.timestamp, data
+      .conversationID], (err) => {
+        if (err) console.log(err.message);
+      });
+
+
+    console.log(data);
+    console.log(data.to)
+    socket.to(connectedUsers[data.to]).emit('servertMessage',{mess: data.content, from:data.senderID});
     // Gửi tin nhắn mới tới tất cả các client khác (không bao gồm người gửi)
     //socket.broadcast.emit('chat_message', data);
   });
 
   socket.on('disconnect', () => {
-    console.log('Người dùng đã ngắt kết nối');
-    console.log(connectedUsers);
+    const userId = Object.keys(connectedUsers).find(key => connectedUsers[key] === socket.id);
+    if (userId) {
+      delete connectedUsers[userId];
+      console.log(`Người dùng đã ngắt kết nối, xoá thông tin userId=${userId}`);
+    }
   });
 });
 

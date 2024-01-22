@@ -19,8 +19,8 @@ class Routers extends StatefulWidget {
 class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  bool isLog=false;
-  String PhoneNumber='';
+  bool isLog = false;
+  String phoneNumber = '';
   var _currentIndex = 0;
 
   List<Widget> _pages = [
@@ -34,8 +34,8 @@ class _RouterState extends State<Routers> implements UserView {
     // ignore: unrelated_type_equality_checks
 
 //    if (userPresenter.getLoginStatus() == true) {
-      phoneNumber = await userPresenter.getSavedPhoneNumber();
-  //  }
+    phoneNumber = await userPresenter.getSavedPhoneNumber();
+    //  }
   }
 
   @override
@@ -70,9 +70,7 @@ class _RouterState extends State<Routers> implements UserView {
         const Center(
           child: Text("Danh Mục"),
         ),
-        const Center(
-          child: Text("Thông Báo"),
-        ),
+        NotificationScreen(phoneNumber: phoneNumber),
         const ListOrder(),
         Profile(phoneNumber: phoneNumber),
       ];
@@ -104,9 +102,7 @@ class _RouterState extends State<Routers> implements UserView {
                     const Center(
                       child: Text("Danh Mục"),
                     ),
-                    const Center(
-                      child: Text("Thông Báo"),
-                    ),
+                    NotificationScreen(phoneNumber: phoneNumber),
                     const ListOrder(),
                     Profile(phoneNumber: phoneNumber),
                   ];

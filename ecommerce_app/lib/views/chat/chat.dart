@@ -13,7 +13,7 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 // ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, required this.phoneNumber, this.us2 = '0968431225'});
+  ChatScreen({super.key, required this.phoneNumber, this.us2 = '0914105327'});
   final String phoneNumber;
   var us2 = '';
   @override

@@ -19,24 +19,28 @@ class Routers extends StatefulWidget {
 class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  bool isLog=false;
-  String PhoneNumber='';
+  bool isLog = false;
+  String phoneNumber = '';
   var _currentIndex = 0;
 
-  List<Widget> _pages = [];
+  List<Widget> _pages = [
+    const Center(
+      child: Text("loading..."),
+    )
+  ];
 
   Future<void> statusLG() async {
     UserPresenter userPresenter = UserPresenter(this);
-    if (await userPresenter.getLoginStatus() == true) {
-      PhoneNumber = await userPresenter.getSavedPhoneNumber();
-      print("Get"+PhoneNumber);
-    }
+    // ignore: unrelated_type_equality_checks
+
+//    if (userPresenter.getLoginStatus() == true) {
+    phoneNumber = await userPresenter.getSavedPhoneNumber();
+    //  }
   }
 
   @override
   void initState() {
     super.initState();
-    statusLG();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -56,17 +60,22 @@ class _RouterState extends State<Routers> implements UserView {
         }
       }
     });
-    _pages = [
-      HomePageScreen(scrollController: scrollController),
-      const Center(
-        child: Text("Danh Mục"),
-      ),
-      NotificationScreen(phoneNumber: PhoneNumber),
-      const ListOrder(),
-      
-      Profile(phoneNumber: PhoneNumber),
-      Login()
-    ];
+    statusLG().then((value) {
+      _pages.clear();
+      // ignore: avoid_print
+      print('routers: $phoneNumber');
+      _pages = [
+        HomePageScreen(
+            scrollController: scrollController, phoneNumber: phoneNumber),
+        const Center(
+          child: Text("Danh Mục"),
+        ),
+        NotificationScreen(phoneNumber: phoneNumber),
+        const ListOrder(),
+        Profile(phoneNumber: phoneNumber),
+      ];
+      setState(() {});
+    });
   }
 
   @override
@@ -76,29 +85,31 @@ class _RouterState extends State<Routers> implements UserView {
       bottomNavigationBar: _isVisible
           ? BottomNav(onTabTapped: (index) async {
               if (index == 4) {
-                if (PhoneNumber.isEmpty) {
-              _currentIndex = index+1;
-                  
-                }else
+                if (phoneNumber == '') {
+                  _pages.clear();
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ));
+                  UserPresenter userPresenter = UserPresenter(this);
+                  phoneNumber = await userPresenter.getSavedPhoneNumber();
+                  _pages = [
+                    HomePageScreen(
+                      scrollController: scrollController,
+                      phoneNumber: phoneNumber,
+                    ),
+                    const Center(
+                      child: Text("Danh Mục"),
+                    ),
+                    NotificationScreen(phoneNumber: phoneNumber),
+                    const ListOrder(),
+                    Profile(phoneNumber: phoneNumber),
+                  ];
+                }
+              }
               _currentIndex = index;
-              }else
-              _currentIndex = index;
-              await statusLG();
-              if(mounted)
-              setState(() {
-                print(_currentIndex);
-                print("Phone"+PhoneNumber);
- _pages = [
-      HomePageScreen(scrollController: scrollController),
-      const Center(
-        child: Text("Danh Mục"),
-      ),
-      NotificationScreen(phoneNumber: PhoneNumber),
-      const ListOrder(),
-      
-      Profile(phoneNumber: PhoneNumber),
-      Login()];
-              });
+              setState(() {});
             })
           : const SizedBox(),
     );

@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/models/conversation.dart';
+import 'package:ecommerce_app/presenters/conversation_presenter.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:flutter/material.dart';
 
@@ -187,6 +189,7 @@ class _RegisterState extends State<Register> implements UserView {
                   name: fullNameController.text,
                   phoneNumber: phoneNumberController.text,
                 );
+
                 Navigator.pop(this.context);
               },
               style: ButtonStyle(

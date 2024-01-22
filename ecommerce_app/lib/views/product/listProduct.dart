@@ -62,7 +62,7 @@ class _ListProductState extends State<ListProduct> {
                         ClipRRect(
                           borderRadius:  BorderRadius.circular(5),
                           child: Image.asset(
-                            'assets/img/laptop/laptop.jpg',
+                            'assets/img/laptop.png',
                             fit: BoxFit.cover,
                             width: 120,
                             height: 120,

@@ -4,7 +4,7 @@ import '../models/category.dart';
 class CategoryPresenter {
   Future<List<Category>> getCateLst() async {
     List<Category> rsLst =
-        List.filled(0, Category(id: 0, nameCate: ""), growable: true);
+        List.filled(0, Category(id: 0, nameCate: "", status: 0), growable: true);
 
     try {
       List<dynamic> value = await getTable("category");

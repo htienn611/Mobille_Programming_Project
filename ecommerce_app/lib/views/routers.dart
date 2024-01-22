@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
+import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
@@ -18,17 +19,17 @@ class Routers extends StatefulWidget {
 class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  String phoneNumber = '';
+  bool isLog=false;
+  String PhoneNumber='';
   var _currentIndex = 0;
 
   List<Widget> _pages = [];
 
   Future<void> statusLG() async {
     UserPresenter userPresenter = UserPresenter(this);
-    // ignore: unrelated_type_equality_checks
-    if (userPresenter.getLoginStatus() == true) {
-      phoneNumber = await userPresenter.getSavedPhoneNumber();
-      setState(() {});
+    if (await userPresenter.getLoginStatus() == true) {
+      PhoneNumber = await userPresenter.getSavedPhoneNumber();
+      print("Get"+PhoneNumber);
     }
   }
 
@@ -60,11 +61,11 @@ class _RouterState extends State<Routers> implements UserView {
       const Center(
         child: Text("Danh Mục"),
       ),
-      const Center(
-        child: Text("Thông Báo"),
-      ),
+      NotificationScreen(phoneNumber: PhoneNumber),
       const ListOrder(),
-      Profile(phoneNumber: phoneNumber),
+      
+      Profile(phoneNumber: PhoneNumber),
+      Login()
     ];
   }
 
@@ -75,21 +76,28 @@ class _RouterState extends State<Routers> implements UserView {
       bottomNavigationBar: _isVisible
           ? BottomNav(onTabTapped: (index) async {
               if (index == 4) {
-                if (phoneNumber == '') {
-                  _pages.removeLast();
-                  await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Login(),
-                      ));
-                  UserPresenter userPresenter = UserPresenter(this);
-                  phoneNumber = await userPresenter.getSavedPhoneNumber();
-                  _pages.add(Profile(phoneNumber: phoneNumber));
-                }
-              }
+                if (PhoneNumber.isEmpty) {
+              _currentIndex = index+1;
+                  
+                }else
               _currentIndex = index;
+              }else
+              _currentIndex = index;
+              await statusLG();
+              if(mounted)
               setState(() {
-                print(phoneNumber);
+                print(_currentIndex);
+                print("Phone"+PhoneNumber);
+ _pages = [
+      HomePageScreen(scrollController: scrollController),
+      const Center(
+        child: Text("Danh Mục"),
+      ),
+      NotificationScreen(phoneNumber: PhoneNumber),
+      const ListOrder(),
+      
+      Profile(phoneNumber: PhoneNumber),
+      Login()];
               });
             })
           : const SizedBox(),

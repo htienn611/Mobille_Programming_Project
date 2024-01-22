@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class MessageInput extends StatefulWidget {
   MessageInput({super.key, required this.sendMessage});
   Function(String) sendMessage;
@@ -34,11 +35,15 @@ class _MessageInputState extends State<MessageInput> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                  onPressed: ()async {
-                  await  widget.sendMessage(message.text);
-                  },
+                  onPressed: () {},
                   icon: const Icon(Icons.insert_comment_outlined)),
-              IconButton(onPressed: () {}, icon: const Icon(Icons.send))
+              IconButton(
+                  onPressed: () {
+                    widget.sendMessage(message.text);
+                    message.text = '';
+                    setState(() {});
+                  },
+                  icon: const Icon(Icons.send))
             ],
           ),
         ],

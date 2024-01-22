@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'package:ecommerce_app/models/conversation.dart';
+import 'package:ecommerce_app/models/messages.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http://172.16.12.99:3000';
+var host = 'http://172.16.12.117:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));
@@ -12,8 +14,10 @@ Future<List<dynamic>> getTable(String tableName) async {
     throw Exception('Failed to load data');
   }
 }
+
 Future<List<dynamic>> getTableByIdCate(String tableName, {int? idCate}) async {
-  final url = idCate != null ? '$host/$tableName?idCate=$idCate' : '$host/$tableName';
+  final url =
+      idCate != null ? '$host/$tableName?idCate=$idCate' : '$host/$tableName';
   final response = await http.get(Uri.parse(url));
 
   if (response.statusCode == 200) {
@@ -22,8 +26,8 @@ Future<List<dynamic>> getTableByIdCate(String tableName, {int? idCate}) async {
     throw Exception('Failed to load data');
   }
 }
-  
-Future<List<dynamic>> getItemByID(String tableName, int id) async {
+
+Future<List<dynamic>> getItemByID(String tableName, id) async {
   final response = await http.get(Uri.parse('$host/$tableName/id$id'));
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
@@ -57,12 +61,12 @@ Future<dynamic> addProduct(Product product, String tableName) async {
 
   try {
     //final response =
-     await http.post(
+    await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: jsonEncode({
+      body: json.encode({
         'image': product.image,
         'name': product.name,
         'quantity': product.quantity,
@@ -112,5 +116,53 @@ Future<dynamic> updateProduct(Product product, String tableName) async {
     // ignore: avoid_print
     print('Error updating product: $error  (data.dart)');
     throw Exception('Error updating product: $error (data.dart)');
+  }
+}
+
+Future<dynamic> insertConv(Conversation val) async {
+  String url = '$host/conversation/insert';
+  // ignore: avoid_print
+  print(url);
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'idUs1': val.idUs1,
+      'idUs2': val.idUs2,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to load data');
+  }
+}
+
+Future<dynamic> insertMess(Message val) async {
+  String url = '$host/messages/insert';
+  // ignore: avoid_print
+  print(url);
+
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'senderID': val.senderID,
+      'content': val.content,
+      'timestamp': val.timestamp,
+      'conversationID': val.conversationId
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body);
+  } else {
+    throw Exception('Failed to load data');
   }
 }

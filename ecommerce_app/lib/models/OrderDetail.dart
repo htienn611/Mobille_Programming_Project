@@ -6,7 +6,7 @@ class OrderDetail{
   OrderDetail(this.quantityProduct,this.idOrder,this.idProduct);
 
   OrderDetail.fromJson(Map<String, dynamic> json)
-    :quantityProduct=json['quantityProduct'],
-    idOrder=json['idOrder'],
-    idProduct=json['idProduct'];
+    :quantityProduct=json['quantityProduct']??0,
+    idOrder=json['idOrder']??0,
+    idProduct=json['idProduct']??0;
 }

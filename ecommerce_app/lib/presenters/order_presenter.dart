@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:ecommerce_app/models/order.dart';
 import '../data_source/repository/data.dart';
+import 'package:http/http.dart' as http;
+
 
 class OrderPresenter {
+
   //trả về một future chứa danh sách các đối tượng order
   Future<List<Order>> getlstOrder() async {
     List<Order> rsLst =
-        List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0), growable: true);
+        List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0,""), growable: true);
 
     try {
       List<dynamic> value = await getTable("order");
@@ -21,6 +26,48 @@ class OrderPresenter {
     // print(rsLst);
     return rsLst;
   }
+  
+   Future<Order> getOrderByID(int id) async {
+    Order rs=Order(0, 0, 0, "",DateTime.now(), 0,"");
+
+    try {
+      dynamic value = await getItemByID("order", id);
+
+      if (value.isNotEmpty) {
+        rs = Order.fromJson(value[0]);
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
+  }
+
+  //update tt hủy đơn
+
+  Future<bool> updateStatusOrder(Order p) async {
+    try {
+      final response = await http.put(
+        Uri.parse('http://172.16.12.35:3000/order/id/${p.id}'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+         'paymentMethods':p.paymentMethods,
+        'phoneNumber': p.phoneNumber,
+          'date': p.date.toIso8601String(),
+          'transportFee': p.transportFee,
+          'address': p.address,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (error) {
+      print('Error updating order: $error (order_presenter)');
+    }
+    return false;
+  }
+
+  
 
   
 }

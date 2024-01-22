@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/presenters/fireBaseApi.dart';
 import 'package:ecommerce_app/firebase_options.dart';
+import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/routers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       locale: const Locale('vi', 'VN'),
-      home: const Routers(),
+      home:ListOrder()
     );
   }
 }

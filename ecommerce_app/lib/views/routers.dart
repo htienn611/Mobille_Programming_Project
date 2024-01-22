@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
@@ -18,37 +16,25 @@ class Routers extends StatefulWidget {
   State<Routers> createState() => _RouterState();
 }
 
-class _RouterState extends State<Routers> implements UserView{
+class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
   bool isLog=false;
   String PhoneNumber='';
   var _currentIndex = 0;
-  void navigation(value) {
-    setState(() {
-      _currentIndex = value;
-    });
+
+  List<Widget> _pages = [];
+
+  Future<void> statusLG() async {
+    UserPresenter userPresenter = UserPresenter(this);
+    if (await userPresenter.getLoginStatus() == true) {
+      PhoneNumber = await userPresenter.getSavedPhoneNumber();
+      print("Get"+PhoneNumber);
+    }
   }
 
-   List<Widget> _pages=[];
-
-   Future<void> statusLG()
-   async
-   {
-    UserPresenter userPresenter = UserPresenter(this);
-   // ignore: unrelated_type_equality_checks
-   if(userPresenter.getLoginStatus()==true)
-   {
-    PhoneNumber= await userPresenter.getSavedPhoneNumber();
-    isLog=true;
-    setState(() {
-      
-    });
-   }
-   }
-
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     statusLG();
     scrollController.addListener(() {
@@ -77,8 +63,9 @@ class _RouterState extends State<Routers> implements UserView{
       ),
       NotificationScreen(phoneNumber: PhoneNumber),
       const ListOrder(),
-       isLog?
-      Profile(phoneNumber: PhoneNumber):Login()
+      
+      Profile(phoneNumber: PhoneNumber),
+      Login()
     ];
   }
 
@@ -87,17 +74,36 @@ class _RouterState extends State<Routers> implements UserView{
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: _isVisible
-          ? BottomNav(onTabTapped: (index) {
+          ? BottomNav(onTabTapped: (index) async {
+              if (index == 4) {
+                if (PhoneNumber.isEmpty) {
+              _currentIndex = index+1;
+                  
+                }else
+              _currentIndex = index;
+              }else
+              _currentIndex = index;
+              await statusLG();
+              if(mounted)
               setState(() {
-                _currentIndex = index;
+                print(_currentIndex);
+                print("Phone"+PhoneNumber);
+ _pages = [
+      HomePageScreen(scrollController: scrollController),
+      const Center(
+        child: Text("Danh Mục"),
+      ),
+      NotificationScreen(phoneNumber: PhoneNumber),
+      const ListOrder(),
+      
+      Profile(phoneNumber: PhoneNumber),
+      Login()];
               });
             })
           : const SizedBox(),
     );
   }
-  
+
   @override
-  void displayMessage(String message) {
-    // TODO: implement displayMessage
-  }
+  void displayMessage(String message) {}
 }

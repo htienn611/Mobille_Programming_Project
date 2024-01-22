@@ -27,6 +27,7 @@ setState(() {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: Container(width: MediaQuery.of(context).size.width,child: Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
         actions: [

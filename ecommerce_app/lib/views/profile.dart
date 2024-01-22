@@ -8,10 +8,10 @@ import '../presenters/fireBaseApi.dart';
 import '../presenters/noti_presenter.dart';
 
 class Profile extends StatefulWidget {
-  final String phoneNumber;
+  String phoneNumber;
 
-  const Profile({required this.phoneNumber, Key? key}) : super(key: key);
-
+   Profile({required this.phoneNumber, Key? key}) : super(key: key);
+  
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -28,6 +28,7 @@ class _ProfileState extends State<Profile> implements UserView {
 NotificationServices notificationServices = NotificationServices();
   @override
   void initState() {
+    print(widget.phoneNumber);
     super.initState();
     userPresenter = UserPresenter(this);
     nameController = TextEditingController();
@@ -77,7 +78,7 @@ NotificationServices notificationServices = NotificationServices();
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Chọn giới tính'),
+          title: const Text('Chọn giới tính'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -85,13 +86,13 @@ NotificationServices notificationServices = NotificationServices();
                 onPressed: () {
                   Navigator.of(context).pop(true); // Nam
                 },
-                child: Text('Nam'),
+                child: const Text('Nam'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop(false); // Nữ
                 },
-                child: Text('Nữ'),
+                child: const Text('Nữ'),
               ),
             ],
           ),
@@ -110,10 +111,11 @@ NotificationServices notificationServices = NotificationServices();
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
-        title: Container(
+        title: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Text(
+          child: const Text(
             "THÔNG TIN CÁ NHÂN",
             style: TextStyle(color: Colors.white),
             textAlign: TextAlign.center,
@@ -143,18 +145,18 @@ NotificationServices notificationServices = NotificationServices();
                 print('Failed to update user');
               }
             },
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Center(
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
-                child: Image(
+                child: const Image(
                   fit: BoxFit.cover,
                   image: AssetImage('assets/img/meo.jpg'),
                   width: 200,
@@ -162,18 +164,18 @@ NotificationServices notificationServices = NotificationServices();
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: nameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Tên:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -183,9 +185,9 @@ NotificationServices notificationServices = NotificationServices();
                   labelText: "Giới tính:",
                   suffixIcon: IconButton(
                     onPressed: _selectGender,
-                    icon: Icon(Icons.arrow_forward_ios),
+                    icon: const Icon(Icons.arrow_forward_ios),
                   ),
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ),
@@ -193,55 +195,48 @@ NotificationServices notificationServices = NotificationServices();
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: birthdayController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Ngày sinh:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 readOnly: true,
                 controller: phoneNumberController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "SĐT:",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: biographyController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Tiểu sử",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             ElevatedButton(onPressed: (){
                UserPresenter userPresenter = UserPresenter(this);
                userPresenter.clearSharedPreferences();
               Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                      builder: (context) => Routers(),
+                      builder: (context) => const Routers(),
                       ),
                     );
             }, child: Text('Đăng xuất',
-             style: TextStyle(fontSize: 20),
-              ),
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.redAccent),
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.fromLTRB(20, 10, 20, 10)),
-              ),
-            )
+            
+            ))
           ],
         ),
       ),
@@ -255,7 +250,7 @@ NotificationServices notificationServices = NotificationServices();
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Thông báo"),
+          title: const Text("Thông báo"),
           content: Text(message),
           actions: [
             TextButton(
@@ -263,7 +258,7 @@ NotificationServices notificationServices = NotificationServices();
                 Navigator.of(context).pop();
 
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );

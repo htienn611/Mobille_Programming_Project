@@ -11,8 +11,9 @@ class CategoriesBar extends StatefulWidget {
 
 class _CategoriesBarState extends State<CategoriesBar> {
   CategoryPresenter catePre = CategoryPresenter();
+  //ngọc trúc thêm tham số stutus còn thiếu vào dòng 16 vì do thay đổi ở csdl sửa để kh bị lỗi
   List<Category> cateLst =
-      List.filled(0, Category(id: 0, nameCate: ""), growable: true);
+      List.filled(0, Category(id: 0, nameCate: "",status: 0), growable: true);
   List<Widget> items = List.filled(0, const Text(""), growable: true);
   void loadData() async {
     cateLst = await catePre.getCateLst();

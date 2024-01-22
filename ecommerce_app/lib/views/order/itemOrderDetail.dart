@@ -1,23 +1,42 @@
-import 'package:ecommerce_app/models/order_detail.dart';
+import 'package:ecommerce_app/models/order.dart';
+import 'package:ecommerce_app/models/OrderDetail.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/presenters/order_presenter.dart';
+import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
 import 'package:ecommerce_app/presenters/product_presenter.dart';
+import 'package:ecommerce_app/views/order/orderDetail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
-class itemOrderDetail extends StatefulWidget {
-  itemOrderDetail({super.key, required this.oderDetail});
-  OrderDetail oderDetail;
+class ItemOrderDetail extends StatefulWidget {
+  ItemOrderDetail({super.key, required this.idOrder});
+  int idOrder;
 
   @override
-  State<itemOrderDetail> createState() => _itemOrderDetailState();
+  State<ItemOrderDetail> createState() => _ItemOrderDetailState();
 }
 
-class _itemOrderDetailState extends State<itemOrderDetail> {
+class _ItemOrderDetailState extends State<ItemOrderDetail> {
+  late double sumMoney;
   ProductPresenter proPre = ProductPresenter();
-  late Product product;
-  void loaddata() async {
-    product = await proPre.getProductByID(widget.oderDetail.idProduct);
+  OrderDetailPresenter orderDetailPre = OrderDetailPresenter();
+  late OrderDetail _orderDetail;
+  List<Product> _product = List.filled(
+      0,
+      Product(
+          id: 0,
+          image: "",
+          name: "",
+          quantity: 0,
+          price: 0,
+          des: "",
+          idDiscount: 0,
+          status: 0,
+          idCate: 0,
+          idBrand: 0));
+
+  void loadData() async {
+    _product = await proPre.getInfoProductByIdOrderDetail(widget.idOrder);
+    _orderDetail = await orderDetailPre.getOrderDetailByID(widget.idOrder);
     setState(() {});
   }
 
@@ -25,48 +44,39 @@ class _itemOrderDetailState extends State<itemOrderDetail> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loaddata();
+    loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return product == null
-        ? CircularProgressIndicator()
-        : Container(
-            padding: const EdgeInsets.all(15),
-            decoration: const BoxDecoration(
-                border: Border.symmetric(
-                    vertical: BorderSide.none,
-                    horizontal:
-                        BorderSide(color: Color.fromARGB(255, 243, 243, 243)))),
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Image.asset(
-                    'assets/img/laptop1.png',
-                    fit: BoxFit.cover,
-                    width: 20,
-                    height: 100,
-                  ),
-                ),
-                Expanded(
-                    flex: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${product.name}'),
-                        Padding(padding: EdgeInsets.all(10)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('${product.price}'),
-                            Text('${widget.oderDetail.quantityProduct}')
-                          ],
-                        )
-                      ],
-                    ))
-              ],
-            ));
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      for (var product in _product)
+          Container(
+          padding: EdgeInsets.all(10),
+          margin: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Column(
+            crossAxisAlignment:CrossAxisAlignment.start ,
+            children: [
+              Text(
+                '${product.name}',
+                style: TextStyle(color: Colors.brown,fontWeight: FontWeight.bold,),
+              ),
+              Padding(padding: EdgeInsets.all(10)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('${product.price}',style: TextStyle(color: Colors.red),),
+                  Text('x${_orderDetail.quantityProduct}'),
+                  
+                ],
+              )
+            ],
+          ),
+        )
+    ]);
   }
 }

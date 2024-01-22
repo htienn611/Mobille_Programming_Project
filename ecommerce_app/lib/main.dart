@@ -1,12 +1,11 @@
 import 'package:ecommerce_app/data_source/api/fireBaseApi.dart';
 import 'package:ecommerce_app/firebase_options.dart';
-import 'package:ecommerce_app/models/order_detail.dart';
+import 'package:ecommerce_app/models/OrderDetail.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/cart/infoshopping.dart';
 import 'package:ecommerce_app/views/cart/payshopping.dart';
 import 'package:ecommerce_app/views/cart/shoppingcart.dart';
-import 'package:ecommerce_app/views/order/itemOrder.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/order/orderDetail.dart';
 import 'package:ecommerce_app/views/product/listProduct.dart';
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       locale: const Locale('vi', 'VN'),
-      home: Login(),
+      home: ListOrder(),
       navigatorKey: navigatorKey,
     );
   }

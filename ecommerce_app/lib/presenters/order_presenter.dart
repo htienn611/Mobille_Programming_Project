@@ -21,6 +21,22 @@ class OrderPresenter {
     // print(rsLst);
     return rsLst;
   }
+  
+   Future<Order> getOrderByID(int id) async {
+    Order rs=Order(0, 0, 0, "",DateTime.now(), 0);
+
+    try {
+      dynamic value = await getItemByID("order", id);
+
+      if (value.isNotEmpty) {
+        rs = Order.fromJson(value[0]);
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
+  }
 
   
 }

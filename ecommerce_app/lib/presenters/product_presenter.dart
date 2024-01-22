@@ -224,4 +224,60 @@ class ProductPresenter {
     }
     return rsLst;
   }
+
+  Future<List<Product>> getInfoProductByIdOrderDetail(int id) async {
+    List<Product> rsLst = List.filled(
+        0,
+        Product(
+            id: 0,
+            image: "",
+            name: "",
+            quantity: 0,
+            price: 0,
+            des: "",
+            idDiscount: 0,
+            status: 0,
+            idCate: 0,
+            idBrand: 0),
+        growable: true);
+
+    try {
+      List<dynamic> value = await getItemByTitle("product", "InfoProduct", id);
+      if (value.isNotEmpty) {
+        rsLst.clear();
+        rsLst = value.map((json) => Product.fromJson(json)).toList();
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    return rsLst;
+  }
+
+  Future<Product> getOneProduct(id) async {
+    Product rs = Product(
+        id: 0,
+        image: "",
+        name: "",
+        quantity: 0,
+        price: 0,
+        des: "",
+        idDiscount: 0,
+        status: 0,
+        idCate: 0,
+        idBrand: 0);
+
+    try {
+      List<dynamic> value = await getItemByTitle("product", "OneProduct", id);
+      // ignore: avoid_print
+      print("loaded: getProductsByIdCateIdBrand product presenter");
+
+      if (value.isNotEmpty) {
+        rs = Product.fromJson(value[0]);
+      }
+    } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error');
+    }
+    return rs;
+  }
 }

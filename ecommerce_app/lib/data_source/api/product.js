@@ -157,9 +157,21 @@ router.get('/InfoProduct:id',(req,res)=>
         } else {
             return res.json(results);
         }
-
     });
 })
+// lấy 1 sản phẩm theo hóa đơn
+router.get('/OneProduct:id',(req,res)=>
+{
+    var query='SELECT * FROM product,order_details WHERE product.id=order_details.idProduct AND order_details.idOrder= ? limit 1';
+    connection.query(query,[req.params.id],(error,results)=>{
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+            return res.json(results);
+        }
+    });
+})
+
 
 
 module.exports = router;

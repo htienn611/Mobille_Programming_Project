@@ -5,7 +5,7 @@ const e = require('express');
 
 //lấy toàn bộ dữ liệu bảng order
 router.get('/', (req, res) => {
-    connection.query('SELECT * FROM `order` WHERE 1', (error, results) => {
+    connection.query('SELECT * FROM `order`', (error, results) => {
       if (error) {
        return res.status(500).json({ error: 'Internal Server Error' });
       } else {
@@ -29,5 +29,7 @@ router.get('/id:id',(req,res) => {
   }
   );
 });  
+
+
 
 module.exports = router;

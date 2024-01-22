@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/models/order.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
-import 'package:ecommerce_app/views/order/itemOrder.dart';
 import 'package:ecommerce_app/views/order/order_item.dart';
 import 'package:flutter/material.dart';
 
@@ -11,75 +10,137 @@ class ListOrder extends StatefulWidget {
 }
 
 class _ListOrderState extends State<ListOrder> {
-  final OrderPresenter _orderPresenter=OrderPresenter();
-  List<Order>_orders=List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0),growable: true);
-  
-   void _loadData() async
-  {
-    _orders=await _orderPresenter.getlstOrder();
-    setState(() {
-      
-    });
+  final OrderPresenter _orderPresenter = OrderPresenter();
+  List<Order> _orders =
+      List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0), growable: true);
+
+  void _loadData() async {
+    _orders = await _orderPresenter.getlstOrder();
+    setState(() {});
   }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _loadData();
   }
+
   @override
   Widget build(BuildContext context) {
-    return  DefaultTabController(length: 5, child: Scaffold(appBar: AppBar(
-      leading: IconButton(onPressed: (){},icon: Icon(Icons.arrow_back,)),
-      backgroundColor: Color.fromARGB(255, 224, 84, 75),
-      toolbarHeight: 30,
-      actions: [
-        IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+    print("aaa");
+    print(_orders.where((element) => element.Status == 0).toList()[0].phoneNumber);
+    print(_orders.where((element) => element.Status == 1).toList()[0].phoneNumber);
 
-      ],
-      shape: ContinuousRectangleBorder(
-        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(15),bottomRight: Radius.circular(15))
-      ),
-      bottom: TabBar(tabs: 
-      [
-        Tab(text: 'Tất cả',),
-        Tab(text: 'Chờ xác nhận',),
-        Tab(text: 'Chờ giao hàng',),
-        Tab(text: 'Đã giao',),
-        Tab(text: 'Đã hủy',),
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.arrow_back,
+              )),
+          backgroundColor: Color.fromARGB(255, 224, 84, 75),
+          toolbarHeight: 30,
+          actions: [
+            IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart))
+          ],
+          shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15))),
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: 'Tất cả',
+              ),
+              Tab(
+                text: 'Chờ xác nhận',
+              ),
+              Tab(
+                text: 'Chờ giao hàng',
+              ),
+              Tab(
+                text: 'Đã giao',
+              ),
+              Tab(
+                text: 'Đã hủy',
+              ),
+            ],
+            indicatorColor: Colors.white,
+            isScrollable: true,
+          ),
+        ),
+        body: TabBarView(children: [
+            ListView.builder(
+                itemCount: _orders.length,
+                itemBuilder: (context, index) {
+                  return ItemOrder(order: _orders[index]);
+                }),
+          
+          _orders.where((element) => element.Status == 0).toList()
+                  .isNotEmpty
+              ? ListView.builder(
+                  itemCount:_orders.where((element) => element.Status == 0).toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                      return ItemOrder(order: _orders.where((element) => element.Status==0).toList()[index]);
+                  })
+              : const Center(
+                  child: Text(
+                    "Chưa có đơn hàng nào chờ xác nhận",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
 
-      ],
-      indicatorColor: Colors.white,
-      isScrollable: true,
+                   _orders.where((element) => element.Status == 1).toList()
+                  .isNotEmpty
+              ? ListView.builder(
+                  itemCount:_orders.where((element) => element.Status == 1).toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                      return ItemOrder(order: _orders.where((element) => element.Status==1).toList()[index]);
+                  })
+              : const Center(
+                  child: Text(
+                    "Chưa có đơn hàng nào chờ giao",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
 
-   
+                   _orders.where((element) => element.Status == 2).toList()
+                  .isNotEmpty
+              ? ListView.builder(
+                  itemCount:_orders.where((element) => element.Status == 2).toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                      return ItemOrder(order: _orders.where((element) => element.Status==2).toList()[index]);
+                  })
+              : const Center(
+                  child: Text(
+                    "Chưa có đơn hàng nào đã giao",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
+
+                   _orders.where((element) => element.Status == 3).toList()
+                  .isNotEmpty
+              ? ListView.builder(
+                  itemCount:_orders.where((element) => element.Status == 3).toList()
+                      .length,
+                  itemBuilder: (context, index) {
+                      return ItemOrder(order: _orders.where((element) => element.Status==3).toList()[index]);
+                  })
+              : const Center(
+                  child: Text(
+                    "Chưa có đơn hàng nào đã hủy",
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
         
+        ]),
       ),
-    ),
-    body: TabBarView(children: [
-      // ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
-      //   return ItemOrder(order: _orders[index]);
-      // }
-      // ),
-      
-      ListView.builder(itemCount: _orders.length,itemBuilder: (context, index) {
-        return Item_Order(order: _orders[index],);
-      },),
-      Center(
-        child: Text("Các đơn hàng chờ xác nhận"),
-      ),
-      Center(
-        child: Text("Các đơn hàng chờ giao"),
-      ),
-      Center(
-        child: Text("Các đơn hàng đã giao"),
-      ),
-       Center(
-        child: Text("Các đơn hàng đã hủy"),
-      ),
-
-    ]),
-    ),
     );
   }
 }

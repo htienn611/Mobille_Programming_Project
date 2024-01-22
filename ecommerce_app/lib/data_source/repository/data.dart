@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http://172.17.14.194:3000';
+var host = 'http://172.16.12.100:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));

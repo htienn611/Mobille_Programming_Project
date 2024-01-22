@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       locale: const Locale('vi', 'VN'),
-      home: ProductManagement(),
+      home: Login(),
       navigatorKey: navigatorKey,
     );
   }

@@ -30,7 +30,8 @@ class _LoginState extends State<Login> implements UserView {
       String savedPhoneNumber = await userPresenter.getSavedPhoneNumber();
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => Profile(phoneNumber: savedPhoneNumber)),
+        MaterialPageRoute(builder: (context) => HomePageScreen()),
+        //MaterialPageRoute(builder: (context) => Profile(phoneNumber: savedPhoneNumber)),
       );
     }
   }
@@ -102,7 +103,9 @@ class _LoginState extends State<Login> implements UserView {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Profile(phoneNumber: phoneNumberController.text),
+                      builder: (context) => HomePageScreen(),
+                        
+                        //builder: (context) => Profile(phoneNumber: phoneNumberController.text),
                       ),
                     );
                   }

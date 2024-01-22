@@ -1,3 +1,5 @@
+import 'package:ecommerce_app/models/conversation.dart';
+import 'package:ecommerce_app/presenters/conversation_presenter.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:flutter/material.dart';
 
@@ -15,38 +17,43 @@ class _RegisterState extends State<Register> implements UserView {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   bool isValidDateFormat(String input) {
-  // Kiểm tra xem chuỗi có phải là định dạng yyyy-mm-dd không
-  final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-  if (!regex.hasMatch(input)) {
-    return false;
-  }
-  // Tách ngày, tháng, năm từ chuỗi
-  List<String> parts = input.split('-');
-
-  // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
-  int year = int.parse(parts[0]);
-  int month = int.parse(parts[1]);
-  int day = int.parse(parts[2]);
-
-  if (year < 1000 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31) {
-    return false;
-  }
-
-  // Kiểm tra tháng 2
-  if (month == 2) {
-    bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    if (day > 29 || (day > 28 && !isLeapYear)) {
+    // Kiểm tra xem chuỗi có phải là định dạng yyyy-mm-dd không
+    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    if (!regex.hasMatch(input)) {
       return false;
     }
-  }
+    // Tách ngày, tháng, năm từ chuỗi
+    List<String> parts = input.split('-');
 
-  // Kiểm tra số ngày của tháng
-  if ([4, 6, 9, 11].contains(month) && day > 30) {
-    return false;
-  }
+    // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
+    int year = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int day = int.parse(parts[2]);
 
-  return true;
-}
+    if (year < 1000 ||
+        year > 9999 ||
+        month < 1 ||
+        month > 12 ||
+        day < 1 ||
+        day > 31) {
+      return false;
+    }
+
+    // Kiểm tra tháng 2
+    if (month == 2) {
+      bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+      if (day > 29 || (day > 28 && !isLeapYear)) {
+        return false;
+      }
+    }
+
+    // Kiểm tra số ngày của tháng
+    if ([4, 6, 9, 11].contains(month) && day > 30) {
+      return false;
+    }
+
+    return true;
+  }
 
   @override
   void initState() {
@@ -64,7 +71,7 @@ class _RegisterState extends State<Register> implements UserView {
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
         title: SizedBox(
-          width: MediaQuery.of(context).size.width -150,
+          width: MediaQuery.of(context).size.width - 150,
           child: const Text(
             "ĐĂNG KÝ",
             style: TextStyle(
@@ -146,8 +153,32 @@ class _RegisterState extends State<Register> implements UserView {
             const SizedBox(height: 9),
             ElevatedButton(
               onPressed: () {
+                // Kiểm tra điều kiện trường null và độ dài mật khẩu
+                if (fullNameController.text.isEmpty ||
+                    phoneNumberController.text.isEmpty ||
+                    birthdayController.text.isEmpty ||
+                    passwordController.text.isEmpty ||
+                    confirmPasswordController.text.isEmpty) {
+                  displayMessage('Vui lòng điền đầy đủ thông tin đăng ký.');
+                  return;
+                }
+                if (phoneNumberController.text.length != 10) {
+                  displayMessage('Số điện thoại phải có đúng 10 số.');
+                  return;
+                }
+
+                if (passwordController.text.length < 6) {
+                  displayMessage('Mật khẩu phải có ít nhất 6 ký tự.');
+                  return;
+                }
+
+                if (passwordController.text != confirmPasswordController.text) {
+                  displayMessage('Mật khẩu và Nhập lại mật khẩu không khớp.');
+                  return;
+                }
                 if (!isValidDateFormat(birthdayController.text)) {
-                  displayMessage('Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
+                  displayMessage(
+                      'Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
                   return;
                 }
                 // Gọi phương thức Register từ UserPresenter
@@ -158,10 +189,11 @@ class _RegisterState extends State<Register> implements UserView {
                   name: fullNameController.text,
                   phoneNumber: phoneNumberController.text,
                 );
+
+                Navigator.pop(this.context);
               },
               style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.redAccent),
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
                 padding: MaterialStateProperty.all(
                     const EdgeInsets.fromLTRB(20, 10, 20, 10)),
               ),

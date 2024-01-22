@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/views/home_page/footer/footer_sub_cat.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HomeFooterCat extends StatefulWidget {
   HomeFooterCat({super.key, required this.title, this.isConnect = false});
   String title;
@@ -97,7 +98,7 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
                     ? Container(
                         padding: const EdgeInsets.only(left: 10),
                         width: sW - 40,
-                        child: const Column(
+                        child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FooterSubCat(),

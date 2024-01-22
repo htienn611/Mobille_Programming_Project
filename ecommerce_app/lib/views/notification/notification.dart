@@ -1,18 +1,33 @@
+import 'package:ecommerce_app/presenters/noti_presenter.dart';
 import 'package:ecommerce_app/views/notification/notification_item.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
-
+  const NotificationScreen({super.key,required this.phoneNumber});
+  final phoneNumber;
   @override
   State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
   @override
+  List Noti=[];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadNoti();
+  }
+  void loadNoti() async{
+    Noti=await Notification_Presenter().getNotiByPhoneNumber(widget.phoneNumber);
+setState(() {
+  
+});
+  }
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: SizedBox(width: MediaQuery.of(context).size.width,child: const Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
         actions: [
@@ -54,25 +69,12 @@ Expanded(child: Text("")),
                 SizedBox(width: 10,)
               ],
             ),
-            const SizedBox(height: 20,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
-            const Notification_Item(),
-            const SizedBox(height: 10,),
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 500,
+              child: 
+              ListView.builder(itemCount: Noti.length,itemBuilder: (context, index) => Notification_Item(content: Noti[index].content),),
+            )
           ],
         ),
       ),

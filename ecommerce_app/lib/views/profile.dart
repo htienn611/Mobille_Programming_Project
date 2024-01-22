@@ -1,12 +1,17 @@
 import 'package:ecommerce_app/models/user.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
+import 'package:ecommerce_app/views/routers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+import '../presenters/fireBaseApi.dart';
+import '../presenters/noti_presenter.dart';
+
 class Profile extends StatefulWidget {
-  final String phoneNumber;
+  String phoneNumber;
 
-  const Profile({required this.phoneNumber, Key? key}) : super(key: key);
-
+   Profile({required this.phoneNumber, Key? key}) : super(key: key);
+  
   @override
   State<Profile> createState() => _ProfileState();
 }
@@ -17,11 +22,13 @@ class _ProfileState extends State<Profile> implements UserView {
   late TextEditingController sexController;
   late TextEditingController birthdayController;
   late TextEditingController phoneNumberController;
+                Notification_Presenter NotiPresenter = Notification_Presenter();
   late TextEditingController biographyController;
   User? user;
-
+NotificationServices notificationServices = NotificationServices();
   @override
   void initState() {
+    print(widget.phoneNumber);
     super.initState();
     userPresenter = UserPresenter(this);
     nameController = TextEditingController();
@@ -29,7 +36,18 @@ class _ProfileState extends State<Profile> implements UserView {
     birthdayController = TextEditingController();
     phoneNumberController = TextEditingController();
     biographyController = TextEditingController();
+ notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
 
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
     _loadUserByPhoneNumber();
   }
 
@@ -93,6 +111,7 @@ class _ProfileState extends State<Profile> implements UserView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -116,6 +135,11 @@ class _ProfileState extends State<Profile> implements UserView {
               if (updateSuccess) {
                 // Handle successful update, e.g., show a success message
                 print('User updated successfully');
+                sendNotificationAfterChangeProfile();
+                NotiPresenter.InsertNoti(
+                  phoneNumber: phoneNumberController.text,
+                  content: "Bạn vừa cập nhật thông tin",
+                );
               } else {
                 // Handle update failure, e.g., show an error message
                 print('Failed to update user');
@@ -201,6 +225,25 @@ class _ProfileState extends State<Profile> implements UserView {
               ),
             ),
             const SizedBox(height: 9),
+            ElevatedButton(
+              onPressed: (){
+               UserPresenter userPresenter = UserPresenter(this);
+               userPresenter.clearSharedPreferences();
+              Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => const Routers(),
+                      ),
+                    );
+                   
+            }, child: Text('Đăng xuất',
+            style: TextStyle(fontSize: 20),),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.fromLTRB(20, 10, 20, 10)),
+              )
+            )
           ],
         ),
       ),
@@ -228,5 +271,14 @@ class _ProfileState extends State<Profile> implements UserView {
         );
       },
     );
+  }
+  
+  void sendNotificationAfterChangeProfile() async {
+    final deviceToken = await notificationServices.getDeviceToken();
+
+    await notificationServices.sendFCMNotification(
+        title: 'Change Profile Success',
+        body: 'You have change information!',
+        deviceToken: deviceToken);
   }
 }

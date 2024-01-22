@@ -15,14 +15,6 @@ const conversationRoutes = require('./api/conversation');
 const messageRoutes = require('./api/message');
 const promotionRoutes = require('./api/promotion');
 const notificationRoutes = require('./api/notification')
-const orderRoutes=require('./api/order');
-const order_detailsRoutes=require('./api/orderDetail');
-
-
-
-const cartRoutes = require('./api/cart');
-const cart_detailsRoutes =  require('./api/cartDetail');
-
 
 
 
@@ -98,6 +90,6 @@ db.connect((err) => {
 
 server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  const url = await ngrok.connect(PORT);
-  console.log(`Ngrok URL: ${url}`);
+  // const url = await ngrok.connect(PORT);
+  // console.log(`Ngrok URL: ${url}`);
 });

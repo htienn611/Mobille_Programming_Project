@@ -1,46 +1,45 @@
 import 'package:ecommerce_app/models/order.dart';
-import 'package:ecommerce_app/models/order_detail.dart';
+import 'package:ecommerce_app/models/OrderDetail.dart';
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
 import 'package:ecommerce_app/presenters/product_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:ecommerce_app/views/order/orderDetail.dart';
 
-class Item_Order extends StatefulWidget {
-  Item_Order({super.key, required this.order});
+// ignore: must_be_immutable
+class ItemOrder extends StatefulWidget {
+  ItemOrder({super.key, required this.order});
   Order order;
   @override
-  State<Item_Order> createState() => _Item_OrderState();
+  State<ItemOrder> createState() => _ItemOrderState();
 }
 
-
-class _Item_OrderState extends State<Item_Order> {
+class _ItemOrderState extends State<ItemOrder> {
+  late int orderStatus;
   ProductPresenter proPre = ProductPresenter();
-  OrderDetailPresenter orderPre=OrderDetailPresenter();
+  OrderDetailPresenter orderDetailPre = OrderDetailPresenter();
+  OrderPresenter orderPre = OrderPresenter();
   late OrderDetail orderDetail;
   late Product product;
-  void loaddata() async {
-    orderDetail=await orderPre.getOrderDetailByID(widget.order.id);
-   // product = await proPre.getProductByID(orderDetail.idProduct);
-
+  late bool updateOrder = false;
+  void loadData() async {
+    product = await proPre.getOneProduct(widget.order.id);
+    orderDetail = await orderDetailPre.getOrderDetailByID(widget.order.id);
     setState(() {});
   }
-  void loadProduct() async{
-    product=await proPre.getProductByID(orderDetail.idProduct);
-    setState(() {
-      
-    });
-  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    loaddata();
-    loadProduct();
+    loadData();
+    orderStatus = widget.order.Status;
   }
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth=MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery.of(context).size.width;
+    //print(widget.order.date);
     return Container(
       width: screenWidth - 20,
       padding: const EdgeInsets.all(10),
@@ -57,8 +56,7 @@ class _Item_OrderState extends State<Item_Order> {
             )
           ]),
       child:
-          Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -71,11 +69,11 @@ class _Item_OrderState extends State<Item_Order> {
                 const SizedBox(
                   height: 5,
                 ),
-                widget.order.Status == 0
+                orderStatus == 0
                     ? const Text("Chờ xác nhận")
-                    : widget.order.Status == 1
+                    : orderStatus == 1
                         ? const Text("Chờ giao hàng")
-                        : widget.order.Status == 2
+                        : orderStatus == 2
                             ? const Text("Đã giao")
                             : const Text("Đã hủy"),
               ],
@@ -90,27 +88,13 @@ class _Item_OrderState extends State<Item_Order> {
                   height: 5,
                 ),
                 Text(
-                  widget.order.date.toString().split(" ")[0],
+                  // ignore: unnecessary_string_interpolations
+                  '${widget.order.date.toString().split(" ")[0]}',
                   style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),
-            const Column(
-              children: [
-                Text(
-                  "Tổng thanh toán",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  "7.000.000đ",
-                  style:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
+           
           ],
         ),
         Container(
@@ -128,53 +112,118 @@ class _Item_OrderState extends State<Item_Order> {
               height: 100,
             ),
             const SizedBox(
-              width: 25,
+              width: 5,
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  width: (screenWidth-20)*0.6, //chinh lai
+                Container(
+                  width: (screenWidth - 20) * 0.6,
                   child: RichText(
                     text: TextSpan(
-                      text: product.name,
-                      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black),
+                      // ignore: unnecessary_string_interpolations
+                      text: '${product.name}',
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
-                    maxLines: null,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      '${product.price}',
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                    const SizedBox(width: 70,),
-                    const Text("x1"),
-                  ],
+                SizedBox(
+                  width: (screenWidth - 20) * 0.6,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '${product.price}',
+                        style: const TextStyle(color: Colors.red),
+                      ),
+                      Text('${orderDetail.quantityProduct}'),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
                 ),
                 Row(
                   children: [
-                    TextButton(onPressed: () {}, child: const Text("Xem sản phẩm")),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  Order_Detail(idOrder: widget.order.id,),
+                            ),
+                          );
+                        },
+                        child: Text("xem thêm")),
                     const SizedBox(
-                      width: 25,
+                      width: 50,
                     ),
                     OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (orderStatus == 0) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Xác nhận"),
+                                content: const Text(
+                                    "Bạn có chắc chắn muốn hủy đơn không?"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text("Hủy bỏ")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        updateOrder = await orderPre
+                                            .updateStatusOrder(widget.order);
+                                        if (updateOrder) {
+                                           orderStatus = 3;
+                                          widget.order.Status = orderStatus;
+                                           widget.order.Status == 3;
+                                          Navigator.of(context).pop();
+                                          setState(() {});
+                                        }
+                                      },
+                                      child: const Text("Xác nhận"))
+                                ],
+                              );
+                            },
+                          );
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                  title: const Text("Thông báo"),
+                                  content: const Text("Bạn không thể hủy đơn"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text("OK")),
+                                  ]);
+                            },
+                          );
+                        }
+                      },
+                      // ignore: sort_child_properties_last
+                      child: const Text("Hủy đơn",
+                          style: TextStyle(color: Colors.white)),
                       style: ButtonStyle(
                           backgroundColor: MaterialStateColor.resolveWith(
-                              (states) => const Color.fromARGB(255, 224, 84, 75))),
-                      child: const Text(
-                        "Hủy đơn",
-                        style: TextStyle(color: Colors.white, fontSize: 13),
-                      ),
+                              (states) =>
+                                  const Color.fromARGB(255, 224, 84, 75))),
                     ),
                   ],
                 )

@@ -1,50 +1,33 @@
 import 'package:ecommerce_app/models/category.dart';
-import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
+import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/content_list.dart';
 import 'package:ecommerce_app/views/home_page/content_section/content_section.dart';
 import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
 import 'package:ecommerce_app/views/home_page/footer/home_footer.dart';
 import 'package:ecommerce_app/views/home_page/promotion_banner.dart';
+import 'package:ecommerce_app/views/login.dart';
+import 'package:ecommerce_app/views/routers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
-
+  const HomePageScreen(
+      {super.key, required this.scrollController, required this.phoneNumber});
+  final ScrollController scrollController;
+  final String phoneNumber;
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  final ScrollController _scrollController = ScrollController();
-  bool _isVisible = true;
-
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        // Người dùng đang cuộn lên trên, ẩn BottomNavigationBar
-        if (_isVisible) {
-          setState(() {
-            _isVisible = false;
-          });
-        }
-      } else if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        // Người dùng đang cuộn xuống dưới, hiển thị BottomNavigationBar
-        if (!_isVisible) {
-          setState(() {
-            _isVisible = true;
-          });
-        }
-      }
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: avoid_print
+    print('phone:${widget.phoneNumber}');
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -52,7 +35,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           actions: const [HomePageAppbarItem()],
         ),
         body: SingleChildScrollView(
-          controller: _scrollController,
+          controller: widget.scrollController,
           child: Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -63,9 +46,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 color: Colors.grey[300],
                 child: Column(children: [
                   const PromotionBanner(),
+                  //ngọc trúc thêm tham số stutus còn thiếu vào dòng 70 vì do thay đổi ở csdl sửa để kh bị lỗi
                   ContentSection(
                     isBestSelling: true,
-                    cate: Category(id: 0, nameCate: ""),
+                    cate: Category(id: 0, nameCate: "", status: 0),
                   ),
                   const ContentSectionList(),
                   const HomeFooter()
@@ -74,15 +58,34 @@ class _HomePageScreenState extends State<HomePageScreen> {
             ],
           )),
         ),
-        bottomNavigationBar: _isVisible ? const BottomNav() : const SizedBox(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: const Image(
-              image: AssetImage('assets/img/chat.png'),
-            ),
-          ),
+        floatingActionButton: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: FloatingActionButton(
+              onPressed: () {
+                if (widget.phoneNumber.isEmpty) {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      )).then((value) {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>const Routers(),
+                        ));
+                  });
+                } else {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChatScreen(
+                                phoneNumber: widget.phoneNumber,
+                              )));
+                }
+              },
+              child: const Image(
+                image: AssetImage('assets/img/chat.png'),
+              )),
         ));
   }
 }

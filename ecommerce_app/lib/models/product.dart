@@ -11,6 +11,7 @@ class Product {
   late int idCate;
   late int idBrand;
 
+
   Product(
       {required this.id,
       required this.image,
@@ -45,3 +46,5 @@ class Product {
         idCate = json['idCate'] ?? 0,
         idBrand = json['idBrand'] ?? 0;
 }
+
+

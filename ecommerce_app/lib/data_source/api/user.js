@@ -4,7 +4,6 @@ const router = express.Router();
 const connection = require('./db');
 
 
-// lấy cả bảng brand
 router.post('/register', async (req, res) => {
 
     const { sex, password, name, phoneNumber, birthday } = req.body;
@@ -34,10 +33,13 @@ router.post('/register', async (req, res) => {
             if (err) {
                 console.error('Error executing MySQL query:', err);
                 res.status(500).send('Internal Server Error');
-            } 
-            
+            } else{
+            res.send("Reg succces");
+
+            }
         });
     }
+    res.send("");
 });
 
 // Định nghĩa route đăng nhập
@@ -119,5 +121,19 @@ router.post('/update', (req, res) => {
         }
     });
 });
+
+router.get('/id:phone', (req, res) => {
+    var query = 'SELECT * FROM `user` WHERE status!=0 AND phoneNumber=?';
+    connection.query(query, [req.params.phone], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' })
+        }
+        else {
+            return res.json(results);
+        }
+    }
+    );
+});
+
 
 module.exports = router;

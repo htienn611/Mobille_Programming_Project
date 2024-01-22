@@ -50,171 +50,176 @@ class _EditProductState extends State<EditProduct> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(mess),
-        duration: const Duration(seconds: 20), // Đặt thời gian hiển thị
+        duration: const Duration(seconds: 2), // Đặt thời gian hiển thị
       ),
     );
   }
+
   void showErrMessSnackBar(String mess) {
-     showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: const Text('Cảnh báo'),
-              content: Text(mess),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Đóng thông báo
-                  },
-                  child: const Text('Đóng'),
-                ),
-              ],
-            );
-          },
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Cảnh báo'),
+          content: Text(mess),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng thông báo
+              },
+              child: Text('Đóng'),
+            ),
+          ],
         );
-      }
+      },
+    );
+  }
+
   void _editProduct(BuildContext context, Product pro) {
     showModalBottomSheet(
         isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return SizedBox(
-            height: MediaQuery.of(context).size.height - 200,
-            child: Column(children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(75),
-                      child: const Image(
-                        image: AssetImage('assets/img/laptop/laptop.jpg'),
-                        fit: BoxFit.cover,
+          return Container(
+              height: MediaQuery.of(context).size.height - 100,
+              child: Column(children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: 120,
+                      height: 120,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(75),
+                        child: const Image(
+                          image: AssetImage('assets/img/laptop/laptop.jpg'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[400],
-                            borderRadius: BorderRadius.circular(50)),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.camera_alt_rounded,
-                            color: Colors.grey,
+                    Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: 35,
+                          height: 35,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(50)),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.camera_alt_rounded,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {},
                           ),
-                          onPressed: () {},
-                        ),
-                      ))
-                ],
-              ),
-              TextField(
-                maxLength: 28,
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(hintText: "Tên sản phẩm"),
-              ),
-              TextField(
-                controller: priceController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(hintText: "Giá"),
-              ),
-              TextField(
-                controller: quantityController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(hintText: "Số lượng"),
-              ),
-              TextField(
-                maxLines: 4,
-                controller: desController,
-                keyboardType: TextInputType.text,
-                decoration: const InputDecoration(hintText: "Mô tả"),
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-                DropdownButton<int>(
-                  value: pro.idCate,
-                  icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (int? newValue) {
-                    setState(() {
-                      pro.idCate = newValue!;
-                    });
-                  },
-                  items: danhSachDanhMuc.map((motDanhMuc) {
-                    return DropdownMenuItem<int>(
-                        value: motDanhMuc.id,
-                        child: Text(motDanhMuc.nameCate.toString()));
-                  }).toList(),
+                        ))
+                  ],
                 ),
-                DropdownButton<int>(
-                  value: pro.idBrand,
-                  icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (int? newValue) {
-                    setState(() {
-                      pro.idBrand = newValue!;
-                    });
-                  },
-                  items: danhSachNhanHang.map((motNhanHang) {
-                    return DropdownMenuItem<int>(
-                        value: motNhanHang.id,
-                        child: Text(motNhanHang.name.toString()));
-                  }).toList(),
+                TextField(
+                  maxLength: 28,
+                  controller: nameController,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(hintText: "Tên sản phẩm"),
                 ),
-                DropdownButton<int>(
-                  value: pro.idDiscount,
-                  icon: const Icon(Icons.arrow_drop_down_outlined),
-                  onChanged: (int? newValue) {
-                    setState(() {
-                      pro.idDiscount = newValue!;
-                    });
-                  },
-                  items: danhSachGiamGia.map((motGiamGia) {
-                    return DropdownMenuItem<int>(
-                        value: motGiamGia.id,
-                        child: Text(motGiamGia.title.toString()));
-                  }).toList(),
-                )
-              ]),
-              ElevatedButton(
-                onPressed: () async {
-                  if (nameController.text.isEmpty ||
-                      quantityController.text.isEmpty ||
-                      priceController.text.isEmpty ||
-                      desController.text.isEmpty) {
-                    showErrMessSnackBar(
-                        "Xin hãy nhập thông tin đầy đủ trước khi thêm");
-                  } else {
-                    Product newP = Product(
-                        id: pro.id,
-                        image: pro.image,
-                        name: nameController.text,
-                        quantity: int.parse(quantityController.text),
-                        price: int.parse(priceController.text),
-                        des: desController.text,
-                        idDiscount: pro.idDiscount,
-                        status: 1,
-                        idCate: pro.idCate,
-                        idBrand: pro.idBrand);
-                    checkUpdateProduct =
-                        await proPre.updateProductPresenter(newP);
-                    Navigator.pop(context);
-                    if (checkUpdateProduct) {
-                      showMessSnackBar('Cập nhật sản phẩm thành công');
-                      setState(() {});
+                TextField(
+                  controller: priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(hintText: "Giá"),
+                ),
+                TextField(
+                  controller: quantityController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(hintText: "Số lượng"),
+                ),
+                TextField(
+                  maxLines: 4,
+                  controller: desController,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(hintText: "Mô tả"),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DropdownButton<int>(
+                        menuMaxHeight: 150,
+                        value: pro.idCate,
+                        icon: const Icon(Icons.arrow_drop_down_outlined),
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            pro.idCate = newValue!;
+                          });
+                        },
+                        items: danhSachDanhMuc.map((motDanhMuc) {
+                          return DropdownMenuItem<int>(
+                              value: motDanhMuc.id,
+                              child: Text(motDanhMuc.nameCate.toString()));
+                        }).toList(),
+                      ),
+                      DropdownButton<int>(
+                        menuMaxHeight: 150,
+                        value: pro.idBrand,
+                        icon: const Icon(Icons.arrow_drop_down_outlined),
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            pro.idBrand = newValue!;
+                          });
+                        },
+                        items: danhSachNhanHang.map((motNhanHang) {
+                          return DropdownMenuItem<int>(
+                              value: motNhanHang.id,
+                              child: Text(motNhanHang.name.toString()));
+                        }).toList(),
+                      ),
+                      DropdownButton<int>(
+                        menuMaxHeight: 150,
+                        value: pro.idDiscount,
+                        icon: const Icon(Icons.arrow_drop_down_outlined),
+                        onChanged: (int? newValue) {
+                          setState(() {
+                            pro.idDiscount = newValue!;
+                          });
+                        },
+                        items: danhSachGiamGia.map((motGiamGia) {
+                          return DropdownMenuItem<int>(
+                              value: motGiamGia.id,
+                              child: Text(motGiamGia.title.toString()));
+                        }).toList(),
+                      )
+                    ]),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (nameController.text.isEmpty ||
+                        quantityController.text.isEmpty ||
+                        priceController.text.isEmpty ||
+                        desController.text.isEmpty) {
+                      showErrMessSnackBar(
+                          "Xin hãy nhập thông tin đầy đủ trước khi thêm");
                     } else {
-                      showMessSnackBar('Cập nhật sản phẩm thất bại');
+                      Product newP = Product(
+                          id: pro.id,
+                          image: pro.image,
+                          name: nameController.text,
+                          quantity: int.parse(quantityController.text),
+                          price: int.parse(priceController.text),
+                          des: desController.text,
+                          idDiscount: pro.idDiscount,
+                          status: 1,
+                          idCate: pro.idCate,
+                          idBrand: pro.idBrand);
+                      checkUpdateProduct =
+                          await proPre.updateProductPresenter(newP);
+                      Navigator.pop(context);
+                      if (checkUpdateProduct) {
+                        showMessSnackBar('Cập nhật sản phẩm thành công');
+                        setState(() {});
+                      } else
+                        showMessSnackBar('Cập nhật sản phẩm thất bại');
                     }
-                  }
-                  setState(() {});
-                },
-                child: const Text("Lưu"),
-              )
-            ]),
-          );
+                    setState(() {});
+                  },
+                  child: const Text("Lưu"),
+                ),
+              ]));
         });
   }
 

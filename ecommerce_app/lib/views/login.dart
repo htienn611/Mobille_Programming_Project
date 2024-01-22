@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
+import 'package:ecommerce_app/views/routers.dart';
 import 'package:flutter/material.dart';
 
 import '../presenters/user_presenter.dart';
@@ -18,25 +19,13 @@ class _LoginState extends State<Login> implements UserView {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
-  }
-
-  Future<void> checkLoginStatus() async {
-    UserPresenter userPresenter = UserPresenter(this);
-    bool isLoggedIn = await userPresenter.getLoginStatus();
-    if (isLoggedIn) {
-      String savedPhoneNumber = await userPresenter.getSavedPhoneNumber();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Profile(phoneNumber: savedPhoneNumber)),
-      );
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -94,20 +83,19 @@ class _LoginState extends State<Login> implements UserView {
                     phoneNumber: phoneNumberController.text,
                   );
                   if (userPresenter.loginSuccessful == true) {
+                    print("Luu sdt");
                     // Lưu trạng thái đăng nhập và số điện thoại
-                    await userPresenter.saveLoginStatus(true, phoneNumberController.text);
+                    await userPresenter.saveLoginStatus(
+                        true, phoneNumberController.text);
+                    print(await userPresenter.getSavedPhoneNumber());
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Routers(),));
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Profile(phoneNumber: phoneNumberController.text),
-                      ),
-                    );
                   }
                 },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-                  padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10)),
+                  padding: MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(20, 10, 20, 10)),
                 ),
                 child: const Text("Đăng nhập", style: TextStyle(fontSize: 20)),
               ),
@@ -118,11 +106,15 @@ class _LoginState extends State<Login> implements UserView {
               padding: const EdgeInsets.only(right: 12, left: 12),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const Register()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Register()));
                 },
                 style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-                  padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10)),
+                  padding: MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(20, 10, 20, 10)),
                 ),
                 child: const Text("Đăng ký", style: TextStyle(fontSize: 20)),
               ),

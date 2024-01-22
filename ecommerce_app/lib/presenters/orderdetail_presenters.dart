@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/data_source/repository/data.dart';
-import 'package:ecommerce_app/models/order_detail.dart';
+import 'package:ecommerce_app/models/OrderDetail.dart';
 
 class OrderDetailPresenter {
   Future<List<OrderDetail>> getlstOrderDetail() async {
@@ -56,4 +56,23 @@ class OrderDetailPresenter {
     // print(rsLst);
     return rs;
   }
+//Lấy list orderDetailByID
+     Future<List<OrderDetail>> getListOrderDetailByID(int id) async {
+     List<OrderDetail>rs=List.filled(0,  OrderDetail(0, 0, 0),growable: true);
+
+    try {
+     List< dynamic> value = await getItemByID("order_details", id);
+
+      if (value.isNotEmpty) {
+        rs.clear();
+        rs = value.map((json) => OrderDetail.fromJson(json)).toList();
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    }
+    // print(rsLst);
+    return rs;
+  }
+
+  
 }

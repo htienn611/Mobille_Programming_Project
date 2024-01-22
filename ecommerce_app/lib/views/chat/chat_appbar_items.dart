@@ -30,20 +30,31 @@ class _ChatAppbarItemsState extends State<ChatAppbarItems> {
               const SizedBox(
                 width: 10,
               ),
-              const Column(
+                Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text(
                     "Hỗ trợ trực tuyến",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
-                  Text("Sẵn sàng giải đáp mọi thắc mắc"),
+                  Text("Sẵn sàng giải đáp mọi thắc mắc",
+                      style: TextStyle(color: Colors.white)),
                 ],
               )
             ],
           ),
-          IconButton(onPressed: (){}, icon:const Text("X", style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),))
+          IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: const Text(
+                "X",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              ))
         ],
       ),
     );

@@ -26,13 +26,15 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
   }
   void colorpayclick(){
 
-    setState(() {
-    colormomo = Colors.black;
-    colorpay = Colors.blue;
-    wpay = 4.0;
-    wmomo = 2.0;
-    });
-  }
+    void _colorpayclick() {
+      setState(() {
+        colormomo = Colors.black;
+        colorpay = Colors.blue;
+        wpay = 4.0;
+        wmomo = 2.0;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -163,7 +165,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0,),
                   height: 0.5,
-                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
@@ -177,7 +180,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
-                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
@@ -191,7 +195,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
-                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),
@@ -205,7 +210,8 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0),
                   height: 0.5,
-                  decoration: BoxDecoration(border: Border.all(width: 0.5, color: Colors.grey)),
+                  decoration: BoxDecoration(
+                      border: Border.all(width: 0.5, color: Colors.grey)),
                 ),
                 Container(
                   margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 25.0),

@@ -24,7 +24,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
     wpay = 2.0;
     });
   }
-  void colorpayclick(){
+  Scaffold colorpayclick(){
 
     void _colorpayclick() {
       setState(() {
@@ -258,4 +258,4 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
       )
     );
   }
-}
+}}

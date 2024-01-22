@@ -98,7 +98,7 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
                     ? Container(
                         padding: const EdgeInsets.only(left: 10),
                         width: sW - 40,
-                        child: const Column(
+                        child:  Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FooterSubCat(),

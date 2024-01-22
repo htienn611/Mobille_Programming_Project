@@ -1,6 +1,10 @@
 import 'package:ecommerce_app/models/user.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
+import 'package:ecommerce_app/views/routers.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../presenters/fireBaseApi.dart';
 
 class Profile extends StatefulWidget {
   final String phoneNumber;
@@ -19,7 +23,7 @@ class _ProfileState extends State<Profile> implements UserView {
   late TextEditingController phoneNumberController;
   late TextEditingController biographyController;
   User? user;
-
+NotificationServices notificationServices = NotificationServices();
   @override
   void initState() {
     super.initState();
@@ -29,7 +33,18 @@ class _ProfileState extends State<Profile> implements UserView {
     birthdayController = TextEditingController();
     phoneNumberController = TextEditingController();
     biographyController = TextEditingController();
+ notificationServices.requestNotificationPermission();
+    notificationServices.forgroundMessage();
+    notificationServices.firebaseInit(context);
+    notificationServices.setupInteractMessage(context);
+    notificationServices.isTokenRefresh();
 
+    notificationServices.getDeviceToken().then((value) {
+      if (kDebugMode) {
+        print('device token');
+        print(value);
+      }
+    });
     _loadUserByPhoneNumber();
   }
 
@@ -116,6 +131,7 @@ class _ProfileState extends State<Profile> implements UserView {
               if (updateSuccess) {
                 // Handle successful update, e.g., show a success message
                 print('User updated successfully');
+                sendNotificationAfterChangeProfile();
               } else {
                 // Handle update failure, e.g., show an error message
                 print('Failed to update user');
@@ -201,6 +217,16 @@ class _ProfileState extends State<Profile> implements UserView {
               ),
             ),
             SizedBox(height: 9),
+            ElevatedButton(onPressed: (){
+               UserPresenter userPresenter = UserPresenter(this);
+               userPresenter.clearSharedPreferences();
+              Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                      builder: (context) => Routers(),
+                      ),
+                    );
+            }, child: Text('Đăng xuất'))
           ],
         ),
       ),
@@ -228,5 +254,14 @@ class _ProfileState extends State<Profile> implements UserView {
         );
       },
     );
+  }
+  
+  void sendNotificationAfterChangeProfile() async {
+    final deviceToken = await notificationServices.getDeviceToken();
+
+    await notificationServices.sendFCMNotification(
+        title: 'Change Profile Success',
+        body: 'You have change information!',
+        deviceToken: deviceToken);
   }
 }

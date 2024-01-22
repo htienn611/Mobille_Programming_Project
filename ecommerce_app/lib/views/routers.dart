@@ -1,8 +1,14 @@
+import 'dart:ffi';
+
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
+import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
+import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import '../presenters/user_presenter.dart';
 
 class Routers extends StatefulWidget {
   const Routers({super.key});
@@ -11,9 +17,11 @@ class Routers extends StatefulWidget {
   State<Routers> createState() => _RouterState();
 }
 
-class _RouterState extends State<Routers> {
+class _RouterState extends State<Routers> implements UserView{
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
+  bool isLog=false;
+  late String PhoneNumber;
   var _currentIndex = 0;
   void navigation(value) {
     setState(() {
@@ -21,10 +29,24 @@ class _RouterState extends State<Routers> {
     });
   }
 
-  late List<Widget> _pages;
+   List<Widget> _pages=[];
+
+   Future<void> statusLG()
+   async
+   {
+    UserPresenter userPresenter = UserPresenter(this);
+   // ignore: unrelated_type_equality_checks
+   if(userPresenter.getLoginStatus()==true)
+   {
+    PhoneNumber= await userPresenter.getSavedPhoneNumber();
+    isLog=true;
+   }
+   }
+
   @override
-  void initState() {
+  void initState()  {
     super.initState();
+    statusLG();
     scrollController.addListener(() {
       if (scrollController.position.userScrollDirection ==
           ScrollDirection.reverse) {
@@ -53,9 +75,8 @@ class _RouterState extends State<Routers> {
         child: Text("Thông Báo"),
       ),
       const ListOrder(),
-      const Center(
-        child: Text("Tài Khoản"),
-      )
+       isLog?
+      Profile(phoneNumber: PhoneNumber):Login()
     ];
   }
 
@@ -71,5 +92,10 @@ class _RouterState extends State<Routers> {
             })
           : const SizedBox(),
     );
+  }
+  
+  @override
+  void displayMessage(String message) {
+    // TODO: implement displayMessage
   }
 }

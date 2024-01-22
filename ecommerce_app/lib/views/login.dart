@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
+import 'package:ecommerce_app/views/routers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -102,7 +103,9 @@ class _LoginState extends State<Login> implements UserView {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Profile(phoneNumber: phoneNumberController.text),
+                      builder: (context) => Routers(),
+                        
+                        //builder: (context) => Profile(phoneNumber: phoneNumberController.text),
                       ),
                     );
                   }

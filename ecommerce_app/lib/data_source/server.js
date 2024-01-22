@@ -1,5 +1,5 @@
 const express = require('express');
-//const ngrok = require('ngrok');
+const ngrok = require('ngrok');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -14,6 +14,7 @@ const order_detailsRoutes = require('./api/orderDetail');
 const conversationRoutes = require('./api/conversation');
 const messageRoutes = require('./api/message');
 const promotionRoutes = require('./api/promotion');
+const notificationRoutes=require('./api/notification')
 
 
 
@@ -45,11 +46,11 @@ app.use('/category', categoryRoutes);
 app.use('/conversation', conversationRoutes);
 app.use('/message', messageRoutes);
 app.use('/promotion', promotionRoutes);
+app.use('/notification',notificationRoutes);
+// io.on('connection', (socket) => {
+//   console.log('Một người dùng đã kết nối');
 
-io.on('connection', (socket) => {
-  console.log('Một người dùng đã kết nối');
-
-  socket.on('chat message', async (msg) => {
+//   socket.on('chat message', async (msg) => {
     // try {
     //   // Sử dụng đối tượng kết nối từ middleware (đã thêm vào từ app.use((req, res, next) => ...))
     //   const result = await req.db.promise().execute('INSERT INTO messages (content) VALUES (?)', [msg]);
@@ -77,6 +78,6 @@ db.connect((err) => {
 });
 server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  //const url = await ngrok.connect(PORT);
-  // console.log(`Ngrok URL: ${url}`);
+  const url = await ngrok.connect(PORT);
+  console.log(`Ngrok URL: ${url}`);
 });

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../presenters/fireBaseApi.dart';
+import '../presenters/noti_presenter.dart';
 
 class Profile extends StatefulWidget {
   final String phoneNumber;
@@ -21,6 +22,7 @@ class _ProfileState extends State<Profile> implements UserView {
   late TextEditingController sexController;
   late TextEditingController birthdayController;
   late TextEditingController phoneNumberController;
+                Notification_Presenter NotiPresenter = Notification_Presenter();
   late TextEditingController biographyController;
   User? user;
 NotificationServices notificationServices = NotificationServices();
@@ -132,6 +134,10 @@ NotificationServices notificationServices = NotificationServices();
                 // Handle successful update, e.g., show a success message
                 print('User updated successfully');
                 sendNotificationAfterChangeProfile();
+                NotiPresenter.InsertNoti(
+                  phoneNumber: phoneNumberController.text,
+                  content: "Bạn vừa cập nhật thông tin",
+                );
               } else {
                 // Handle update failure, e.g., show an error message
                 print('Failed to update user');
@@ -226,7 +232,16 @@ NotificationServices notificationServices = NotificationServices();
                       builder: (context) => Routers(),
                       ),
                     );
-            }, child: Text('Đăng xuất'))
+            }, child: Text('Đăng xuất',
+             style: TextStyle(fontSize: 20),
+              ),
+              style: ButtonStyle(
+                backgroundColor:
+                    MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(
+                    EdgeInsets.fromLTRB(20, 10, 20, 10)),
+              ),
+            )
           ],
         ),
       ),

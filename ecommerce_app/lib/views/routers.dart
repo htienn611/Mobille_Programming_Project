@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
+import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _RouterState extends State<Routers> implements UserView{
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
   bool isLog=false;
-  late String PhoneNumber;
+  String PhoneNumber='';
   var _currentIndex = 0;
   void navigation(value) {
     setState(() {
@@ -40,6 +41,9 @@ class _RouterState extends State<Routers> implements UserView{
    {
     PhoneNumber= await userPresenter.getSavedPhoneNumber();
     isLog=true;
+    setState(() {
+      
+    });
    }
    }
 
@@ -71,9 +75,7 @@ class _RouterState extends State<Routers> implements UserView{
       const Center(
         child: Text("Danh Mục"),
       ),
-      const Center(
-        child: Text("Thông Báo"),
-      ),
+      NotificationScreen(phoneNumber: PhoneNumber),
       const ListOrder(),
        isLog?
       Profile(phoneNumber: PhoneNumber):Login()

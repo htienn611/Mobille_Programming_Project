@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../views/notification/notification.dart';
 
-class NotificationServices {
+class NotificationServices implements UserView{
   //initialising firebase message plugin
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -155,11 +156,12 @@ class NotificationServices {
     });
   }
 
-  void handleMessage(BuildContext context, RemoteMessage message) {
+  void handleMessage(BuildContext context, RemoteMessage message) async{
+    String phone=await UserPresenter(this).getSavedPhoneNumber();
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NotificationScreen(),
+            builder: (context) => NotificationScreen(phoneNumber: phone),
           ));
   }
 
@@ -205,5 +207,10 @@ class NotificationServices {
       print(
           'Failed to send FCM Notification. Status code: ${response.statusCode}');
     }
+  }
+  
+  @override
+  void displayMessage(String message) {
+    // TODO: implement displayMessage
   }
 }

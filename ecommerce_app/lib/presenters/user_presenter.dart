@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'https://ab2b-42-119-107-18.ngrok-free.app';
+  static const String baseUrl = 'https://1289-42-119-107-18.ngrok-free.app';
 }
 
 abstract class UserView {

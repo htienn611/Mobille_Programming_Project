@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/presenters/fireBaseApi.dart';
 import 'package:ecommerce_app/firebase_options.dart';
+import 'package:ecommerce_app/views/cart/cart.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/routers.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,6 +17,8 @@ void main() async{
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(const MyApp());
+  await FirebaseApi().initNotification();
+  runApp(const MyApp());
 }
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -28,10 +31,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Roboto-Black'
       ),
       locale: const Locale('vi', 'VN'),
-      home:ListOrder()
-    );
-  }
+
+
+      home: CartScreen(phoneNumber: '0327728030',),
+    );}
 }
+
+
+
 

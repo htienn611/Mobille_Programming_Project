@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 
 class EditProduct extends StatefulWidget {
   final Product sanpham;
-  EditProduct({super.key, required this.sanpham});
+  const EditProduct({super.key, required this.sanpham});
 
   @override
   State<EditProduct> createState() => _EditProductState();

@@ -69,5 +69,27 @@ class OrderPresenter {
 
   
 
+Future<bool> addOrderPresenter(Order o) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.2.3:3000/order'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'paymentMethods': o.paymentMethods,
+          'phoneNumber': o.phoneNumber,
+          'date': o.date,
+          'transportFee': o.transportFee,
+          'Status': o.Status,
+        }),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      }
+    } catch (error) {
+      // ignore: avoid_print
+      print('Error fetching data: $error (PRODUCT_PRESENTER)');
+    }
+    return false;
+  }
   
 }

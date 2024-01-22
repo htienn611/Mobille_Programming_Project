@@ -29,9 +29,9 @@ setState(() {
       appBar: AppBar(
          automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
-        title: Container(width: MediaQuery.of(context).size.width,child: Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
+        title: SizedBox(width: MediaQuery.of(context).size.width,child: const Text("THÔNG BÁO", style: TextStyle(color: Colors.white,),textAlign: TextAlign.center,)),
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.shopping_cart))
+          IconButton(onPressed: (){}, icon: const Icon(Icons.shopping_cart))
         ],
       ),
       
@@ -40,13 +40,13 @@ setState(() {
           children: [
 
             Container(
-              padding: EdgeInsets.fromLTRB(10, 15, 0, 10),
+              padding: const EdgeInsets.fromLTRB(10, 15, 0, 10),
               child: Row(
                 mainAxisAlignment:MainAxisAlignment.spaceAround ,
                 children: [
-                  Icon(Icons.local_offer_outlined),
-                  SizedBox(width: 10,),
-                  Expanded(
+                  const Icon(Icons.local_offer_outlined),
+                  const SizedBox(width: 10,),
+                  const Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -55,12 +55,12 @@ setState(() {
                       ],
                     ),
                   ),
-                  IconButton(onPressed: (){}, icon: Icon(Icons.arrow_forward_ios))
+                  IconButton(onPressed: (){}, icon: const Icon(Icons.arrow_forward_ios))
                 ],
               ),
             ),
-            SizedBox(height: 40,),
-            Row(
+            const SizedBox(height: 40,),
+            const Row(
               children: [
                 SizedBox(width: 10,),
                 Text("Cập nhật đơn hàng"),

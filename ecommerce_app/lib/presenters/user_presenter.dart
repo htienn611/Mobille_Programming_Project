@@ -43,6 +43,7 @@ class UserPresenter {
       loginSuccessful = false;
       _view.displayMessage('Failed to login. Please try again.');
     }
+    return null;
   }
 
   Future<void> Register({

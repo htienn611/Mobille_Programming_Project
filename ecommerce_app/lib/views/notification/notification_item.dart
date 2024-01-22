@@ -11,7 +11,7 @@ class _Notification_ItemState extends State<Notification_Item> {
   @override
   Widget build(BuildContext context) {
     return Container(
-              child: Row(
+              child: const Row(
                 children: [
                   Image(image: AssetImage("assets/img/anh.JPG"), width: 60,height: 60,),
                   Text(widget.content)

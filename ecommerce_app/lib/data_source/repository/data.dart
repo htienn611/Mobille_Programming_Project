@@ -14,8 +14,44 @@ Future<List<dynamic>> getTable(String tableName) async {
   } else {
     throw Exception('Failed to load data');
   }
+  
 }
+Future<List<dynamic>> getCartByPhoneNumber(String tableName, String phoneNumber,
+    [dynamic val, List<dynamic>? paras]) async {
+  // Xây dựng URL bằng cách sử dụng lớp Uri
+  Uri uri = Uri.parse('$host/$tableName/$phoneNumber$val');
+  
+  // Thêm các tham số truy vấn nếu có
+  if (paras != null) {
+    Map<String, dynamic> queryParameters = {};
+    for (var i = 0; i < paras.length; i++) {
+      queryParameters['param$i'] = paras[i].toString();
+    }
+    uri = uri.replace(queryParameters: queryParameters);
+  }
 
+  // In URL cuối cùng
+  print(uri);
+
+  try {
+    final response = await http.get(uri);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Không thể tải dữ liệu. Mã trạng thái: ${response.statusCode}');
+    }
+  } catch (error) {
+    throw Exception('Không thể thực hiện yêu cầu HTTP. Lỗi: $error');
+  }
+}
+// Future<List<dynamic>> getCartByPhoneNumber(String tableName, {String?  phoneNumber}) async {
+// final response = await http.get(Uri.parse('$tableName?phoneNumber=$phoneNumber':));
+//   if (response.statusCode == 200) {
+//     return jsonDecode(response.body);
+//   } else {
+//     throw Exception('Failed to load data');
+//   }
+// }
 Future<List<dynamic>> getTableByIdCate(String tableName, {int? idCate}) async {
   final url =
       idCate != null ? '$host/$tableName?idCate=$idCate' : '$host/$tableName';

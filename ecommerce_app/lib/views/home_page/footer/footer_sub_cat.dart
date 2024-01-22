@@ -11,8 +11,8 @@ class _FooterSubCatState extends State<FooterSubCat> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 5),
-      child: Text('Sub cat'),
+      margin: const EdgeInsets.only(top: 5),
+      child: const Text('Sub cat'),
     );
   }
 }

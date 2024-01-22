@@ -1,3 +1,4 @@
+//import 'package:ecommerce_app/models/cart_detail.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:ecommerce_app/views/product/ratingStar.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
+  //final CartDetail cartDetail;
   const ProductDetail({super.key, required this.product});
 
   @override
@@ -16,7 +18,7 @@ class _ProductDetailState extends State<ProductDetail> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         systemNavigationBarColor:
             Colors.transparent, // Để thanh điều hướng ở dưới trong suốt
         systemNavigationBarIconBrightness:
@@ -63,17 +65,17 @@ class _ProductDetailState extends State<ProductDetail> {
               Text(widget.product.name,
                   softWrap: true,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
-              RatingStar(),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 23)),
+              const RatingStar(),
               Text(
                 "${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(widget.product.price)} vnđ",
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
                     color: Colors.red),
               ),
               Text("Số lượng: ${widget.product.quantity.toString()}"),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
@@ -84,17 +86,17 @@ class _ProductDetailState extends State<ProductDetail> {
               ),
             ])),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Container(
                   width: 50,
                   height: 50,
                   color: Colors.grey,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Column(
+                const Column(
                   children: [
                     Text(
                       "Trúc Trần",
@@ -103,24 +105,24 @@ class _ProductDetailState extends State<ProductDetail> {
                     Text("Rất tuyệt")
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 200,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.send))
+                IconButton(onPressed: () {}, icon: const Icon(Icons.send))
               ]),
             ),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Container(
                   width: 50,
                   height: 50,
                   color: Colors.greenAccent,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Column(
+                const Column(
                   children: [
                     Text(
                       "Chương Phú",
@@ -132,17 +134,17 @@ class _ProductDetailState extends State<ProductDetail> {
               ]),
             ),
             Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                 Container(
                   width: 50,
                   height: 50,
                   color: Colors.pink,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
-                Column(
+                const Column(
                   children: [
                     Text(
                       "Lee Do Huyn",
@@ -157,7 +159,7 @@ class _ProductDetailState extends State<ProductDetail> {
         )),
         bottomNavigationBar: Container(
           height: 50,
-          margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+          margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -167,7 +169,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   width: MediaQuery.of(context).size.width / 5,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(185, 233, 30, 33),
+                    color: const Color.fromARGB(185, 233, 30, 33),
                   ),
                   child: const Center(
                       child: Icon(Icons.chat,color: Colors.white,)),
@@ -179,7 +181,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(185, 233, 30, 33),
+                    color: const Color.fromARGB(185, 233, 30, 33),
                   ),
                   child: const Center(
                       child: Text(
@@ -192,12 +194,34 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
               ),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  // if (widget.product.id == widget.cartDetail.idProduct) {
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(
+                  //   content: Text('Sản phẩm đã có trong giỏ hàng'),
+                  //   duration: const Duration(seconds: 2),
+                  //   ),
+                  // );
+                  // } else {
+                  //   CartDetail newCartD = CartDetail(
+                  //       id: .id,
+                  //       image: pro.image,
+                  //       quantity: int.parse(quantityController.text),
+                  //   checkUpdateProduct =
+                  //       await proPre.updateProductPresenter(newP);
+                  //   Navigator.pop(context);
+                  //   if (checkUpdateProduct) {
+                  //     showMessSnackBar('Cập nhật sản phẩm thành công');
+                  //     setState(() {});
+                  //   } else
+                  //     showMessSnackBar('Cập nhật sản phẩm thất bại');
+                  },
+                
                 child: Container(
                   width: MediaQuery.of(context).size.width / 3,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Color.fromARGB(185, 233, 30, 33),
+                    color: const Color.fromARGB(185, 233, 30, 33),
                   ),
                   child: const Center(
                       child: Text(

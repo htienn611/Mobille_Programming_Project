@@ -47,7 +47,7 @@ class _HomePageAppbarItemState extends State<HomePageAppbarItem> {
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add_shopping_cart_sharp,
                     size: 32,
                   )),

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http:// 172.16.12.99:3000';
+var host = 'http://172.16.12.117:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));
@@ -56,7 +56,8 @@ Future<dynamic> addProduct(Product product, String tableName) async {
   final Uri url = Uri.parse(('$host/$tableName'));
 
   try {
-    final response = await http.post(
+    //final response =
+     await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
@@ -108,6 +109,7 @@ Future<dynamic> updateProduct(Product product, String tableName) async {
       throw Exception('Failed to update product (data.dart)');
     }
   } catch (error) {
+    // ignore: avoid_print
     print('Error updating product: $error  (data.dart)');
     throw Exception('Error updating product: $error (data.dart)');
   }

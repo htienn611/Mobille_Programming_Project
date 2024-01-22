@@ -8,22 +8,24 @@ class MessageInput extends StatefulWidget {
 }
 
 class _MessageInputState extends State<MessageInput> {
+  var message = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
           color: Colors.white,
           border: Border(
-              top: BorderSide(color: Colors.grey),
-              bottom: BorderSide(color: Colors.grey))),
+            top: BorderSide(color: Colors.grey),
+          )),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: TextField(
               maxLines: null,
-              controller: TextEditingController(),
+              controller: message,
               decoration: const InputDecoration(
+                hintText: "Nhập tin nhắn...",
                   border: OutlineInputBorder(borderSide: BorderSide.none)),
             ),
           ),
@@ -32,8 +34,10 @@ class _MessageInputState extends State<MessageInput> {
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                  onPressed: () {}, icon: Icon(Icons.insert_comment_outlined)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.tag_faces))
+                  onPressed: () {},
+                  icon: const Icon(Icons.insert_comment_outlined)),
+              IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.send))
             ],
           ),
         ],

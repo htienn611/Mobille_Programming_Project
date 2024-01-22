@@ -48,6 +48,7 @@ dependencies:
   firebase_messaging: ^14.7.10
   shared_preferences: ^2.2.2
   intl: ^0.17.0
+  socket_io_client: ^2.0.3+1
 
 
 dev_dependencies:

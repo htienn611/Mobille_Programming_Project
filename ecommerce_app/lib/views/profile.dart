@@ -225,7 +225,8 @@ NotificationServices notificationServices = NotificationServices();
               ),
             ),
             const SizedBox(height: 9),
-            ElevatedButton(onPressed: (){
+            ElevatedButton(
+              onPressed: (){
                UserPresenter userPresenter = UserPresenter(this);
                userPresenter.clearSharedPreferences();
               Navigator.pushReplacement(
@@ -234,9 +235,15 @@ NotificationServices notificationServices = NotificationServices();
                       builder: (context) => const Routers(),
                       ),
                     );
+                   
             }, child: Text('Đăng xuất',
-            
-            ))
+            style: TextStyle(fontSize: 20),),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.fromLTRB(20, 10, 20, 10)),
+              )
+            )
           ],
         ),
       ),

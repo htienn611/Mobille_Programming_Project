@@ -151,6 +151,29 @@ class _RegisterState extends State<Register> implements UserView {
             const SizedBox(height: 9),
             ElevatedButton(
               onPressed: () {
+                // Kiểm tra điều kiện trường null và độ dài mật khẩu
+                if (fullNameController.text.isEmpty ||
+                    phoneNumberController.text.isEmpty ||
+                    birthdayController.text.isEmpty ||
+                    passwordController.text.isEmpty ||
+                    confirmPasswordController.text.isEmpty) {
+                  displayMessage('Vui lòng điền đầy đủ thông tin đăng ký.');
+                  return;
+                }
+                if (phoneNumberController.text.length != 10) {
+                  displayMessage('Số điện thoại phải có đúng 10 số.');
+                  return;
+                }
+
+                if (passwordController.text.length < 6) {
+                  displayMessage('Mật khẩu phải có ít nhất 6 ký tự.');
+                  return;
+                }
+
+                if (passwordController.text != confirmPasswordController.text) {
+                  displayMessage('Mật khẩu và Nhập lại mật khẩu không khớp.');
+                  return;
+                }
                 if (!isValidDateFormat(birthdayController.text)) {
                   displayMessage(
                       'Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');

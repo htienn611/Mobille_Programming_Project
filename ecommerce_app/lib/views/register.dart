@@ -15,38 +15,43 @@ class _RegisterState extends State<Register> implements UserView {
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   bool isValidDateFormat(String input) {
-  // Kiểm tra xem chuỗi có phải là định dạng yyyy-mm-dd không
-  final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-  if (!regex.hasMatch(input)) {
-    return false;
-  }
-  // Tách ngày, tháng, năm từ chuỗi
-  List<String> parts = input.split('-');
-
-  // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
-  int year = int.parse(parts[0]);
-  int month = int.parse(parts[1]);
-  int day = int.parse(parts[2]);
-
-  if (year < 1000 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31) {
-    return false;
-  }
-
-  // Kiểm tra tháng 2
-  if (month == 2) {
-    bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
-    if (day > 29 || (day > 28 && !isLeapYear)) {
+    // Kiểm tra xem chuỗi có phải là định dạng yyyy-mm-dd không
+    final regex = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+    if (!regex.hasMatch(input)) {
       return false;
     }
-  }
+    // Tách ngày, tháng, năm từ chuỗi
+    List<String> parts = input.split('-');
 
-  // Kiểm tra số ngày của tháng
-  if ([4, 6, 9, 11].contains(month) && day > 30) {
-    return false;
-  }
+    // Kiểm tra xem các giá trị ngày, tháng, năm có hợp lệ không
+    int year = int.parse(parts[0]);
+    int month = int.parse(parts[1]);
+    int day = int.parse(parts[2]);
 
-  return true;
-}
+    if (year < 1000 ||
+        year > 9999 ||
+        month < 1 ||
+        month > 12 ||
+        day < 1 ||
+        day > 31) {
+      return false;
+    }
+
+    // Kiểm tra tháng 2
+    if (month == 2) {
+      bool isLeapYear = (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
+      if (day > 29 || (day > 28 && !isLeapYear)) {
+        return false;
+      }
+    }
+
+    // Kiểm tra số ngày của tháng
+    if ([4, 6, 9, 11].contains(month) && day > 30) {
+      return false;
+    }
+
+    return true;
+  }
 
   @override
   void initState() {
@@ -63,9 +68,9 @@ class _RegisterState extends State<Register> implements UserView {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Container(
-          width: MediaQuery.of(context).size.width -150,
-          child: Text(
+        title: SizedBox(
+          width: MediaQuery.of(context).size.width - 150,
+          child: const Text(
             "ĐĂNG KÝ",
             style: TextStyle(
               color: Colors.white,
@@ -77,77 +82,78 @@ class _RegisterState extends State<Register> implements UserView {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 40),
-            Center(
+            const SizedBox(height: 40),
+            const Center(
               child: Image(
                 image: AssetImage('assets/img/logo/logo.jpg'),
                 width: 200,
                 height: 200,
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: fullNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Họ và tên",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: phoneNumberController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Số điện thoại",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 keyboardType: TextInputType.datetime,
                 controller: birthdayController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Ngày sinh",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Mật khẩu",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 controller: confirmPasswordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Nhập lại mật khẩu",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 9),
+            const SizedBox(height: 9),
             ElevatedButton(
               onPressed: () {
                 if (!isValidDateFormat(birthdayController.text)) {
-                  displayMessage('Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
+                  displayMessage(
+                      'Ngày sinh không hợp lệ. Vui lòng nhập theo định dạng yyyy-mm-dd và phải hợp lệ');
                   return;
                 }
                 // Gọi phương thức Register từ UserPresenter
@@ -158,16 +164,16 @@ class _RegisterState extends State<Register> implements UserView {
                   name: fullNameController.text,
                   phoneNumber: phoneNumberController.text,
                 );
+                Navigator.pop(this.context);
               },
-              child: Text(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(Colors.redAccent),
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.fromLTRB(20, 10, 20, 10)),
+              ),
+              child: const Text(
                 "Đăng ký",
                 style: TextStyle(fontSize: 20),
-              ),
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(Colors.redAccent),
-                padding: MaterialStateProperty.all(
-                    EdgeInsets.fromLTRB(20, 10, 20, 10)),
               ),
             )
           ],
@@ -183,14 +189,14 @@ class _RegisterState extends State<Register> implements UserView {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Thông báo"),
+          title: const Text("Thông báo"),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );

@@ -1,9 +1,5 @@
-import 'package:ecommerce_app/views/home_page/home_page.dart';
-import 'package:ecommerce_app/views/profile.dart';
 import 'package:ecommerce_app/views/register.dart';
-import 'package:ecommerce_app/views/routers.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../presenters/user_presenter.dart';
 
@@ -21,19 +17,6 @@ class _LoginState extends State<Login> implements UserView {
   @override
   void initState() {
     super.initState();
-    checkLoginStatus();
-  }
-
-  Future<void> checkLoginStatus() async {
-    UserPresenter userPresenter = UserPresenter(this);
-    bool isLoggedIn = await userPresenter.getLoginStatus();
-    if (isLoggedIn) {
-      String savedPhoneNumber = await userPresenter.getSavedPhoneNumber();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => Profile(phoneNumber: savedPhoneNumber)),
-      );
-    }
   }
 
   @override
@@ -41,9 +24,9 @@ class _LoginState extends State<Login> implements UserView {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.redAccent,
-        title: Container(
+        title: SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: Text(
+          child: const Text(
             "ĐĂNG NHẬP",
             style: TextStyle(
               color: Colors.white,
@@ -55,40 +38,40 @@ class _LoginState extends State<Login> implements UserView {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 50),
-            Center(
+            const SizedBox(height: 50),
+            const Center(
               child: Image(
                 image: AssetImage('assets/img/logo/logo.jpg'),
                 width: 200,
                 height: 200,
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               child: TextField(
                 controller: phoneNumberController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Số điện thoại",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               child: TextField(
                 controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: "Mật khẩu",
                   border: OutlineInputBorder(),
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(right: 12, left: 12),
+              padding: const EdgeInsets.only(right: 12, left: 12),
               child: ElevatedButton(
                 onPressed: () async {
                   UserPresenter userPresenter = UserPresenter(this);
@@ -98,38 +81,35 @@ class _LoginState extends State<Login> implements UserView {
                   );
                   if (userPresenter.loginSuccessful == true) {
                     // Lưu trạng thái đăng nhập và số điện thoại
-                    await userPresenter.saveLoginStatus(true, phoneNumberController.text);
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                      builder: (context) => Routers(),
-                        
-                        //builder: (context) => Profile(phoneNumber: phoneNumberController.text),
-                      ),
-                    );
+                    await userPresenter.saveLoginStatus(
+                        true, phoneNumberController.text);
                   }
                 },
-                child: Text("Đăng nhập", style: TextStyle(fontSize: 20)),
-                style: ButtonStyle(
+                style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-                  padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10)),
+                  padding: MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(20, 10, 20, 10)),
                 ),
+                child: const Text("Đăng nhập", style: TextStyle(fontSize: 20)),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(right: 12, left: 12),
+              padding: const EdgeInsets.only(right: 12, left: 12),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => Register()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Register()));
                 },
-                child: Text("Đăng ký", style: TextStyle(fontSize: 20)),
-                style: ButtonStyle(
+                style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.redAccent),
-                  padding: MaterialStatePropertyAll(EdgeInsets.fromLTRB(20, 10, 20, 10)),
+                  padding: MaterialStatePropertyAll(
+                      EdgeInsets.fromLTRB(20, 10, 20, 10)),
                 ),
+                child: const Text("Đăng ký", style: TextStyle(fontSize: 20)),
               ),
             ),
           ],
@@ -145,14 +125,14 @@ class _LoginState extends State<Login> implements UserView {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Thông báo"),
+          title: const Text("Thông báo"),
           content: Text(message),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
@@ -17,34 +15,25 @@ class Routers extends StatefulWidget {
   State<Routers> createState() => _RouterState();
 }
 
-class _RouterState extends State<Routers> implements UserView{
+class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  bool isLog=false;
-  late String PhoneNumber;
+  String phoneNumber = '';
   var _currentIndex = 0;
-  void navigation(value) {
-    setState(() {
-      _currentIndex = value;
-    });
+
+  List<Widget> _pages = [];
+
+  Future<void> statusLG() async {
+    UserPresenter userPresenter = UserPresenter(this);
+    // ignore: unrelated_type_equality_checks
+    if (userPresenter.getLoginStatus() == true) {
+      phoneNumber = await userPresenter.getSavedPhoneNumber();
+      setState(() {});
+    }
   }
 
-   List<Widget> _pages=[];
-
-   Future<void> statusLG()
-   async
-   {
-    UserPresenter userPresenter = UserPresenter(this);
-   // ignore: unrelated_type_equality_checks
-   if(userPresenter.getLoginStatus()==true)
-   {
-    PhoneNumber= await userPresenter.getSavedPhoneNumber();
-    isLog=true;
-   }
-   }
-
   @override
-  void initState()  {
+  void initState() {
     super.initState();
     statusLG();
     scrollController.addListener(() {
@@ -75,8 +64,7 @@ class _RouterState extends State<Routers> implements UserView{
         child: Text("Thông Báo"),
       ),
       const ListOrder(),
-       isLog?
-      Profile(phoneNumber: PhoneNumber):Login()
+      Profile(phoneNumber: phoneNumber),
     ];
   }
 
@@ -85,17 +73,29 @@ class _RouterState extends State<Routers> implements UserView{
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: _isVisible
-          ? BottomNav(onTabTapped: (index) {
+          ? BottomNav(onTabTapped: (index) async {
+              if (index == 4) {
+                if (phoneNumber == '') {
+                  _pages.removeLast();
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ));
+                  UserPresenter userPresenter = UserPresenter(this);
+                  phoneNumber = await userPresenter.getSavedPhoneNumber();
+                  _pages.add(Profile(phoneNumber: phoneNumber));
+                }
+              }
+              _currentIndex = index;
               setState(() {
-                _currentIndex = index;
+                print(phoneNumber);
               });
             })
           : const SizedBox(),
     );
   }
-  
+
   @override
-  void displayMessage(String message) {
-    // TODO: implement displayMessage
-  }
+  void displayMessage(String message) {}
 }

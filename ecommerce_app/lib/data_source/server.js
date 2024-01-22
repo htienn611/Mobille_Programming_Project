@@ -1,5 +1,5 @@
 const express = require('express');
-const ngrok = require('ngrok');
+//const ngrok = require('ngrok');
 const cors = require('cors');
 const http = require('http');
 const socketIo = require('socket.io');
@@ -47,10 +47,11 @@ app.use('/conversation', conversationRoutes);
 app.use('/message', messageRoutes);
 app.use('/promotion', promotionRoutes);
 app.use('/notification',notificationRoutes);
-// io.on('connection', (socket) => {
-//   console.log('Một người dùng đã kết nối');
 
-//   socket.on('chat message', async (msg) => {
+io.on('connection', (socket) => {
+  console.log('Một người dùng đã kết nối');
+
+  socket.on('chat message', async (msg) => {
     // try {
     //   // Sử dụng đối tượng kết nối từ middleware (đã thêm vào từ app.use((req, res, next) => ...))
     //   const result = await req.db.promise().execute('INSERT INTO messages (content) VALUES (?)', [msg]);
@@ -73,11 +74,11 @@ db.connect((err) => {
     console.error('Lỗi kết nối đến cơ sở dữ liệu:', err.message);
     return;
   }
-
   console.log('Đã kết nối đến cơ sở dữ liệu MySQL');
 });
+
 server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  const url = await ngrok.connect(PORT);
-  console.log(`Ngrok URL: ${url}`);
+  // const url = await ngrok.connect(PORT);
+  // console.log(`Ngrok URL: ${url}`);
 });

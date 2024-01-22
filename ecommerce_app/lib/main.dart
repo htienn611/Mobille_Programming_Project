@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/presenters/fireBaseApi.dart';
 import 'package:ecommerce_app/firebase_options.dart';
 import 'package:ecommerce_app/views/routers.dart';
 import 'package:firebase_core/firebase_core.dart';

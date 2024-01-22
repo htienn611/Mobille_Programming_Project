@@ -6,7 +6,6 @@ class PromotionBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var sW = MediaQuery.of(context).size.width;
     return Container(
       decoration: const BoxDecoration(
           image: DecorationImage(

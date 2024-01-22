@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/views/home_page/footer/footer_sub_cat.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HomeFooterCat extends StatefulWidget {
   HomeFooterCat({super.key, required this.title, this.isConnect = false});
   String title;
@@ -17,10 +18,11 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
     var sW = MediaQuery.of(context).size.width;
     return GestureDetector(
         onTap: () {
-          if (!widget.isConnect)
+          if (!widget.isConnect) {
             setState(() {
               widget.isShow = !widget.isShow;
             });
+          }
         },
         child: Container(
             width: sW - 40,
@@ -89,16 +91,16 @@ class _HomeFooterCatState extends State<HomeFooterCat> {
                             style: const TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.bold),
                           ),
-                          Icon(Icons.add)
+                          const Icon(Icons.add)
                         ],
                       ),
                 widget.isShow
                     ? Container(
                         padding: const EdgeInsets.only(left: 10),
                         width: sW - 40,
-                        child: Column(
+                        child: const Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             FooterSubCat(),
                             FooterSubCat(),
                             FooterSubCat(),

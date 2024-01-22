@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/models/category.dart';
-import 'package:ecommerce_app/views/home_page/bottom_nav.dart';
-import 'package:ecommerce_app/views/home_page/categories_bar.dart';
+import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/content_list.dart';
 import 'package:ecommerce_app/views/home_page/content_section/content_section.dart';
 import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
@@ -10,38 +9,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({super.key});
-
+  const HomePageScreen({super.key, required this.scrollController});
+  final ScrollController scrollController;
   @override
   State<HomePageScreen> createState() => _HomePageScreenState();
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
-  final ScrollController _scrollController = ScrollController();
   bool _isVisible = true;
 
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(() {
-      if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.reverse) {
-        // Người dùng đang cuộn lên trên, ẩn BottomNavigationBar
-        if (_isVisible) {
-          setState(() {
-            _isVisible = false;
-          });
-        }
-      } else if (_scrollController.position.userScrollDirection ==
-          ScrollDirection.forward) {
-        // Người dùng đang cuộn xuống dưới, hiển thị BottomNavigationBar
-        if (!_isVisible) {
-          setState(() {
-            _isVisible = true;
-          });
-        }
-      }
-    });
   }
 
   @override
@@ -53,7 +32,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           actions: const [HomePageAppbarItem()],
         ),
         body: SingleChildScrollView(
-          controller: _scrollController,
+          controller: widget.scrollController,
           child: Center(
               child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -75,15 +54,18 @@ class _HomePageScreenState extends State<HomePageScreen> {
             ],
           )),
         ),
-        bottomNavigationBar: _isVisible ? const BottomNav() : const SizedBox(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: const Image(
-              image: AssetImage('assets/img/chat.png'),
-            ),
-          ),
+        floatingActionButton: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChatScreen()));
+              },
+              child: const Image(
+                image: AssetImage('assets/img/chat.png'),
+              )),
         ));
   }
 }

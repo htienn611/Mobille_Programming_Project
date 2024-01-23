@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:flutter/material.dart';
 
 class PayShoppingScreen extends StatefulWidget {
@@ -13,8 +12,6 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
   Color colorpay = Colors.black;
   double wmomo = 4.0;
   double wpay = 2.0;
-  @override
-  Widget build(BuildContext context) {
 
   void colormomoclick(){
     setState(() {
@@ -24,7 +21,6 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
     wpay = 2.0;
     });
   }
-  Scaffold colorpayclick(){
 
     void _colorpayclick() {
       setState(() {
@@ -34,13 +30,14 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
         wmomo = 2.0;
       });
     }
-
+       @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.arrow_back_rounded),onPressed: (){Navigator.pop(context);}),
+        leading: IconButton(icon: const Icon(Icons.arrow_back_rounded),onPressed: (){Navigator.pop(context);}),
         title: const Text(
           "Giỏ hàng",
           style: TextStyle(color: Colors.black),
@@ -116,7 +113,7 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
               ),
               ),
               GestureDetector( 
-                onTap: colorpayclick,
+                onTap: _colorpayclick,
                 child: Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 width: 150.0,
@@ -258,4 +255,4 @@ class _PayShoppingScreenState extends State<PayShoppingScreen> {
       )
     );
   }
-}}
+}

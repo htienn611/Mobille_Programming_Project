@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/models/category.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
+import 'package:ecommerce_app/views/chat/convItem.dart';
 import 'package:ecommerce_app/views/home_page/content_list.dart';
 import 'package:ecommerce_app/views/home_page/content_section/content_section.dart';
 import 'package:ecommerce_app/views/home_page/home_appbar_items.dart';
@@ -32,7 +33,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: const Color.fromARGB(255, 224, 84, 75),
-          actions: const [HomePageAppbarItem()],
+          actions: [
+            HomePageAppbarItem(
+              phone: widget.phoneNumber,
+            )
+          ],
         ),
         body: SingleChildScrollView(
           controller: widget.scrollController,
@@ -71,16 +76,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>const Routers(),
+                          builder: (context) => const Routers(),
                         ));
                   });
                 } else {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ChatScreen(
-                                phoneNumber: widget.phoneNumber,
-                              )));
+                          builder: (context) =>
+                              widget.phoneNumber == "0949866367"
+                                  ? ConvList(admin: widget.phoneNumber)
+                                  : ChatScreen(
+                                      phoneNumber: widget.phoneNumber,
+                                    )));
                 }
               },
               child: const Image(

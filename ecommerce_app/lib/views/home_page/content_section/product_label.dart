@@ -1,9 +1,11 @@
 import 'package:ecommerce_app/models/product.dart';
+import 'package:ecommerce_app/views/product/productDetail.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProductLabel extends StatefulWidget {
- const ProductLabel({super.key, required this.product});
- final Product product;
+  const ProductLabel({super.key, required this.product});
+  final Product product;
   @override
   State<ProductLabel> createState() => _ProductLabelState();
 }
@@ -12,9 +14,15 @@ class _ProductLabelState extends State<ProductLabel> {
   @override
   Widget build(BuildContext context) {
     var wS = MediaQuery.of(context).size.width;
-    var wItem = wS * 0.4 >= 180.0 ? 150.0 : wS * 0.4;
+    var wItem =  (wS * 0.4<160?175:wS*0.4>190?175:wS*0.4)*1.0;
     return GestureDetector(
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProductDetail(product: widget.product),
+              ));
+        },
         child: Container(
           width: wItem,
           padding: const EdgeInsets.all(5),
@@ -34,45 +42,53 @@ class _ProductLabelState extends State<ProductLabel> {
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                widget.product.price.toString(),
-                style: const TextStyle(decoration: TextDecoration.lineThrough),
-              ),
+              // Text(
+              //   widget.product.price.toString(),
+              //   style: const TextStyle(decoration: TextDecoration.lineThrough),
+              // ),
               const SizedBox(
                 height: 5,
               ),
-              wItem > 160
-                  ? Row(
-                      children: [
-                        const Text("10.000.000 đ"),
-                        Container(
-                          margin: const EdgeInsets.only(left: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red)),
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            "-100%",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("10.000.000 đ"),
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red)),
-                          padding: const EdgeInsets.all(5),
-                          child: const Text(
-                            "-100%",
-                            style: TextStyle(color: Colors.red),
-                          ),
-                        )
-                      ],
-                    ),
+               Text(
+                "${NumberFormat.currency(locale: 'vi_VN', symbol: '', decimalDigits: 0).format(widget.product.price)} vnđ",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize:15,
+                    color: Colors.red),
+              ),
+              // wItem > 160
+              //     ?
+              //     Row(
+                //      children: [
+                      //  Text(widget.product.price.toString()),
+                        // Container(
+                        //   margin: const EdgeInsets.only(left: 10),
+                        //   decoration: BoxDecoration(
+                        //       border: Border.all(color: Colors.red)),
+                        //   padding: const EdgeInsets.all(5),
+                        //   child: const Text(
+                        //     "-100%",
+                        //     style: TextStyle(color: Colors.red),
+                        //   ),
+                        // )
+                     // ],
+                   // )
+                  // : Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       const Text("10.000.000 đ"),
+                  //       Container(
+                  //         margin: const EdgeInsets.only(bottom: 10),
+                  //         decoration: BoxDecoration(
+                  //             border: Border.all(color: Colors.red)),
+                  //         padding: const EdgeInsets.all(5),
+                  //         child: const Text(
+                  //           "-100%",
+                  //           style: TextStyle(color: Colors.red),
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
               Row(
                 children: [
                   Text(

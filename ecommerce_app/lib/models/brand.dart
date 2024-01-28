@@ -1,7 +1,7 @@
 class Brand {
   final int id;
   final String name;
-  final int status;
+  final bool status;
 
   Brand({
     required this.id,
@@ -12,6 +12,6 @@ class Brand {
   Brand.fromJson(Map<String, dynamic> json)
       : id = json['id']??0,
         name = json['name']??"",
-        status = json['status']??0;
+        status = json['status']==1?true:false;
 
 }

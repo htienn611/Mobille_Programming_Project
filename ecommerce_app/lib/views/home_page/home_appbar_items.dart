@@ -1,8 +1,9 @@
+import 'package:ecommerce_app/views/cart/cart.dart';
 import 'package:flutter/material.dart';
 
 class HomePageAppbarItem extends StatefulWidget {
-  const HomePageAppbarItem({super.key});
-
+  const HomePageAppbarItem({super.key, required this.phone});
+  final phone;
   @override
   State<HomePageAppbarItem> createState() => _HomePageAppbarItemState();
 }
@@ -13,7 +14,7 @@ class _HomePageAppbarItemState extends State<HomePageAppbarItem> {
     var sW = MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.only(right: 5),
-      width: sW -5,
+      width: sW - 5,
       child: Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -46,7 +47,14 @@ class _HomePageAppbarItemState extends State<HomePageAppbarItem> {
             alignment: Alignment.topRight,
             children: [
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CartScreen(phoneNumber: widget.phone),
+                        ));
+                  },
                   icon: const Icon(
                     Icons.add_shopping_cart_sharp,
                     size: 32,

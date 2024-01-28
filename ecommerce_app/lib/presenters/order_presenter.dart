@@ -48,7 +48,7 @@ class OrderPresenter {
   Future<bool> updateStatusOrder(Order p) async {
     try {
       final response = await http.put(
-        Uri.parse('http://172.16.12.35:3000/order/id/${p.id}'),
+        Uri.parse('$host/order/id/${p.id}'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
          'paymentMethods':p.paymentMethods,

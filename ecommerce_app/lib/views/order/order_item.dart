@@ -94,7 +94,6 @@ class _ItemOrderState extends State<ItemOrder> {
                 ),
               ],
             ),
-           
           ],
         ),
         Container(
@@ -108,15 +107,15 @@ class _ItemOrderState extends State<ItemOrder> {
             Image.asset(
               'assets/img/laptop1.png',
               fit: BoxFit.cover,
-              width: 100,
-              height: 100,
+              width: 75,
+              height: 75,
             ),
             const SizedBox(
               width: 5,
             ),
             Column(
               children: [
-                Container(
+                SizedBox(
                   width: (screenWidth - 20) * 0.6,
                   child: RichText(
                     text: TextSpan(
@@ -157,8 +156,9 @@ class _ItemOrderState extends State<ItemOrder> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  Order_Detail(idOrder: widget.order.id,),
+                              builder: (context) => Order_Detail(
+                                idOrder: widget.order.id,
+                              ),
                             ),
                           );
                         },
@@ -187,9 +187,9 @@ class _ItemOrderState extends State<ItemOrder> {
                                         updateOrder = await orderPre
                                             .updateStatusOrder(widget.order);
                                         if (updateOrder) {
-                                           orderStatus = 3;
+                                          orderStatus = 3;
                                           widget.order.Status = orderStatus;
-                                           widget.order.Status == 3;
+                                          widget.order.Status == 3;
                                           Navigator.of(context).pop();
                                           setState(() {});
                                         }

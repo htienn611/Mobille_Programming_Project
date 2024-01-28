@@ -5,7 +5,7 @@ import '../data_source/repository/data.dart';
 class BrandPresenter{
    Future<List<Brand>> getBrandLst() async {
     List<Brand> rsLst = List.filled(
-        0, Brand(id: 0, name: "", status: 0),
+        0, Brand(id: 0, name: "", status: true),
         growable: true);
 
     try {
@@ -22,7 +22,7 @@ class BrandPresenter{
   }
    Future<List<Brand>> getBrandLstByCate(idCate) async {
     List<Brand> rsLst = List.filled(
-        0, Brand(id: 0, name: "", status: 0),
+        0, Brand(id: 0, name: "", status: true),
         growable: true);
 
     try {

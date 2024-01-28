@@ -13,9 +13,9 @@ import 'package:socket_io_client/socket_io_client.dart' as io;
 
 // ignore: must_be_immutable
 class ChatScreen extends StatefulWidget {
-  ChatScreen({super.key, required this.phoneNumber, this.us2 = '0914105327'});
+  ChatScreen({super.key, required this.phoneNumber, this.us1 = '0914105327'});
   final String phoneNumber;
-  var us2 = '';
+  var us1 ;
   @override
   State<ChatScreen> createState() => _ChatScreenState();
 }
@@ -30,12 +30,10 @@ class _ChatScreenState extends State<ChatScreen> implements UserView {
   List<MessageItem> messLst = List.filled(
       0, const MessageItem(title: "helo", isMe: true),
       growable: true);
-  var tempState = true;
 
   void sendMessage(String message) {
     if (socket.connected) {
-      tempState = true;
-      messLst.add(MessageItem(title: message, isMe: tempState));
+      messLst.add(MessageItem(title: message, isMe: true));
       // Gửi tin nhắn lên server với sự kiện 'clientMessage'
       socket.emit('clientMessage', {
         'content': message,
@@ -79,7 +77,7 @@ class _ChatScreenState extends State<ChatScreen> implements UserView {
     us = await usPre.getUserByID(widget.phoneNumber);
     ConversationPresenter convPre = ConversationPresenter();
     if (us.admin) {
-      conv = await convPre.getConv(widget.us2);
+      conv = await convPre.getConv(widget.us1);
     } else {
       conv = await convPre.getConv(us.phoneNumber);
     }

@@ -10,14 +10,11 @@ const userRoutes = require('./api/user');
 const brandRoutes = require('./api/brand');
 const productRoutes = require('./api/product');
 const orderRoutes = require('./api/order');
-const order_detailsRoutes = require('./api/orderDetail');
 const conversationRoutes = require('./api/conversation');
 const messageRoutes = require('./api/message');
 const promotionRoutes = require('./api/promotion');
 const notificationRoutes = require('./api/notification')
-const orderRoutes=require('./api/order');
 const order_detailsRoutes=require('./api/orderDetail');
-
 
 
 const cartRoutes = require('./api/cart');
@@ -52,6 +49,9 @@ app.use('/conversation', conversationRoutes);
 app.use('/messages', messageRoutes);
 app.use('/promotion', promotionRoutes);
 app.use('/notification', notificationRoutes);
+app.use('/cart', cartRoutes);
+app.use('/cart_detail', cart_detailsRoutes);
+
 
 const connectedUsers = {};
 io.on('connection', (socket) => {
@@ -72,10 +72,7 @@ io.on('connection', (socket) => {
       });
 
 
-    console.log(data);
-    console.log(data.to)
     socket.to(connectedUsers[data.to]).emit('servertMessage',{mess: data.content, from:data.senderID});
-    // Gửi tin nhắn mới tới tất cả các client khác (không bao gồm người gửi)
     //socket.broadcast.emit('chat_message', data);
   });
 

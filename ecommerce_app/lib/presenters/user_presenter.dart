@@ -4,11 +4,10 @@ import 'package:ecommerce_app/data_source/repository/data.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../data_source/repository/data.dart';
 import '../models/user.dart';
 
 class ApiConstants {
-  static const String baseUrl = 'http://172.16.12.100:3000';
+  static String baseUrl = host;
 }
 
 abstract class UserView {
@@ -171,7 +170,7 @@ class UserPresenter {
 
   ////////////tienn
 
-  Future<User> getUserByID( id) async {
+  Future<User> getUserByID(id) async {
     var rs = User(
         phoneNumber: 'phoneNumber',
         name: 'name',
@@ -195,24 +194,25 @@ class UserPresenter {
     // print(rsLst);
     return rs;
   }
-}
 
-// lấy thông tin người dùng theo số điện thoại
-
- Future<User> getUserByPhone(String phone) async {
-    User rs=User(phoneNumber: "", name: "", sex: false, birthday: "", biography: "", password: "password", status:"");
+  Future<List<User>> getUser() async {
+    List<User> rsLst = List.filled(0, User(phoneNumber: 'phoneNumber', name: 'name', sex: true, birthday: 'birthday', biography: 'biography', password: 'password', status: 'true' , admin: false),growable: true);
 
     try {
-      dynamic value = await getItemByPhone("user", phone);
+      List<dynamic> value = await getItemByTitle("user", "user");
 
       if (value.isNotEmpty) {
-        rs = User.fromJson(value[0]);
+        rsLst.clear();
+        rsLst = value.map((json) => User.fromJson(json)).toList();
       }
     } catch (error) {
       // ignore: avoid_print
       print('Error fetching data: $error');
     }
     // print(rsLst);
-    return rs;
+    return rsLst;
   }
 }
+
+// lấy thông tin người dùng theo số điện thoại
+ 

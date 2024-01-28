@@ -1,12 +1,11 @@
 import 'dart:convert';
 
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield.dart';
+import 'package:ecommerce_app/models/OrderDetail.dart';
 import 'package:ecommerce_app/models/order.dart';
-import 'package:ecommerce_app/models/order_detail.dart';
 import 'package:ecommerce_app/models/user.dart';
 import 'package:ecommerce_app/presenters/order_presenter.dart';
 import 'package:ecommerce_app/presenters/orderdetail_presenters.dart';
-import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:ecommerce_app/views/cart/payshopping.dart';
 import 'package:ecommerce_app/views/chat/chat.dart';
 import 'package:ecommerce_app/views/home_page/home_page.dart';
@@ -131,7 +130,7 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ChatScreen()),
+                    MaterialPageRoute(builder: (context) => ChatScreen(phoneNumber: user.phoneNumber,)),
                   );
                 },
                 icon: const Icon(Icons.chat_bubble_outline_outlined)),
@@ -546,12 +545,7 @@ class _InfoCartScreenState extends State<InfoCartScreen> {
                             Expanded(
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                HomePageScreen()),
-                                      );
+                                      Navigator.pop(context);
                                     },
                                     child: const Text('Mua sản phẩm khác'))),
                           ],

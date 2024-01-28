@@ -3,6 +3,7 @@ import 'package:ecommerce_app/views/home_page/home_page.dart';
 import 'package:ecommerce_app/views/login.dart';
 import 'package:ecommerce_app/views/notification/notification.dart';
 import 'package:ecommerce_app/views/order/listOrder.dart';
+import 'package:ecommerce_app/views/product/productManagement.dart';
 import 'package:ecommerce_app/views/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,7 +20,6 @@ class Routers extends StatefulWidget {
 class _RouterState extends State<Routers> implements UserView {
   final ScrollController scrollController = ScrollController();
   bool _isVisible = true;
-  bool isLog = false;
   String phoneNumber = '';
   var _currentIndex = 0;
 
@@ -67,9 +67,7 @@ class _RouterState extends State<Routers> implements UserView {
       _pages = [
         HomePageScreen(
             scrollController: scrollController, phoneNumber: phoneNumber),
-        const Center(
-          child: Text("Danh Mục"),
-        ),
+        const ProductManagement(),
         NotificationScreen(phoneNumber: phoneNumber),
         const ListOrder(),
         Profile(phoneNumber: phoneNumber),
@@ -99,9 +97,7 @@ class _RouterState extends State<Routers> implements UserView {
                       scrollController: scrollController,
                       phoneNumber: phoneNumber,
                     ),
-                    const Center(
-                      child: Text("Danh Mục"),
-                    ),
+                    const ProductManagement(),
                     NotificationScreen(phoneNumber: phoneNumber),
                     const ListOrder(),
                     Profile(phoneNumber: phoneNumber),

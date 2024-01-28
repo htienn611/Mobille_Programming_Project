@@ -75,7 +75,7 @@ router.post('/login', async (req, res) => {
     });
 });
 router.get('/', (req, res) => {
-    const selectQuery = 'SELECT * FROM User WHERE status = 1';
+    const selectQuery = 'SELECT * FROM User WHERE status != 0';
 
     connection.query(selectQuery, [], (err, results) => {
         if (err) {
@@ -134,6 +134,20 @@ router.get('/id:phone', (req, res) => {
     }
     );
 });
+
+router.get('/user', (req, res) => {
+    var query = 'SELECT * FROM `user` WHERE admin!=1';
+    connection.query(query, [req.params.phone], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: 'Internal Server Error' })
+        }
+        else {
+            return res.json(results);
+        }
+    }
+    );
+});
+
 
 
 module.exports = router;

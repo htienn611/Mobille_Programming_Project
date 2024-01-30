@@ -11,6 +11,7 @@ import 'package:ecommerce_app/models/category.dart';
 
 class ProductManagement extends StatefulWidget {
   const ProductManagement({super.key});
+
   @override
   State<ProductManagement> createState() => _ProductManagementState();
 }
@@ -227,8 +228,10 @@ class _ProductManagementState extends State<ProductManagement> {
         length: 5,
         child: Scaffold(
           appBar: AppBar(
+            toolbarHeight: 25,
+            
             automaticallyImplyLeading: false,
-            backgroundColor: const Color.fromARGB(185, 233, 30, 33),
+            backgroundColor: const Color.fromARGB(255, 224, 84, 75),
             leading: const Icon(
               Icons.arrow_back,
               color: Colors.white,
@@ -302,10 +305,10 @@ class _ProductManagementState extends State<ProductManagement> {
           body: const TabBarView(
             children: [
               ListProduct(),
-              ListProduct(),
-              ListProduct(),
-              ListProduct(),
-              ListProduct(),
+              ListProduct(idCate: 1),
+              ListProduct(idCate: 11,),
+              ListProduct(idCate: 3,),
+              ListProduct(idCate: 4,),
             ],
           ),
         ));

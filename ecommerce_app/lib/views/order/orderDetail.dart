@@ -18,8 +18,8 @@ class Order_Detail extends StatefulWidget {
 }
 
 // ignore: camel_case_types
-class _Order_DetailState extends State<Order_Detail>{
-  double sumMoney=0;
+class _Order_DetailState extends State<Order_Detail> {
+  double sumMoney = 0;
   final OrderPresenter _orderPre = OrderPresenter();
   ProductPresenter proPre = ProductPresenter();
   final OrderDetailPresenter orderDetailPre = OrderDetailPresenter();
@@ -39,15 +39,13 @@ class _Order_DetailState extends State<Order_Detail>{
           status: 0,
           idCate: 0,
           idBrand: 0));
-  
+
   void loadData() async {
     order = await _orderPre.getOrderByID(widget.idOrder);
-    _product=await proPre.getInfoProductByIdOrderDetail(widget.idOrder);
+    _product = await proPre.getInfoProductByIdOrderDetail(widget.idOrder);
     _orderDetail = await orderDetailPre.getOrderDetailByID(widget.idOrder);
 
     //sumMoney=_product.fold(0, (sum,product) { return sum+(product.price*_orderDetail.quantityProduct);});
-
-
 
     setState(() {});
   }
@@ -75,7 +73,10 @@ class _Order_DetailState extends State<Order_Detail>{
             },
             icon: const Icon(Icons.keyboard_double_arrow_left_rounded),
           ),
-          title:  Text("Thông tin đơn hàng",style: TextStyle(color: Colors.white),),
+          title: Text(
+            "Thông tin đơn hàng",
+            style: TextStyle(color: Colors.white),
+          ),
           backgroundColor: const Color.fromARGB(255, 224, 84, 75),
         ),
         body: SingleChildScrollView(
@@ -115,7 +116,7 @@ class _Order_DetailState extends State<Order_Detail>{
                     const Padding(padding: EdgeInsets.all(5.0)),
                     Column(
                       children: [
-                         Row(
+                        Row(
                           children: [
                             const Text(
                               "Số điện thoại:",
@@ -134,9 +135,15 @@ class _Order_DetailState extends State<Order_Detail>{
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                             // ignore: unnecessary_string_interpolations
-                            Text(
-                              // ignore: unnecessary_string_interpolations
-                              '${order.address}',
+                            Container(
+                              margin: EdgeInsets.only(left: 15),
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width-115,
+                              ),
+                              child: Text(
+                                // ignore: unnecessary_string_interpolations
+                                '${order.address}',softWrap: true, maxLines: null,
+                              ),
                             ),
                           ],
                         )
@@ -184,13 +191,18 @@ class _Order_DetailState extends State<Order_Detail>{
                     const BoxDecoration(color: Color.fromARGB(255, 0, 0, 0)),
               ),
               Column(
-                children: [ItemOrderDetail(idOrder: widget.idOrder,sum: sum, )],
+                children: [
+                  ItemOrderDetail(
+                    idOrder: widget.idOrder,
+                    sum: sum,
+                  )
+                ],
               ),
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                     Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -224,7 +236,7 @@ class _Order_DetailState extends State<Order_Detail>{
                         ),
                       ],
                     ),
-                     Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
@@ -234,7 +246,7 @@ class _Order_DetailState extends State<Order_Detail>{
                           ),
                         ),
                         Text(
-                          '${sumMoney+order.transportFee}',
+                          '${sumMoney + order.transportFee}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
@@ -280,12 +292,9 @@ class _Order_DetailState extends State<Order_Detail>{
           ),
         ));
   }
-  void sum(double rs)
-  {
-    sumMoney=rs;
-    setState(() {
-      
-    });
 
+  void sum(double rs) {
+    sumMoney = rs;
+    setState(() {});
   }
 }

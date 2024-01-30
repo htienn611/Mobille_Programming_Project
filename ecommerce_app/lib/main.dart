@@ -1,7 +1,5 @@
-import 'package:ecommerce_app/presenters/fireBaseApi.dart';
+import 'package:ecommerce_app/data_source/api/fireBaseApi.dart';
 import 'package:ecommerce_app/firebase_options.dart';
-import 'package:ecommerce_app/views/cart/cart.dart';
-import 'package:ecommerce_app/views/order/listOrder.dart';
 import 'package:ecommerce_app/views/routers.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -30,13 +28,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
         fontFamily: 'Roboto-Black'
       ),
       locale: const Locale('vi', 'VN'),
 
 
-      home: CartScreen(phoneNumber: '0327728030',),
+      home: Routers(),
     );}
 }
 

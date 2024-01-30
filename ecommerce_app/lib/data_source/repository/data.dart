@@ -5,7 +5,7 @@ import 'package:ecommerce_app/models/messages.dart';
 import 'package:ecommerce_app/models/product.dart';
 import 'package:http/http.dart' as http;
 
-var host = 'http://172.16.12.117:3000';
+var host = 'http://192.168.1.5:3000';
 
 Future<List<dynamic>> getTable(String tableName) async {
   final response = await http.get(Uri.parse('$host/$tableName'));
@@ -14,13 +14,13 @@ Future<List<dynamic>> getTable(String tableName) async {
   } else {
     throw Exception('Failed to load data');
   }
-  
 }
+
 Future<List<dynamic>> getCartByPhoneNumber(String tableName, String phoneNumber,
     [dynamic val, List<dynamic>? paras]) async {
-  // Xây dựng URL bằng cách sử dụng lớp Uri
+  // Xây dựng URL bằng cách sử dụng lớp Ur
   Uri uri = Uri.parse('$host/$tableName/$phoneNumber$val');
-  
+
   // Thêm các tham số truy vấn nếu có
   if (paras != null) {
     Map<String, dynamic> queryParameters = {};
@@ -30,7 +30,7 @@ Future<List<dynamic>> getCartByPhoneNumber(String tableName, String phoneNumber,
     uri = uri.replace(queryParameters: queryParameters);
   }
 
-  // In URL cuối cùng
+  // ignore: avoid_print
   print(uri);
 
   try {
@@ -38,12 +38,14 @@ Future<List<dynamic>> getCartByPhoneNumber(String tableName, String phoneNumber,
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
-      throw Exception('Không thể tải dữ liệu. Mã trạng thái: ${response.statusCode}');
+      throw Exception(
+          'Không thể tải dữ liệu. Mã trạng thái: ${response.statusCode}');
     }
   } catch (error) {
     throw Exception('Không thể thực hiện yêu cầu HTTP. Lỗi: $error');
   }
 }
+
 // Future<List<dynamic>> getCartByPhoneNumber(String tableName, {String?  phoneNumber}) async {
 // final response = await http.get(Uri.parse('$tableName?phoneNumber=$phoneNumber':));
 //   if (response.statusCode == 200) {
@@ -74,7 +76,8 @@ Future<List<dynamic>> getItemByID(String tableName, id) async {
 }
 
 Future<List<dynamic>> getItemByPhone(String tableName, String phone) async {
-  final response = await http.get(Uri.parse('$host/$tableName/phoneNumber/$phone'));
+  final response =
+      await http.get(Uri.parse('$host/$tableName/phoneNumber/$phone'));
   if (response.statusCode == 200) {
     return jsonDecode(response.body);
   } else {
@@ -82,15 +85,18 @@ Future<List<dynamic>> getItemByPhone(String tableName, String phone) async {
   }
 }
 
-
 Future<List<dynamic>> getItemByTitle(String tableName, String title,
     [dynamic val, List<dynamic>? paras]) async {
-  String url = '$host/$tableName/$title$val';
-  if (paras != null) {
-    for (var item in paras) {
-      url += '/$item';
+  String url = '$host/$tableName/$title';
+  if (val!=null) {
+    url += '$val';
+    if (paras != null) {
+      for (var item in paras) {
+        url += '/$item';
+      }
     }
   }
+
   // ignore: avoid_print
   print(url);
 
@@ -178,7 +184,8 @@ Future<dynamic> updateOrder(Order order, String tableName) async {
       body: jsonEncode({
         'paymentMethods': order.paymentMethods,
         'phoneNumber': order.phoneNumber,
-        'date': order.date?.toIso8601String(), // Thêm kiểm tra null cho order.date
+        'date':
+            order.date.toIso8601String(), // Thêm kiểm tra null cho order.date
         'transportFee': order.transportFee,
         'address': order.address,
       }),
@@ -198,8 +205,6 @@ Future<dynamic> updateOrder(Order order, String tableName) async {
     throw Exception('Error updating order: $error (data.dart)');
   }
 }
-
-
 
 Future<dynamic> insertConv(Conversation val) async {
   String url = '$host/conversation/insert';

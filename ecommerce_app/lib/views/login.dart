@@ -25,7 +25,7 @@ class _LoginState extends State<Login> implements UserView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         automaticallyImplyLeading: false,
+       // automaticallyImplyLeading: false,
         backgroundColor: Colors.redAccent,
         title: SizedBox(
           width: MediaQuery.of(context).size.width,
@@ -87,9 +87,8 @@ class _LoginState extends State<Login> implements UserView {
                     // Lưu trạng thái đăng nhập và số điện thoại
                     await userPresenter.saveLoginStatus(
                         true, phoneNumberController.text);
-                    print(await userPresenter.getSavedPhoneNumber());
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Routers(),));
-
+                    userPresenter.getSavedPhoneNumber();
+                
                   }
                 },
                 style: const ButtonStyle(

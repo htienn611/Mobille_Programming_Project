@@ -11,10 +11,9 @@ class ListOrder extends StatefulWidget {
 }
 
 class _ListOrderState extends State<ListOrder> {
-  
   final OrderPresenter _orderPresenter = OrderPresenter();
   List<Order> _orders =
-      List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0,""), growable: true);
+      List.filled(0, Order(0, 0, 0, "", DateTime.now(), 0, ""), growable: true);
 
   void _loadData() async {
     _orders = await _orderPresenter.getlstOrder();
@@ -29,6 +28,7 @@ class _ListOrderState extends State<ListOrder> {
 
   @override
   Widget build(BuildContext context) {
+    var style = const TextStyle(color: Colors.white, fontSize: 15);
     return DefaultTabController(
       length: 5,
       child: Scaffold(
@@ -40,15 +40,16 @@ class _ListOrderState extends State<ListOrder> {
               )),
           backgroundColor: const Color.fromARGB(255, 224, 84, 75),
           toolbarHeight: 30,
-         
           shape: const ContinuousRectangleBorder(
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(15),
                   bottomRight: Radius.circular(15))),
-          bottom: const TabBar(
-            tabs: [
+          bottom:  TabBar(
+            labelStyle: style,
+            unselectedLabelColor: Colors.white,
+            tabs:const [
               Tab(
-                text: 'Tất cả',
+                text: 'Tất cả'
               ),
               Tab(
                 text: 'Chờ xác nhận',
@@ -68,35 +69,40 @@ class _ListOrderState extends State<ListOrder> {
           ),
         ),
         body: TabBarView(children: [
-            ListView.builder(
-                itemCount: _orders.length,
-                itemBuilder: (context, index) {
-                  return ItemOrder(order: _orders[index]);
-                }),
-          
-          _orders.where((element) => element.Status == 0).toList()
-                  .isNotEmpty
+          ListView.builder(
+              itemCount: _orders.length,
+              itemBuilder: (context, index) {
+                return ItemOrder(order: _orders[index]);
+              }),
+          _orders.where((element) => element.Status == 0).toList().isNotEmpty
               ? ListView.builder(
-                  itemCount:_orders.where((element) => element.Status == 0).toList()
+                  itemCount: _orders
+                      .where((element) => element.Status == 0)
+                      .toList()
                       .length,
                   itemBuilder: (context, index) {
-                      return ItemOrder(order: _orders.where((element) => element.Status==0).toList()[index]);
+                    return ItemOrder(
+                        order: _orders
+                            .where((element) => element.Status == 0)
+                            .toList()[index]);
                   })
-                  
               : const Center(
                   child: Text(
                     "Chưa có đơn hàng nào chờ xác nhận",
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
-
-                   _orders.where((element) => element.Status == 1).toList()
-                  .isNotEmpty
+          _orders.where((element) => element.Status == 1).toList().isNotEmpty
               ? ListView.builder(
-                  itemCount:_orders.where((element) => element.Status == 1).toList()
+                  itemCount: _orders
+                      .where((element) => element.Status == 1)
+                      .toList()
                       .length,
                   itemBuilder: (context, index) {
-                      return ItemOrder(order: _orders.where((element) => element.Status==1).toList()[index]);
+                    return ItemOrder(
+                        order: _orders
+                            .where((element) => element.Status == 1)
+                            .toList()[index]);
                   })
               : const Center(
                   child: Text(
@@ -104,14 +110,17 @@ class _ListOrderState extends State<ListOrder> {
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
-
-                   _orders.where((element) => element.Status == 2).toList()
-                  .isNotEmpty
+          _orders.where((element) => element.Status == 2).toList().isNotEmpty
               ? ListView.builder(
-                  itemCount:_orders.where((element) => element.Status == 2).toList()
+                  itemCount: _orders
+                      .where((element) => element.Status == 2)
+                      .toList()
                       .length,
                   itemBuilder: (context, index) {
-                      return ItemOrder(order: _orders.where((element) => element.Status==2).toList()[index]);
+                    return ItemOrder(
+                        order: _orders
+                            .where((element) => element.Status == 2)
+                            .toList()[index]);
                   })
               : const Center(
                   child: Text(
@@ -119,14 +128,17 @@ class _ListOrderState extends State<ListOrder> {
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
-
-                   _orders.where((element) => element.Status == 3).toList()
-                  .isNotEmpty
+          _orders.where((element) => element.Status == 3).toList().isNotEmpty
               ? ListView.builder(
-                  itemCount:_orders.where((element) => element.Status == 3).toList()
+                  itemCount: _orders
+                      .where((element) => element.Status == 3)
+                      .toList()
                       .length,
                   itemBuilder: (context, index) {
-                      return ItemOrder(order: _orders.where((element) => element.Status==3).toList()[index]);
+                    return ItemOrder(
+                        order: _orders
+                            .where((element) => element.Status == 3)
+                            .toList()[index]);
                   })
               : const Center(
                   child: Text(
@@ -134,7 +146,6 @@ class _ListOrderState extends State<ListOrder> {
                     style: TextStyle(color: Colors.black, fontSize: 18),
                   ),
                 ),
-        
         ]),
       ),
     );

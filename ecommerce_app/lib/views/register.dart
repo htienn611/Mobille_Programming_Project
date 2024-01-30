@@ -1,5 +1,3 @@
-import 'package:ecommerce_app/models/conversation.dart';
-import 'package:ecommerce_app/presenters/conversation_presenter.dart';
 import 'package:ecommerce_app/presenters/user_presenter.dart';
 import 'package:flutter/material.dart';
 
